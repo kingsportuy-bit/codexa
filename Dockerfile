@@ -11,16 +11,14 @@ COPY ./html /app/html
 RUN pip install flask
 
 # Crear aplicación Flask simple
-RUN echo '\
-from flask import Flask, send_from_directory\n\
-import os\n\
-app = Flask(__name__)\n\
-@app.route("/")\n\
-def index():\n\
-    return send_from_directory("html", "index.html")\n\
-if __name__ == "__main__":\n\
-    app.run(host="0.0.0.0", port=80)\n'\
-> app.py
+RUN echo 'from flask import Flask, send_from_directory' > app.py
+RUN echo 'import os' >> app.py
+RUN echo 'app = Flask(__name__)' >> app.py
+RUN echo '@app.route("/")' >> app.py
+RUN echo 'def index():' >> app.py
+RUN echo '    return send_from_directory("html", "index.html")' >> app.py
+RUN echo 'if __name__ == "__main__":' >> app.py
+RUN echo '    app.run(host="0.0.0.0", port=80)' >> app.py
 
 # Exponer puerto 80
 EXPOSE 80
