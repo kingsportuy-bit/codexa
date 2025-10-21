@@ -1,14 +1,28 @@
-# Usar la imagen oficial de Nginx como base
-FROM nginx:alpine
+# Usar la imagen oficial de Python como base
+FROM python:3.9-alpine
 
-# Copiar archivos personalizados
-COPY ./web/html /usr/share/nginx/html
+# Crear directorio de trabajo
+WORKDIR /app
 
-# Copiar configuración personalizada de Nginx
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# Copiar archivos web
+COPY ./html /app
+
+# Instalar servidor web simple
+RUN pip install flask
+
+# Crear aplicación Flask simple
+RUN echo '\
+from flask import Flask, send_from_directory\n\
+app = Flask(__name__)\n\
+@app.route("/")\n\
+def index():\n\
+    return send_from_directory(".", "index.html")\n\
+if __name__ == "__main__":\n\
+    app.run(host="0.0.0.0", port=80)\n'\
+> app.py
 
 # Exponer puerto 80
 EXPOSE 80
 
-# Iniciar Nginx cuando se inicie el contenedor
-CMD ["nginx", "-g", "daemon off;"]
+# Iniciar la aplicación Flask
+CMD ["python", "app.py"]

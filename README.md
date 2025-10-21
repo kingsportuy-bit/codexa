@@ -11,7 +11,7 @@ Esta es una aplicación web minimalista que muestra "codexa" en el centro de una
 - HTML5
 - CSS3
 - Docker
-- Nginx
+- Python Flask
 - Traefik
 
 ## Despliegue
@@ -45,10 +45,8 @@ La aplicación está configurada para funcionar con Traefik mediante etiquetas e
 .
 ├── Dockerfile
 ├── docker-compose.yml
-├── nginx.conf
-└── web/
-    └── html/
-        └── index.html
+└── html/
+    └── index.html
 ```
 
 ## Actualizaciones
