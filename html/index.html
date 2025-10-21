@@ -11,6 +11,7 @@
             background-color: #000;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
@@ -20,18 +21,28 @@
             text-align: center;
         }
         
-        h1 {
+        .logo {
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+        
+        .construction {
             color: #fff;
-            font-size: 4rem;
-            margin: 0;
+            font-size: 1.5rem;
             text-transform: uppercase;
-            letter-spacing: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <h1>codexa</h1>
+        <img src="https://minpers.itmconsulting.es/api/v1/download-shared-object/aHR0cHM6Ly9zMzMtaW50cGVycy5pdG1jb25zdWx0aW5nLmVzL2NvZGV4YS9MT0dPJTIwQ09ERVhBJTIwZm9uZG8lMjBuZWdyby5wbmc_Xy1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD0yRTBKM0NKSUJUNkZFOVpQRjJGOSUyRjIwMjUxMDIxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MTAyMVQyMjAwMzdaJlgtQW16LUV4cGlyZXM9NDMxOTkmWC1BbXotU2VjdXJpdHktVG9rZW49ZXlKaGJHY0lPaUlJVXpVeE1pSXNJblI1Y0NJNklpcFhWQ0o5LmV5SmhZMk5sYzNOTFpYa2lPaUl5UlRCU015STZJa3BYVkNKOS5leUpoWTJObGMzTkxaWGtpT2lJeVJUQktNME5LU0VKVU5VWkZPVnBRUmpKR09TSXNJbVY0Y0NJNk1UYzJNVEV5TnpFNE5Td2ljR0Z5Wlc1MElqb2lhMmx1WnpFeU15SjkuR3pjLTFRZVltSENFX055M2JYak5WR2w5TzVhdWNVME5LaVRXcUJibkRzVXh2emhtZmhGUmxIQnNvbWdFM0dzb083cXpIZ1dKdTJWYkpMUWNOMGs0c2cmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnZlcnNpb25JZD1udWxsJlgtQW16LVNpZ25hdHVyZT03MjkzNDRjNzdmMTBjZDBmYTQ3MTY2NTViYzI1YzZmNDNjNTA3NzY1MmQyZGIzOTc4Mjc3MjA5NzU3OWYyYzhj" alt="Codexa Logo" class="logo">
+        <div class="construction"><span class="emoji">🚧</span> En construcci&oacute;n</div>
     </div>
 </body>
 </html>
