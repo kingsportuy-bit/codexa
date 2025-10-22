@@ -32,19 +32,34 @@
             border-radius: 50%;
             animation: twinkle var(--duration, 4s) infinite ease-in-out;
             opacity: 0;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            /* Eliminamos el box-shadow para hacerlas más sutiles */
         }
 
-        /* Estrella fugaz */
+        /* Estrella con forma más interesante */
+        .star.star-diamond {
+            border-radius: 0;
+            transform: rotate(45deg);
+        }
+
+        .star.star-plus {
+            border-radius: 0;
+            background: 
+                linear-gradient(to bottom, transparent 40%, #fff 40%, #fff 60%, transparent 60%),
+                linear-gradient(to right, transparent 40%, #fff 40%, #fff 60%, transparent 60%);
+            background-position: center;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        /* Estrella fugaz más sutil */
         .shooting-star {
             position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
             border-radius: 50%;
             opacity: 0;
-            transform: rotate(45deg);
-            animation: shoot 3s linear infinite;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: rotate(var(--angle, 45deg));
+            animation: shoot var(--duration, 3s) linear infinite;
         }
 
         /* Diseño corporativo profesional */
@@ -131,35 +146,32 @@
         @keyframes twinkle {
             0% {
                 opacity: 0;
-                transform: scale(0.3);
-                box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+                transform: scale(0.3) rotate(0deg);
             }
             50% {
-                opacity: var(--opacity, 0.9);
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+                opacity: var(--opacity, 0.8);
+                transform: scale(1) rotate(180deg);
             }
             100% {
                 opacity: 0;
-                transform: scale(0.3);
-                box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+                transform: scale(0.3) rotate(360deg);
             }
         }
 
         @keyframes shoot {
             0% {
                 opacity: 0;
-                transform: rotate(45deg) translateX(-100px);
+                transform: rotate(var(--angle, 45deg)) translateX(-100px);
             }
             10% {
-                opacity: 1;
+                opacity: 0.7;
             }
             90% {
-                opacity: 1;
+                opacity: 0.7;
             }
             100% {
                 opacity: 0;
-                transform: rotate(45deg) translateX(100vw);
+                transform: rotate(var(--angle, 45deg)) translateX(var(--distance, 100vw));
             }
         }
 
@@ -236,7 +248,7 @@
         // Crear estrellas para el fondo
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const starCount = 120;
+            const starCount = 100;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
@@ -246,17 +258,25 @@
                 const left = Math.random() * 100;
                 const top = Math.random() * 100;
                 
-                // Tamaño aleatorio (más variado y elegante)
-                const size = Math.random() * 3 + 1;
+                // Tamaño aleatorio (más pequeño para ser más sutiles)
+                const size = Math.random() * 2 + 1;
                 
                 // Duración aleatoria
-                const duration = Math.random() * 6 + 4;
+                const duration = Math.random() * 8 + 6;
                 
                 // Opacidad aleatoria
-                const opacity = Math.random() * 0.7 + 0.3;
+                const opacity = Math.random() * 0.6 + 0.2;
                 
                 // Retardo aleatorio
-                const delay = Math.random() * 8;
+                const delay = Math.random() * 15;
+                
+                // Tipo de estrella aleatorio
+                const starType = Math.random();
+                if (starType < 0.3) {
+                    star.classList.add('star-diamond');
+                } else if (starType < 0.6) {
+                    star.classList.add('star-plus');
+                }
                 
                 star.style.left = `${left}%`;
                 star.style.top = `${top}%`;
@@ -270,31 +290,39 @@
             }
         }
         
-        // Crear estrellas fugaces
+        // Crear estrellas fugaces más sutiles
         function createShootingStars() {
             const starfield = document.getElementById('starfield');
             
-            // Crear 3 estrellas fugaces
-            for (let i = 0; i < 3; i++) {
-                const shootingStar = document.createElement('div');
-                shootingStar.classList.add('shooting-star');
-                
-                // Posición inicial aleatoria
-                const top = Math.random() * 50;
-                const delay = Math.random() * 20 + 5; // Entre 5 y 25 segundos
-                
-                shootingStar.style.top = `${top}%`;
-                shootingStar.style.width = `${Math.random() * 100 + 50}px`;
-                shootingStar.style.animationDelay = `${delay}s`;
-                
-                starfield.appendChild(shootingStar);
-            }
+            // Crear solo 1 estrella fugaz para hacerla más especial
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            // Posición inicial aleatoria
+            const top = Math.random() * 80 + 10; // Entre 10% y 90%
+            const left = Math.random() * 20; // Entre 0% y 20%
+            const angle = Math.random() * 90 + 30; // Entre 30 y 120 grados
+            const distance = Math.random() * 50 + 50 + 'vw'; // Entre 50vw y 100vw
+            const duration = Math.random() * 4 + 3; // Entre 3 y 7 segundos
+            const delay = Math.random() * 30 + 15; // Entre 15 y 45 segundos
+            
+            shootingStar.style.top = `${top}%`;
+            shootingStar.style.left = `${left}%`;
+            shootingStar.style.width = `${Math.random() * 80 + 40}px`;
+            shootingStar.style.setProperty('--angle', `${angle}deg`);
+            shootingStar.style.setProperty('--distance', distance);
+            shootingStar.style.setProperty('--duration', `${duration}s`);
+            shootingStar.style.animationDelay = `${delay}s`;
+            
+            starfield.appendChild(shootingStar);
         }
         
         // Inicializar las estrellas cuando la página cargue
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            // Crear una estrella fugaz cada cierto tiempo
             createShootingStars();
+            setInterval(createShootingStars, Math.random() * 20000 + 10000); // Cada 10-30 segundos
         });
     </script>
 </body>
