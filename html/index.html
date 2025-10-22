@@ -14,7 +14,7 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* Fondo con animación de estrellas elegantes */
+        /* Fondo con animación de estrellas elegantes y rotación lenta */
         .starfield {
             position: fixed;
             top: 0;
@@ -24,6 +24,8 @@
             background: #0a0a0a;
             overflow: hidden;
             z-index: -1;
+            animation: rotateSky 120s linear infinite;
+            transform-origin: center center;
         }
 
         .star {
@@ -32,7 +34,6 @@
             border-radius: 50%;
             animation: twinkle var(--duration, 4s) infinite ease-in-out;
             opacity: 0;
-            /* Eliminamos el box-shadow para hacerlas más sutiles */
         }
 
         /* Estrella con forma más interesante */
@@ -51,17 +52,6 @@
             background-repeat: no-repeat;
         }
 
-        /* Estrella fugaz más sutil */
-        .shooting-star {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
-            border-radius: 50%;
-            opacity: 0;
-            transform: rotate(var(--angle, 45deg));
-            animation: shoot var(--duration, 3s) linear infinite;
-        }
-
         /* Diseño corporativo profesional */
         .corporate-container {
             position: relative;
@@ -74,15 +64,33 @@
             background: transparent;
         }
 
-        /* Logo corporativo */
+        /* Logo corporativo con efecto de destello */
         .logo-container {
             margin-bottom: 40px;
             animation: fadeIn 1s ease-in-out;
+            position: relative;
         }
 
         .logo {
             max-width: 350px;
             filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            animation: pulseAndRotate 5s ease-in-out infinite;
+            transform-origin: center center;
+        }
+
+        /* Efecto de destello desde la punta del logo */
+        .logo-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: glowEffect 5s ease-in-out infinite;
+            z-index: -1;
         }
 
         /* Mensaje corporativo */
@@ -143,6 +151,15 @@
         }
 
         /* Animaciones mejoradas */
+        @keyframes rotateSky {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         @keyframes twinkle {
             0% {
                 opacity: 0;
@@ -158,23 +175,6 @@
             }
         }
 
-        @keyframes shoot {
-            0% {
-                opacity: 0;
-                transform: rotate(var(--angle, 45deg)) translateX(-100px);
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                opacity: 0;
-                transform: rotate(var(--angle, 45deg)) translateX(var(--distance, 100vw));
-            }
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -183,6 +183,69 @@
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseAndRotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+                filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            }
+            20% {
+                transform: rotate(5deg) scale(1.02);
+            }
+            40% {
+                transform: rotate(0deg) scale(1);
+            }
+            60% {
+                transform: rotate(-5deg) scale(1.02);
+            }
+            80% {
+                transform: rotate(0deg) scale(1);
+            }
+            90% {
+                transform: rotate(0deg) scale(1.05);
+                filter: drop-shadow(0 5px 20px rgba(255, 255, 255, 0.5));
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            }
+        }
+
+        @keyframes glowEffect {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) scale(1);
+                width: 10px;
+                height: 10px;
+            }
+            20% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1.5);
+                width: 15px;
+                height: 15px;
+            }
+            40% {
+                opacity: 0;
+                transform: translateX(-50%) scale(2);
+                width: 20px;
+                height: 20px;
+            }
+            80% {
+                opacity: 0;
+            }
+            90% {
+                opacity: 0.9;
+                transform: translateX(-50%) scale(3);
+                width: 40px;
+                height: 40px;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) scale(5);
+                width: 60px;
+                height: 60px;
+            }
         }
 
         /* Responsive design */
@@ -222,11 +285,12 @@
     </style>
 </head>
 <body>
-    <!-- Fondo con animación de estrellas -->
+    <!-- Fondo con animación de estrellas y rotación lenta -->
     <div class="starfield" id="starfield"></div>
     
     <div class="corporate-container">
         <div class="logo-container">
+            <div class="logo-glow"></div>
             <img src="https://i.postimg.cc/BQ8JGJ8f/LOGO-CODEXA-fondo-transp-blanco2.png" 
                  alt="Codexa Logo" 
                  class="logo">
@@ -290,45 +354,9 @@
             }
         }
         
-        // Crear estrellas fugaces más sutiles
-        function createShootingStars() {
-            const starfield = document.getElementById('starfield');
-            
-            // Crear solo 1 estrella fugaz para hacerla más especial
-            const shootingStar = document.createElement('div');
-            shootingStar.classList.add('shooting-star');
-            
-            // Posición inicial completamente aleatoria
-            const top = Math.random() * 100; // Entre 0% y 100%
-            const left = Math.random() * 100; // Entre 0% y 100%
-            const angle = Math.random() * 360; // Ángulo completamente aleatorio
-            const distance = Math.random() * 100 + 50 + 'vw'; // Entre 50vw y 150vw
-            const duration = Math.random() * 4 + 2; // Entre 2 y 6 segundos
-            const delay = 0; // Sin delay para que aparezca inmediatamente
-            
-            shootingStar.style.top = `${top}%`;
-            shootingStar.style.left = `${left}%`;
-            shootingStar.style.width = `${Math.random() * 80 + 40}px`;
-            shootingStar.style.setProperty('--angle', `${angle}deg`);
-            shootingStar.style.setProperty('--distance', distance);
-            shootingStar.style.setProperty('--duration', `${duration}s`);
-            shootingStar.style.animationDelay = `${delay}s`;
-            
-            starfield.appendChild(shootingStar);
-            
-            // Eliminar la estrella fugaz después de que termine su animación
-            setTimeout(() => {
-                if (shootingStar.parentNode) {
-                    shootingStar.parentNode.removeChild(shootingStar);
-                }
-            }, duration * 1000);
-        }
-        
         // Inicializar las estrellas cuando la página cargue
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
-            // Crear una estrella fugaz cada cierto tiempo
-            setInterval(createShootingStars, Math.random() * 20000 + 10000); // Cada 10-30 segundos
         });
     </script>
 </body>
