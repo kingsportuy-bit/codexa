@@ -20,6 +20,7 @@
             width: 100%;
             height: 100vh;
             overflow: hidden;
+            perspective: 1000px;
         }
 
         .door-left, .door-right {
@@ -28,8 +29,9 @@
             width: 50%;
             height: 100%;
             background-color: #000;
-            transition: transform 1.5s ease-in-out;
+            transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
+            transform-style: preserve-3d;
         }
 
         .door-left {
@@ -43,11 +45,11 @@
         }
 
         .doors-open .door-left {
-            transform: rotateY(-90deg);
+            transform: rotateY(-85deg);
         }
 
         .doors-open .door-right {
-            transform: rotateY(90deg);
+            transform: rotateY(85deg);
         }
 
         /* Contenido principal */
@@ -62,7 +64,7 @@
             justify-content: flex-start;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out 1.5s;
+            transition: opacity 0.5s ease-in-out 2s;
         }
 
         .doors-open .content {
@@ -75,6 +77,8 @@
             margin-bottom: 30px;
             border: none;
             outline: none;
+            animation: fadeIn 1s ease-in-out 2.5s forwards;
+            opacity: 0;
         }
 
         .construction-screen {
@@ -82,6 +86,8 @@
             border: 2px solid #fff;
             padding: 30px 60px;
             text-align: center;
+            animation: fadeIn 1s ease-in-out 3s forwards;
+            opacity: 0;
         }
 
         .construction-text {
@@ -95,6 +101,11 @@
         .emoji {
             font-size: 2rem;
             margin-right: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -117,10 +128,10 @@
 
     <script>
         // Abrir las puertas cuando la página cargue
-        window.addEventListener('load', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
                 document.querySelector('.door-container').classList.add('doors-open');
-            }, 500);
+            }, 300);
         });
     </script>
 </body>
