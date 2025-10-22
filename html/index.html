@@ -298,13 +298,13 @@
             const shootingStar = document.createElement('div');
             shootingStar.classList.add('shooting-star');
             
-            // Posición inicial aleatoria
-            const top = Math.random() * 80 + 10; // Entre 10% y 90%
-            const left = Math.random() * 20; // Entre 0% y 20%
-            const angle = Math.random() * 90 + 30; // Entre 30 y 120 grados
-            const distance = Math.random() * 50 + 50 + 'vw'; // Entre 50vw y 100vw
-            const duration = Math.random() * 4 + 3; // Entre 3 y 7 segundos
-            const delay = Math.random() * 30 + 15; // Entre 15 y 45 segundos
+            // Posición inicial completamente aleatoria
+            const top = Math.random() * 100; // Entre 0% y 100%
+            const left = Math.random() * 100; // Entre 0% y 100%
+            const angle = Math.random() * 360; // Ángulo completamente aleatorio
+            const distance = Math.random() * 100 + 50 + 'vw'; // Entre 50vw y 150vw
+            const duration = Math.random() * 4 + 2; // Entre 2 y 6 segundos
+            const delay = 0; // Sin delay para que aparezca inmediatamente
             
             shootingStar.style.top = `${top}%`;
             shootingStar.style.left = `${left}%`;
@@ -315,13 +315,19 @@
             shootingStar.style.animationDelay = `${delay}s`;
             
             starfield.appendChild(shootingStar);
+            
+            // Eliminar la estrella fugaz después de que termine su animación
+            setTimeout(() => {
+                if (shootingStar.parentNode) {
+                    shootingStar.parentNode.removeChild(shootingStar);
+                }
+            }, duration * 1000);
         }
         
         // Inicializar las estrellas cuando la página cargue
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             // Crear una estrella fugaz cada cierto tiempo
-            createShootingStars();
             setInterval(createShootingStars, Math.random() * 20000 + 10000); // Cada 10-30 segundos
         });
     </script>
