@@ -24,7 +24,7 @@
             background: #000000;
             overflow: hidden;
             z-index: -1;
-            animation: rotateSky 240s linear infinite; /* Doblamos el tiempo de rotación */
+            animation: rotateSky 240s linear infinite;
             transform-origin: center center;
         }
 
@@ -52,16 +52,25 @@
             background-repeat: no-repeat;
         }
 
-        /* Diseño corporativo profesional */
-        .corporate-container {
-            position: relative;
+        /* Pantalla de presentación */
+        .presentation-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             background: transparent;
+            z-index: 10;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .presentation-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         /* Logo corporativo */
@@ -73,6 +82,84 @@
         .logo {
             max-width: 350px;
             filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Pantalla de construcción */
+        .construction-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 1s ease-in-out 0.5s;
+            pointer-events: none;
+        }
+
+        .construction-screen.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .construction-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 40px 60px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e0e0e0;
+            max-width: 600px;
+        }
+
+        .construction-text {
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .emoji {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: #ff6b35;
+        }
+
+        /* Línea divisoria elegante */
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        /* Información de contacto */
+        .contact-info {
+            color: #666;
+            font-size: 1rem;
+            margin-top: 25px;
+            font-weight: 400;
+        }
+
+        .email-link {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .email-link:hover {
+            color: #f7931e;
+            text-decoration: underline;
         }
 
         /* Animaciones mejoradas */
@@ -110,11 +197,33 @@
             .logo {
                 max-width: 250px;
             }
+            
+            .construction-content {
+                padding: 30px 40px;
+                margin: 0 20px;
+            }
+            
+            .construction-text {
+                font-size: 1.4rem;
+            }
         }
 
         @media (max-width: 480px) {
             .logo {
                 max-width: 200px;
+            }
+            
+            .construction-content {
+                padding: 25px 30px;
+            }
+            
+            .construction-text {
+                font-size: 1.2rem;
+            }
+            
+            .emoji {
+                font-size: 1.5rem;
+                margin-right: 10px;
             }
         }
     </style>
@@ -123,11 +232,26 @@
     <!-- Fondo con animación de estrellas y rotación más lenta -->
     <div class="starfield" id="starfield"></div>
     
-    <div class="corporate-container">
+    <!-- Pantalla de presentación -->
+    <div class="presentation-screen" id="presentationScreen">
         <div class="logo-container">
             <img src="https://i.postimg.cc/BQ8JGJ8f/LOGO-CODEXA-fondo-transp-blanco2.png" 
                  alt="Codexa Logo" 
                  class="logo">
+        </div>
+    </div>
+    
+    <!-- Pantalla de construcción -->
+    <div class="construction-screen" id="constructionScreen">
+        <div class="construction-content">
+            <p class="construction-text">
+                <span class="emoji">🚧</span> Sitio web en construcción
+            </p>
+            <div class="divider"></div>
+            <p class="contact-info">
+                Para consultas comerciales, contáctenos en 
+                <a href="mailto:info@codexa.uy" class="email-link">info@codexa.uy</a>
+            </p>
         </div>
     </div>
 
@@ -135,7 +259,7 @@
         // Crear estrellas para el fondo (más estrellas, más pequeñas y más separadas)
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const starCount = 200; // Aumentamos el número de estrellas
+            const starCount = 200;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
@@ -146,13 +270,13 @@
                 const top = Math.random() * 100;
                 
                 // Tamaño más pequeño (más pequeñas)
-                const size = Math.random() * 1.5 + 0.5; // Entre 0.5px y 2px
+                const size = Math.random() * 1.5 + 0.5;
                 
                 // Duración aleatoria
-                const duration = Math.random() * 10 + 8; // Más larga para ser más sutiles
+                const duration = Math.random() * 10 + 8;
                 
                 // Opacidad aleatoria
-                const opacity = Math.random() * 0.5 + 0.1; // Más tenues
+                const opacity = Math.random() * 0.5 + 0.1;
                 
                 // Retardo aleatorio
                 const delay = Math.random() * 20;
@@ -177,9 +301,35 @@
             }
         }
         
-        // Inicializar las estrellas cuando la página cargue
+        // Función para mostrar la pantalla de construcción
+        function showConstructionScreen() {
+            const presentationScreen = document.getElementById('presentationScreen');
+            const constructionScreen = document.getElementById('constructionScreen');
+            
+            presentationScreen.classList.add('hidden');
+            constructionScreen.classList.add('visible');
+        }
+        
+        // Inicializar los eventos
+        function initEvents() {
+            const presentationScreen = document.getElementById('presentationScreen');
+            
+            // Mostrar pantalla de construcción al hacer clic
+            presentationScreen.addEventListener('click', showConstructionScreen);
+            
+            // Mostrar pantalla de construcción al presionar barra espaciadora
+            document.addEventListener('keydown', function(event) {
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    showConstructionScreen();
+                }
+            });
+        }
+        
+        // Inicializar las estrellas y eventos cuando la página cargue
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            initEvents();
         });
     </script>
 </body>
