@@ -52,6 +52,47 @@
             background-repeat: no-repeat;
         }
 
+        /* Estrella fugaz estilo Grok */
+        .shooting-star {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+            border-radius: 50%;
+            opacity: 0;
+            transform: rotate(45deg);
+            animation: shoot 3s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            z-index: 1;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 50%;
+        }
+
         /* Pantalla de presentación */
         .presentation-screen {
             position: fixed;
@@ -187,6 +228,23 @@
             }
         }
 
+        @keyframes shoot {
+            0% {
+                opacity: 0;
+                transform: rotate(45deg) translate(-100px, -100px);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(45deg) translate(100vw, 100vh);
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -231,6 +289,9 @@
 <body>
     <!-- Fondo con animación de estrellas y rotación más lenta -->
     <div class="starfield" id="starfield"></div>
+    
+    <!-- Estrella fugaz -->
+    <div class="shooting-star" id="shootingStar"></div>
     
     <!-- Pantalla de presentación -->
     <div class="presentation-screen" id="presentationScreen">
@@ -330,7 +391,44 @@
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             initEvents();
+            // Crear estrellas fugaces cada 10 segundos
+            setInterval(createShootingStar, 10000);
         });
+        
+        // Función para crear una estrella fugaz
+        function createShootingStar() {
+            const starfield = document.getElementById('starfield');
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            // Posición aleatoria
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            
+            // Ángulo aleatorio
+            const angle = Math.random() * 360;
+            
+            // Duración aleatoria
+            const duration = Math.random() * 2 + 1;
+            
+            // Retardo aleatorio
+            const delay = Math.random() * 5;
+            
+            shootingStar.style.left = `${startX}%`;
+            shootingStar.style.top = `${startY}%`;
+            shootingStar.style.setProperty('--angle', `${angle}deg`);
+            shootingStar.style.setProperty('--duration', `${duration}s`);
+            shootingStar.style.animationDelay = `${delay}s`;
+            
+            starfield.appendChild(shootingStar);
+            
+            // Eliminar la estrella fugaz después de que termine su animación
+            setTimeout(() => {
+                if (shootingStar.parentNode) {
+                    shootingStar.parentNode.removeChild(shootingStar);
+                }
+            }, (duration + delay) * 1000);
+        }
     </script>
 </body>
 </html>
