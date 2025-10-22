@@ -10,31 +10,88 @@
             padding: 0;
             background-color: #000;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
             font-family: Arial, sans-serif;
         }
-        
-        .content {
-            text-align: center;
+
+        /* Efecto de puerta mecánica */
+        .door-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
         }
-        
+
+        .door-left, .door-right {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background-color: #000;
+            transition: transform 1.5s ease-in-out;
+            z-index: 10;
+        }
+
+        .door-left {
+            left: 0;
+            transform-origin: left center;
+        }
+
+        .door-right {
+            right: 0;
+            transform-origin: right center;
+        }
+
+        .doors-open .door-left {
+            transform: rotateY(-90deg);
+        }
+
+        .doors-open .door-right {
+            transform: rotateY(90deg);
+        }
+
+        /* Contenido principal */
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out 1.5s;
+        }
+
+        .doors-open .content {
+            opacity: 1;
+        }
+
         .logo {
             max-width: 400px;
+            margin-top: 50px;
             margin-bottom: 30px;
             border: none;
             outline: none;
         }
-        
-        .construction {
+
+        .construction-screen {
+            background-color: #000;
+            border: 2px solid #fff;
+            padding: 30px 60px;
+            text-align: center;
+        }
+
+        .construction-text {
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 3px;
+            margin: 0;
         }
-        
+
         .emoji {
             font-size: 2rem;
             margin-right: 10px;
@@ -42,11 +99,29 @@
     </style>
 </head>
 <body>
-    <div class="content">
-        <img src="https://i.postimg.cc/mr0KGWgC/LOGO-CODEXA-fondo-negro-1.png" 
-             alt="Codexa Logo" 
-             class="logo">
-        <div class="construction"><span class="emoji">🚧</span> En construcci&oacute;n</div>
+    <div class="door-container">
+        <!-- Puertas mecánicas -->
+        <div class="door-left"></div>
+        <div class="door-right"></div>
+        
+        <!-- Contenido principal -->
+        <div class="content">
+            <img src="https://i.postimg.cc/mr0KGWgC/LOGO-CODEXA-fondo-negro-1.png" 
+                 alt="Codexa Logo" 
+                 class="logo">
+            <div class="construction-screen">
+                <p class="construction-text"><span class="emoji">🚧</span> En construcci&oacute;n</p>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Abrir las puertas cuando la página cargue
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.door-container').classList.add('doors-open');
+            }, 500);
+        });
+    </script>
 </body>
 </html>
