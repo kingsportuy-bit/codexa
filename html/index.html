@@ -11,27 +11,31 @@
             background-color: #000;
             height: 100vh;
             overflow: hidden;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
 
-        /* Efecto de puerta mecánica */
+        /* Efecto de puertas mecánicas futuristas */
         .door-container {
             position: relative;
             width: 100%;
             height: 100vh;
             overflow: hidden;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
-        .door-left, .door-right {
+        .door-panel {
             position: absolute;
             top: 0;
             width: 50%;
             height: 100%;
-            background-color: #000;
-            transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            transition: all 2.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
             z-index: 10;
             transform-style: preserve-3d;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 100, 255, 0.3),
+                0 0 20px rgba(0, 150, 255, 0.2);
+            border: 1px solid rgba(0, 150, 255, 0.3);
         }
 
         .door-left {
@@ -44,15 +48,116 @@
             transform-origin: right center;
         }
 
+        /* Líneas de energía futurista */
+        .energy-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00aaff, transparent);
+            width: 100%;
+            opacity: 0.3;
+            animation: energyFlow 3s linear infinite;
+        }
+
+        .energy-line:nth-child(1) { top: 20%; }
+        .energy-line:nth-child(2) { top: 40%; animation-delay: 1s; }
+        .energy-line:nth-child(3) { top: 60%; animation-delay: 2s; }
+        .energy-line:nth-child(4) { top: 80%; animation-delay: 0.5s; }
+
+        /* Panel de control futurista */
+        .control-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: rgba(0, 50, 100, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 15;
+            box-shadow: 
+                0 0 30px rgba(0, 150, 255, 0.5),
+                inset 0 0 20px rgba(0, 200, 255, 0.3);
+            border: 2px solid rgba(0, 150, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .control-panel:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 
+                0 0 50px rgba(0, 200, 255, 0.8),
+                inset 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .control-button {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #00ffff 0%, #0088ff 100%);
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .control-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        /* Logo en las puertas */
+        .door-logo {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 200px;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.5));
+            transition: all 1s ease;
+        }
+
+        .door-left .door-logo {
+            right: 50px;
+        }
+
+        .door-right .door-logo {
+            left: 50px;
+        }
+
+        /* Puertas abiertas */
         .doors-open .door-left {
-            transform: rotateY(-85deg);
+            transform: rotateY(-75deg) translateX(-100px);
+            box-shadow: 
+                inset 0 0 50px rgba(0, 100, 255, 0.1),
+                -10px 0 30px rgba(0, 150, 255, 0.3);
         }
 
         .doors-open .door-right {
-            transform: rotateY(85deg);
+            transform: rotateY(75deg) translateX(100px);
+            box-shadow: 
+                inset 0 0 50px rgba(0, 100, 255, 0.1),
+                10px 0 30px rgba(0, 150, 255, 0.3);
         }
 
-        /* Contenido principal */
+        .doors-open .door-logo {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.8);
+        }
+
+        .doors-open .control-panel {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        /* Contenido principal (oculto inicialmente) */
         .content {
             position: absolute;
             top: 0;
@@ -61,65 +166,105 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out 2s;
+            transition: opacity 0.5s ease-in-out 2.5s;
+            z-index: 5;
         }
 
         .doors-open .content {
             opacity: 1;
         }
 
-        .logo {
+        .main-logo {
             max-width: 400px;
-            margin-top: 50px;
-            margin-bottom: 30px;
-            border: none;
-            outline: none;
-            animation: fadeIn 1s ease-in-out 2.5s forwards;
-            opacity: 0;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.3));
+            animation: float 3s ease-in-out infinite;
         }
 
         .construction-screen {
-            background-color: #000;
-            border: 2px solid #fff;
-            padding: 30px 60px;
+            background: rgba(0, 20, 40, 0.9);
+            border: 2px solid rgba(0, 150, 255, 0.5);
+            padding: 40px 80px;
             text-align: center;
-            animation: fadeIn 1s ease-in-out 3s forwards;
-            opacity: 0;
+            box-shadow: 
+                0 0 30px rgba(0, 100, 255, 0.3),
+                inset 0 0 20px rgba(0, 150, 255, 0.1);
         }
 
         .construction-text {
             color: #fff;
-            font-size: 2rem;
+            font-size: 2.5rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             margin: 0;
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
         }
 
         .emoji {
-            font-size: 2rem;
-            margin-right: 10px;
+            font-size: 2.5rem;
+            margin-right: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animaciones */
+        @keyframes energyFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00aaff, 0 0 20px #00aaff; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0088ff, 0 0 40px #0088ff; }
         }
     </style>
 </head>
 <body>
-    <div class="door-container">
-        <!-- Puertas mecánicas -->
-        <div class="door-left"></div>
-        <div class="door-right"></div>
+    <div class="door-container" id="doorContainer">
+        <!-- Puertas mecánicas futuristas -->
+        <div class="door-panel door-left">
+            <img src="https://i.postimg.cc/mr0KGWgC/LOGO-CODEXA-fondo-negro-1.png" 
+                 alt="Codexa Logo" 
+                 class="door-logo">
+            <!-- Líneas de energía -->
+            <div class="energy-line"></div>
+            <div class="energy-line"></div>
+            <div class="energy-line"></div>
+            <div class="energy-line"></div>
+        </div>
+        <div class="door-panel door-right">
+            <img src="https://i.postimg.cc/mr0KGWgC/LOGO-CODEXA-fondo-negro-1.png" 
+                 alt="Codexa Logo" 
+                 class="door-logo">
+            <!-- Líneas de energía -->
+            <div class="energy-line"></div>
+            <div class="energy-line"></div>
+            <div class="energy-line"></div>
+            <div class="energy-line"></div>
+        </div>
+        
+        <!-- Panel de control futurista -->
+        <div class="control-panel" id="controlPanel">
+            <div class="control-button"></div>
+        </div>
         
         <!-- Contenido principal -->
         <div class="content">
             <img src="https://i.postimg.cc/mr0KGWgC/LOGO-CODEXA-fondo-negro-1.png" 
                  alt="Codexa Logo" 
-                 class="logo">
+                 class="main-logo">
             <div class="construction-screen">
                 <p class="construction-text"><span class="emoji">🚧</span> En construcci&oacute;n</p>
             </div>
@@ -127,11 +272,17 @@
     </div>
 
     <script>
-        // Abrir las puertas cuando la página cargue
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                document.querySelector('.door-container').classList.add('doors-open');
-            }, 300);
+        // Abrir las puertas al hacer clic en el panel de control
+        document.getElementById('controlPanel').addEventListener('click', function() {
+            document.getElementById('doorContainer').classList.add('doors-open');
+        });
+
+        // También abrir con la barra espaciadora
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                document.getElementById('doorContainer').classList.add('doors-open');
+            }
         });
     </script>
 </body>
