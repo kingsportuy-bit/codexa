@@ -56,6 +56,11 @@
             animation: veryStrongTwinkle 1s infinite ease-in-out;
         }
 
+        /* Estrella con destello extremadamente fuerte y corto (0.5s) */
+        .star.intense-flash {
+            animation: intenseFlash 0.5s ease-in-out;
+        }
+
         /* Estrella con forma más interesante */
         .star.star-diamond {
             border-radius: 0;
@@ -284,6 +289,25 @@
             }
         }
 
+        /* Animación para destellos intensos y cortos (0.5s) */
+        @keyframes intenseFlash {
+            0% {
+                opacity: 0;
+                transform: scale(0.1);
+                box-shadow: 0 0 0px #fff;
+            }
+            50% {
+                opacity: 1;
+                transform: scale(4);
+                box-shadow: 0 0 40px 30px #fff;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.1);
+                box-shadow: 0 0 0px #fff;
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -425,21 +449,21 @@
             }
         }
         
-        // Crear estrellas con destellos extremadamente fuertes cada 1 segundo
-        function createVeryStrongTwinkleStars() {
+        // Crear estrellas con destellos intensos cada 1 segundo
+        function createIntenseFlashStars() {
             const starfield = document.getElementById('starfield');
             
-            // Crear una nueva estrella con destello extremadamente fuerte
+            // Crear una nueva estrella con destello intenso
             function createSingleStar() {
                 const star = document.createElement('div');
-                star.classList.add('star', 'very-strong-twinkle');
+                star.classList.add('star', 'intense-flash');
                 
                 // Posición aleatoria en toda la pantalla
                 const left = Math.random() * 100;
                 const top = Math.random() * 100;
                 
                 // Tamaño más grande para que sea más visible
-                const size = Math.random() * 3 + 2;
+                const size = Math.random() * 4 + 3;
                 
                 star.style.left = `${left}%`;
                 star.style.top = `${top}%`;
@@ -454,7 +478,7 @@
                     if (star.parentNode) {
                         star.parentNode.removeChild(star);
                     }
-                }, 1000); // 1 segundo, que es la duración de la animación
+                }, 500); // 0.5 segundos, que es la duración de la animación
             }
             
             // Crear una nueva estrella cada 1 segundo
@@ -489,7 +513,7 @@
         // Inicializar las estrellas y eventos cuando la página cargue
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
-            createVeryStrongTwinkleStars();
+            createIntenseFlashStars();
             initEvents();
         });
     </script>
