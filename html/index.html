@@ -534,6 +534,47 @@
             setInterval(createSingleStar, 1000);
         }
         
+        // Crear estrellas fugaces cada 5 segundos
+        function createShootingStars() {
+            const starfield = document.getElementById('starfield');
+            
+            // Crear una nueva estrella fugaz
+            function createSingleStar() {
+                const star = document.createElement('div');
+                star.classList.add('star', 'shooting-star');
+                
+                // Posición aleatoria en la parte izquierda o superior de la pantalla
+                const left = Math.random() < 0.5 ? 0 : 100;
+                const top = Math.random() < 0.5 ? 0 : 100;
+                
+                // Tamaño pequeño para estrellas fugaces
+                const size = Math.random() * 0.5 + 0.5;
+                
+                // Distancia de viaje aleatoria
+                const distanceX = Math.random() * 300 - 150;
+                const distanceY = Math.random() * 300 - 150;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--distance-x', `${distanceX}px`);
+                star.style.setProperty('--distance-y', `${distanceY}px`);
+                
+                starfield.appendChild(star);
+                
+                // Eliminar la estrella después de que termine su animación
+                setTimeout(() => {
+                    if (star.parentNode) {
+                        star.parentNode.removeChild(star);
+                    }
+                }, 500); // 0.5 segundos, que es la duración de la animación
+            }
+            
+            // Crear una nueva estrella cada 5 segundos
+            setInterval(createSingleStar, 5000);
+        }
+        
         // Función para mostrar la pantalla de construcción
         function showConstructionScreen() {
             const presentationScreen = document.getElementById('presentationScreen');
@@ -563,14 +604,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             createIntenseFlashStars();
-            // createShootingStars(); // Eliminado según preferencias del usuario
+            createShootingStars(); // Re-activado según nueva solicitud del usuario
             initEvents();
         });
     </script>
     
     <!-- Footer -->
     <div class="footer">
-        Todos los derechos reservados | © 2025 Codexa.uy
+        Todos los derechos reservados | © 2025 <a href="https://codexa.uy" class="footer-link">Code<span class="codexa-x">x</span>a.uy</a>
     </div>
 </body>
 </html>
