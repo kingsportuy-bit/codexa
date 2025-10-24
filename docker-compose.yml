@@ -19,8 +19,10 @@ services:
         condition: on-failure
     networks:
       - oraclelabsnet
-    expose:
-      - "80"
+    # El aviso indica que exponer puertos es innecesario entre servicios en la misma red
+    # pero lo mantenemos para claridad y posibles usos futuros
+    ports:
+      - "80:80"
 
 networks:
   oraclelabsnet:
