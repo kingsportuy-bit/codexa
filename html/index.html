@@ -56,9 +56,10 @@
             animation: veryStrongTwinkle 1s infinite ease-in-out;
         }
 
-        /* Estrella con destello extremadamente fuerte y corto (0.5s) */
+        /* Estrella con destello extremadamente fuerte y corto (0.5s) con efecto de difuminado */
         .star.intense-flash {
             animation: intenseFlash 0.5s ease-in-out;
+            border-radius: 50%;
         }
 
         /* Estrella con forma más interesante */
@@ -289,22 +290,25 @@
             }
         }
 
-        /* Animación para destellos intensos y cortos (0.5s) */
+        /* Animación para destellos intensos y cortos (0.5s) con efecto de difuminado */
         @keyframes intenseFlash {
             0% {
                 opacity: 0;
                 transform: scale(0.1);
                 box-shadow: 0 0 0px #fff;
+                filter: blur(0px);
             }
             50% {
                 opacity: 1;
                 transform: scale(20);
                 box-shadow: 0 0 200px 150px #fff;
+                filter: blur(10px);
             }
             100% {
                 opacity: 0;
                 transform: scale(0.1);
                 box-shadow: 0 0 0px #fff;
+                filter: blur(0px);
             }
         }
 
