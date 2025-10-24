@@ -534,71 +534,6 @@
             setInterval(createSingleStar, 1000);
         }
         
-        // Crear estrellas fugaces cada 1 segundo
-        function createShootingStars() {
-            const starfield = document.getElementById('starfield');
-            
-            // Crear una nueva estrella fugaz
-            function createShootingStar() {
-                const star = document.createElement('div');
-                star.classList.add('star', 'shooting-star');
-                
-                // Posición inicial aleatoria en un borde de la pantalla
-                const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-                let startX, startY;
-                
-                switch(side) {
-                    case 0: // top
-                        startX = Math.random() * 100;
-                        startY = -5;
-                        break;
-                    case 1: // right
-                        startX = 105;
-                        startY = Math.random() * 100;
-                        break;
-                    case 2: // bottom
-                        startX = Math.random() * 100;
-                        startY = 105;
-                        break;
-                    case 3: // left
-                        startX = -5;
-                        startY = Math.random() * 100;
-                        break;
-                }
-                
-                // Posición final aleatoria
-                const endX = Math.random() * 100;
-                const endY = Math.random() * 100;
-                
-                // Calcular la distancia a recorrer
-                const distanceX = (endX - startX) * window.innerWidth / 100;
-                const distanceY = (endY - startY) * window.innerHeight / 100;
-                
-                // Tamaño similar al de las estrellas normales
-                const size = Math.random() * 1.5 + 0.5;
-                
-                star.style.left = `${startX}%`;
-                star.style.top = `${startY}%`;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.setProperty('--distance-x', `${distanceX}px`);
-                star.style.setProperty('--distance-y', `${distanceY}px`);
-                star.style.setProperty('--opacity', '1');
-                
-                starfield.appendChild(star);
-                
-                // Eliminar la estrella después de que termine su animación
-                setTimeout(() => {
-                    if (star.parentNode) {
-                        star.parentNode.removeChild(star);
-                    }
-                }, 200); // 0.5 segundos, que es la duración de la animación
-            }
-            
-            // Crear una nueva estrella fugaz cada 1 segundo
-            setInterval(createShootingStar, 1000);
-        }
-        
         // Función para mostrar la pantalla de construcción
         function showConstructionScreen() {
             const presentationScreen = document.getElementById('presentationScreen');
@@ -628,14 +563,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             createIntenseFlashStars();
-            createShootingStars();
+            // createShootingStars(); // Eliminado según preferencias del usuario
             initEvents();
         });
     </script>
     
     <!-- Footer -->
     <div class="footer">
-        Todos los derechos reservados | © 2025 <a href="https://codexa.uy" class="footer-link">Code<span class="codexa-x">x</span>a.uy</a>
+        Todos los derechos reservados | © 2025 Codexa.uy
     </div>
 </body>
 </html>
