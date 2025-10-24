@@ -64,7 +64,7 @@
 
         /* Estrella fugaz */
         .star.shooting-star {
-            animation: shootingStar 0.5s linear;
+            animation: shootingStar 1s linear;
         }
 
         /* Estrella con forma más interesante */
@@ -113,8 +113,7 @@
 
         .logo {
             max-width: 350px;
-            /* Eliminamos el drop-shadow anterior y aplicamos el efecto de difuminado */
-            filter: blur(0.5px);
+            /* Eliminar cualquier efecto de resplandor o difuminado */
         }
 
         /* Creamos un pseudo-elemento para el efecto de difuminado blanco */
@@ -125,11 +124,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(2px);
-            z-index: -1;
-            opacity: 0.7;
+            /* Eliminar el efecto de resplandor */
+            display: none;
         }
 
         /* Pantalla de construcción */
@@ -402,8 +398,8 @@
     <!-- Fondo con animación de estrellas y rotación más lenta -->
     <div class="starfield" id="starfield"></div>
     
-    <!-- Footer -->
-    <div class="footer">
+    <!-- Footer (oculto por defecto, solo visible en pantalla de construcción) -->
+    <div class="footer" id="mainFooter" style="display: none;">
         Todos los derechos reservados | © 2025 <a href="https://codexa.uy" class="footer-link">Code<span class="codexa-x">x</span>a.uy</a>
     </div>
     
@@ -420,7 +416,7 @@
     <div class="construction-screen" id="constructionScreen">
         <div class="construction-content">
             <p class="construction-text">
-                <span class="emoji">🚧</span> Sitio web en costrucció
+                <span class="emoji">🚧</span> Sitio web en costrucción
             </p>
             <div class="divider"></div>
             <p class="contact-info">
@@ -548,23 +544,47 @@
                 const star = document.createElement('div');
                 star.classList.add('star', 'shooting-star');
                 
-                // Posición aleatoria en la parte izquierda o superior de la pantalla
-                const left = Math.random() < 0.5 ? 0 : 100;
-                const top = Math.random() < 0.5 ? 0 : 100;
+                // Posición inicial aleatoria en un borde de la pantalla
+                const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+                let startX, startY;
+                
+                switch(side) {
+                    case 0: // top
+                        startX = Math.random() * 100;
+                        startY = -5;
+                        break;
+                    case 1: // right
+                        startX = 105;
+                        startY = Math.random() * 100;
+                        break;
+                    case 2: // bottom
+                        startX = Math.random() * 100;
+                        startY = 105;
+                        break;
+                    case 3: // left
+                        startX = -5;
+                        startY = Math.random() * 100;
+                        break;
+                }
+                
+                // Posición final aleatoria
+                const endX = Math.random() * 100;
+                const endY = Math.random() * 100;
+                
+                // Calcular la distancia a recorrer
+                const distanceX = (endX - startX) * window.innerWidth / 100;
+                const distanceY = (endY - startY) * window.innerHeight / 100;
                 
                 // Tamaño pequeño para estrellas fugaces
-                const size = Math.random() * 0.5 + 0.5;
+                const size = Math.random() * 1.5 + 0.5;
                 
-                // Distancia de viaje aleatoria
-                const distanceX = Math.random() * 300 - 150;
-                const distanceY = Math.random() * 300 - 150;
-                
-                star.style.left = `${left}%`;
-                star.style.top = `${top}%`;
+                star.style.left = `${startX}%`;
+                star.style.top = `${startY}%`;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 star.style.setProperty('--distance-x', `${distanceX}px`);
                 star.style.setProperty('--distance-y', `${distanceY}px`);
+                star.style.setProperty('--opacity', '1');
                 
                 starfield.appendChild(star);
                 
@@ -573,20 +593,27 @@
                     if (star.parentNode) {
                         star.parentNode.removeChild(star);
                     }
-                }, 500); // 0.5 segundos, que es la duración de la animación
+                }, 1000); // 1 segundo, que es la duración de la animación
             }
             
-            // Crear una nueva estrella cada 5 segundos
-            setInterval(createSingleStar, 5000);
+            // Crear una nueva estrella cada 10-30 segundos (aleatorio)
+            const interval = Math.random() * 20000 + 10000; // Entre 10 y 30 segundos
+            setInterval(createSingleStar, interval);
         }
         
         // Función para mostrar la pantalla de costrucción
         function showConstructionScreen() {
             const presentationScreen = document.getElementById('presentationScreen');
             const constructionScreen = document.getElementById('constructionScreen');
+            const footer = document.getElementById('mainFooter');
             
             presentationScreen.classList.add('hidden');
             constructionScreen.classList.add('visible');
+            
+            // Mostrar el footer cuando aparece la pantalla de construcción
+            if (footer) {
+                footer.style.display = 'block';
+            }
         }
         
         // Inicializar los eventos
