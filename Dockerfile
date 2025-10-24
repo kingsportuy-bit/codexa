@@ -1,20 +1,23 @@
-# Usar la imagen oficial de Python como base
-FROM python:3.9-alpine
+# Usar la imagen oficial de Node.js como base
+FROM node:18-alpine
 
 # Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos web
-COPY ./html /app/html
+# Copiar package.json y package-lock.json
+COPY package*.json ./
 
-# Instalar servidor web simple
-RUN pip install flask
+# Instalar dependencias
+RUN npm ci
 
-# Copiar el archivo de aplicación Flask
-COPY app.py /app/app.py
+# Copiar el resto del código fuente
+COPY . .
 
-# Exponer puerto 80
-EXPOSE 80
+# Construir la aplicación Next.js
+RUN npm run build
 
-# Iniciar la aplicación Flask
-CMD ["python", "app.py"]
+# Exponer puerto 3000
+EXPOSE 3000
+
+# Iniciar la aplicación Next.js
+CMD ["npm", "start"]
