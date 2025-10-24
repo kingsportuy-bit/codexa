@@ -36,6 +36,16 @@
             opacity: 0;
         }
 
+        /* Estrella con destello rápido */
+        .star.fast-twinkle {
+            animation: fastTwinkle var(--duration, 2s) infinite ease-in-out;
+        }
+
+        /* Estrella con efecto de tintineo */
+        .star.sparkle {
+            animation: sparkle var(--duration, 3s) infinite ease-in-out;
+        }
+
         /* Estrella con forma más interesante */
         .star.star-diamond {
             border-radius: 0;
@@ -187,6 +197,38 @@
             }
         }
 
+        /* Animación para destellos rápidos */
+        @keyframes fastTwinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.2);
+            }
+            50% {
+                opacity: var(--opacity, 1);
+                transform: scale(1.2);
+            }
+        }
+
+        /* Animación para efecto de tintineo */
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+            25% {
+                opacity: var(--opacity, 0.9);
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            75% {
+                opacity: var(--opacity, 0.7);
+                transform: scale(0.8);
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -278,8 +320,8 @@
                 // Opacidad aleatoria
                 const opacity = Math.random() * 0.5 + 0.1; // Volvemos a la opacidad anterior
                 
-                // Retardo aleatorio
-                const delay = Math.random() * 20; // Volvemos al retardo anterior
+                // Retardo aleatorio reducido para que comiencen antes
+                const delay = Math.random() * 10; // Reducido de 20 a 10
                 
                 // Tipo de estrella aleatorio
                 const starType = Math.random();
@@ -289,11 +331,27 @@
                     star.classList.add('star-plus');
                 }
                 
+                // Tipo de animación aleatorio
+                const animationType = Math.random();
+                if (animationType < 0.3) {
+                    // Estrellas con destello rápido
+                    star.classList.add('fast-twinkle');
+                    // Duración más corta para destellos rápidos
+                    const fastDuration = Math.random() * 3 + 1;
+                    star.style.setProperty('--duration', `${fastDuration}s`);
+                } else if (animationType < 0.6) {
+                    // Estrellas con efecto de tintineo
+                    star.classList.add('sparkle');
+                    // Duración para tintineo
+                    const sparkleDuration = Math.random() * 4 + 2;
+                    star.style.setProperty('--duration', `${sparkleDuration}s`);
+                }
+                // El 40% restante usa la animación normal de destello
+                
                 star.style.left = `${left}%`;
                 star.style.top = `${top}%`;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
-                star.style.setProperty('--duration', `${duration}s`);
                 star.style.setProperty('--opacity', opacity);
                 star.style.animationDelay = `${delay}s`;
                 
