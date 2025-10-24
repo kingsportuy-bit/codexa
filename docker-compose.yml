@@ -19,10 +19,8 @@ services:
         condition: on-failure
     networks:
       - oraclelabsnet
-    # El aviso indica que exponer puertos es innecesario entre servicios en la misma red
-    # pero lo mantenemos para claridad y posibles usos futuros
-    ports:
-      - "80:80"
+    # Eliminamos la sección de ports ya que Traefik manejará el enrutamiento
+    # y el puerto 80 ya está ocupado por el servicio Traefik
 
 networks:
   oraclelabsnet:
