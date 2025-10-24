@@ -65,6 +65,10 @@
         /* Estrella fugaz */
         .star.shooting-star {
             animation: shootingStar 1s linear;
+            /* Asegurar que las estrellas fugaces sean visibles */
+            background-color: #fff;
+            border-radius: 50%;
+            z-index: 15; /* Asegurar que estén por encima del fondo */
         }
 
         /* Estrella con forma más interesante */
@@ -346,10 +350,12 @@
             0% {
                 opacity: 1;
                 transform: translate(0, 0) scale(1);
+                box-shadow: 0 0 10px 2px #fff; /* Añadir brillo para mayor visibilidad */
             }
             100% {
                 opacity: 0;
-                transform: translate(var(--distance-x, 100vw), var(--distance-y, 100vh)) scale(1);
+                transform: translate(var(--distance-x, 100vw), var(--distance-y, 100vh)) scale(0.5);
+                box-shadow: 0 0 0px 0px #fff; /* Reducir brillo al final */
             }
         }
 
@@ -575,8 +581,8 @@
                 const distanceX = (endX - startX) * window.innerWidth / 100;
                 const distanceY = (endY - startY) * window.innerHeight / 100;
                 
-                // Tamaño pequeño para estrellas fugaces
-                const size = Math.random() * 1.5 + 0.5;
+                // Tamaño más visible para estrellas fugaces
+                const size = Math.random() * 2 + 1; // Entre 1 y 3 píxeles
                 
                 star.style.left = `${startX}%`;
                 star.style.top = `${startY}%`;
