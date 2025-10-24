@@ -210,6 +210,34 @@
             text-decoration: underline;
         }
 
+        /* Estilos para el footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+
+        .footer-link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        .codexa-x {
+            color: #00CCC2;
+        }
+
         /* Animaciones mejoradas */
         @keyframes rotateSky {
             0% {
@@ -604,5 +632,10 @@
             initEvents();
         });
     </script>
+    
+    <!-- Footer -->
+    <div class="footer">
+        Todos los derechos reservados | © 2025 <a href="https://codexa.uy" class="footer-link">Code<span class="codexa-x">x</span>a.uy</a>
+    </div>
 </body>
 </html>
