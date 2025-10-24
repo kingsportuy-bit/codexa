@@ -65,10 +65,10 @@
         /* Estrella fugaz */
         .star.shooting-star {
             animation: shootingStar 1s linear;
-            /* Asegurar que las estrellas fugaces sean visibles */
-            background-color: #fff;
+            /* Ajustar para que las estrellas fugaces sean menos intensas */
+            background-color: rgba(255, 255, 255, 0.7); /* Reducir opacidad */
             border-radius: 50%;
-            z-index: 15; /* Asegurar que estén por encima del fondo */
+            z-index: 15;
         }
 
         /* Estrella con forma más interesante */
@@ -348,14 +348,14 @@
         /* Animación para estrellas fugaces */
         @keyframes shootingStar {
             0% {
-                opacity: 1;
+                opacity: 0.7; /* Reducir opacidad inicial */
                 transform: translate(0, 0) scale(1);
-                box-shadow: 0 0 10px 2px #fff; /* Añadir brillo para mayor visibilidad */
+                box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.5); /* Reducir brillo */
             }
             100% {
                 opacity: 0;
-                transform: translate(var(--distance-x, 100vw), var(--distance-y, 100vh)) scale(0.5);
-                box-shadow: 0 0 0px 0px #fff; /* Reducir brillo al final */
+                transform: translate(var(--distance-x, 100vw), var(--distance-y, 100vh)) scale(0.8); /* Menor reducción de tamaño */
+                box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0); /* Reducir brillo al final */
             }
         }
 
@@ -581,8 +581,8 @@
                 const distanceX = (endX - startX) * window.innerWidth / 100;
                 const distanceY = (endY - startY) * window.innerHeight / 100;
                 
-                // Tamaño más visible para estrellas fugaces
-                const size = Math.random() * 2 + 1; // Entre 1 y 3 píxeles
+                // Tamaño más sutil para estrellas fugaces
+                const size = Math.random() * 1.5 + 0.5; // Entre 0.5 y 2 píxeles (más pequeño que antes)
                 
                 star.style.left = `${startX}%`;
                 star.style.top = `${startY}%`;
