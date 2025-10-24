@@ -1,0 +1,19 @@
+# Excluir archivos y directorios innecesarios para la construcción
+node_modules
+.next
+out
+dist
+build
+
+# Archivos de logs
+*.log
+
+# Archivos de entorno
+.env*.local
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# No excluir package-lock.json ya que es necesario para npm ci
+!package-lock.json

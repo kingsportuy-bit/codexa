@@ -4,8 +4,11 @@ FROM node:18-alpine
 # Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json
-COPY package*.json ./
+# Copiar package.json y package-lock.json explícitamente
+COPY package.json package-lock.json ./
+
+# Verificar que los archivos se copiaron correctamente
+RUN ls -la
 
 # Instalar dependencias
 RUN npm ci

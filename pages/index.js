@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
+import Footer from './Footer'; // Importar el componente Footer
 
 export default function Home() {
   useEffect(() => {
@@ -77,42 +78,7 @@ export default function Home() {
       }
     }
     
-    // Crear estrellas con destellos intensos cada 1 segundo
-    function createIntenseFlashStars() {
-      const starfield = document.getElementById('starfield');
-      if (!starfield) return;
-      
-      // Crear una nueva estrella con destello intenso
-      function createSingleStar() {
-        const star = document.createElement('div');
-        star.classList.add('star', 'intense-flash');
-        
-        // Posición aleatoria en toda la pantalla
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        
-        // Tamaño más grande para que sea más visible
-        const size = Math.random() * 4 + 3;
-        
-        star.style.left = `${left}%`;
-        star.style.top = `${top}%`;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.setProperty('--opacity', '1');
-        
-        starfield.appendChild(star);
-        
-        // Eliminar la estrella después de que termine su animación
-        setTimeout(() => {
-          if (star.parentNode) {
-            star.parentNode.removeChild(star);
-          }
-        }, 500); // 0.5 segundos, que es la duración de la animación
-      }
-      
-      // Crear una nueva estrella cada 1 segundo
-      setInterval(createSingleStar, 1000);
-    }
+
     
     // Crear estrellas fugaces cada 5 segundos
     function createShootingStars() {
@@ -155,8 +121,8 @@ export default function Home() {
         const distanceX = (endX - startX) * window.innerWidth / 100;
         const distanceY = (endY - startY) * window.innerHeight / 100;
         
-        // Tamaño más sutil para estrellas fugaces
-        const size = Math.random() * 1.5 + 0.5; // Entre 0.5 y 2 píxeles (más pequeño que antes)
+        // Tamaño más visible para estrellas fugaces
+        const size = Math.random() * 3 + 2; // Entre 2 y 5 píxeles (más grande que antes)
         
         star.style.left = `${startX}%`;
         star.style.top = `${startY}%`;
@@ -164,7 +130,6 @@ export default function Home() {
         star.style.height = `${size}px`;
         star.style.setProperty('--distance-x', `${distanceX}px`);
         star.style.setProperty('--distance-y', `${distanceY}px`);
-        star.style.setProperty('--opacity', '1');
         
         starfield.appendChild(star);
         
@@ -176,9 +141,12 @@ export default function Home() {
         }, 1000); // 1 segundo, que es la duración de la animación
       }
       
-      // Crear una nueva estrella cada 10-30 segundos (aleatorio)
-      const interval = Math.random() * 20000 + 10000; // Entre 10 y 30 segundos
+      // Crear una nueva estrella cada 3-8 segundos (más frecuente que antes)
+      const interval = Math.random() * 5000 + 3000; // Entre 3 y 8 segundos
       setInterval(createSingleStar, interval);
+      
+      // Crear una primera estrella inmediatamente
+      setTimeout(createSingleStar, 1000);
     }
     
     // Función para mostrar la pantalla de costrucción
@@ -196,6 +164,14 @@ export default function Home() {
       }
     }
     
+    // Función para manejar el evento de teclado
+    function handleKeyDown(event) {
+      if (event.code === 'Space') {
+        event.preventDefault();
+        showConstructionScreen();
+      }
+    }
+    
     // Inicializar los eventos
     function initEvents() {
       const presentationScreen = document.getElementById('presentationScreen');
@@ -203,19 +179,14 @@ export default function Home() {
       if (presentationScreen) {
         // Mostrar pantalla de construcción al hacer clic
         presentationScreen.addEventListener('click', showConstructionScreen);
-        
-        // Mostrar pantalla de construcción al presionar barra espaciadora
-        document.addEventListener('keydown', function(event) {
-          if (event.code === 'Space') {
-            event.preventDefault();
-            showConstructionScreen();
-          }
-        });
       }
+      
+      // Mostrar pantalla de construcción al presionar barra espaciadora
+      document.addEventListener('keydown', handleKeyDown);
     }
     
     // Inicializar las estrellas y eventos cuando la página cargue
-    // createStars(); // Desactivar estrellas normales
+    createStars(); // Activar estrellas normales
     // createIntenseFlashStars(); // Desactivar estrellas con destellos intensos
     createShootingStars(); // Solo activar estrellas fugaces
     initEvents();
@@ -226,12 +197,12 @@ export default function Home() {
       if (presentationScreen) {
         presentationScreen.removeEventListener('click', showConstructionScreen);
       }
-      document.removeEventListener('keydown', showConstructionScreen);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
   return (
-    <>
+    <div>
       <Head>
         <title>Codexa</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -243,8 +214,8 @@ export default function Home() {
         <div className="starfield" id="starfield"></div>
         
         {/* Footer (oculto por defecto, solo visible en pantalla de construcción) */}
-        <div className="footer" id="mainFooter" style={{display: 'none'}}>
-          Todos los derechos reservados | © 2025 <a href="https://codexa.uy" className="footer-link">Code<span className="codexa-x">x</span>a.uy</a>
+        <div id="mainFooter" style={{display: 'none'}}>
+          <Footer />
         </div>
         
         {/* Pantalla de presentación */}
@@ -270,6 +241,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
