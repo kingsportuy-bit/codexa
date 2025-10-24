@@ -51,6 +51,11 @@
             animation: strongTwinkle var(--duration, 5s) infinite ease-in-out;
         }
 
+        /* Estrella con destello extremadamente fuerte */
+        .star.very-strong-twinkle {
+            animation: veryStrongTwinkle 1s infinite ease-in-out;
+        }
+
         /* Estrella con forma más interesante */
         .star.star-diamond {
             border-radius: 0;
@@ -92,11 +97,28 @@
         .logo-container {
             margin-bottom: 40px;
             animation: fadeIn 1s ease-in-out;
+            position: relative;
         }
 
         .logo {
             max-width: 350px;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            /* Eliminamos el drop-shadow anterior y aplicamos el efecto de difuminado */
+            filter: blur(0.5px);
+        }
+
+        /* Creamos un pseudo-elemento para el efecto de difuminado blanco */
+        .logo-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(2px);
+            z-index: -1;
+            opacity: 0.7;
         }
 
         /* Pantalla de construcción */
@@ -248,6 +270,20 @@
             }
         }
 
+        /* Animación para destellos extremadamente fuertes */
+        @keyframes veryStrongTwinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.1);
+                box-shadow: 0 0 0px #fff;
+            }
+            50% {
+                opacity: 1;
+                transform: scale(3);
+                box-shadow: 0 0 30px 20px #fff;
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -389,6 +425,42 @@
             }
         }
         
+        // Crear estrellas con destellos extremadamente fuertes cada 1 segundo
+        function createVeryStrongTwinkleStars() {
+            const starfield = document.getElementById('starfield');
+            
+            // Crear una nueva estrella con destello extremadamente fuerte
+            function createSingleStar() {
+                const star = document.createElement('div');
+                star.classList.add('star', 'very-strong-twinkle');
+                
+                // Posición aleatoria en toda la pantalla
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                // Tamaño más grande para que sea más visible
+                const size = Math.random() * 3 + 2;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--opacity', '1');
+                
+                starfield.appendChild(star);
+                
+                // Eliminar la estrella después de que termine su animación
+                setTimeout(() => {
+                    if (star.parentNode) {
+                        star.parentNode.removeChild(star);
+                    }
+                }, 1000); // 1 segundo, que es la duración de la animación
+            }
+            
+            // Crear una nueva estrella cada 1 segundo
+            setInterval(createSingleStar, 1000);
+        }
+        
         // Función para mostrar la pantalla de construcción
         function showConstructionScreen() {
             const presentationScreen = document.getElementById('presentationScreen');
@@ -417,6 +489,7 @@
         // Inicializar las estrellas y eventos cuando la página cargue
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            createVeryStrongTwinkleStars();
             initEvents();
         });
     </script>
