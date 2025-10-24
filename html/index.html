@@ -17,14 +17,14 @@
         /* Fondo negro puro con animación de estrellas y rotación lenta */
         .starfield {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: -25%;
+            left: -25%;
+            width: 150%;
+            height: 150%;
             background: #000000;
             overflow: hidden;
             z-index: -1;
-            animation: rotateSky 960s linear infinite;
+            animation: rotateSky 120s linear infinite;
             transform-origin: center center;
         }
 
@@ -384,7 +384,7 @@
         // Crear estrellas para el fondo (más estrellas, más pequeñas y más separadas)
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const starCount = 200; // Volvemos al número anterior de estrellas
+            const starCount = 300; // Aumentamos a 300 estrellas como se solicitó
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
