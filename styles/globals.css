@@ -24,9 +24,25 @@ body {
 .star {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
+  border-radius: 0; /* Eliminar el border-radius para las formas de estrella */
   animation: twinkle var(--duration, 4s) infinite ease-in-out;
   opacity: 0;
+  /* Crear forma de estrella de 4 puntas puntiagudas con efecto de destello */
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+}
+
+/* Eliminar los pseudoelementos que creaban las cruces */
+.star::before,
+.star::after {
+  content: none;
+}
+
+/* Tamaño base para las estrellas de diamante */
+.star {
+  width: 10px;
+  height: 10px;
 }
 
 /* Estrella con destello rápido */
@@ -39,32 +55,32 @@ body {
   animation: sparkle var(--duration, 3s) infinite ease-in-out;
 }
 
+/* Estrella con efecto de tintineo suave (nunca invisible) */
+.star.soft-sparkle {
+  animation: softSparkle var(--duration, 4s) infinite ease-in-out;
+}
+
 
 /* Estrella fugaz */
 .star.shooting-star {
-  animation: shootingStar 2s linear;
+  animation: shootingStar 3s linear; /* Aumentar duración a 3 segundos */
   /* Ajustar para que las estrellas fugaces sean más intensas */
   background-color: white; /* Color blanco puro */
-  border-radius: 50%;
-  z-index: 15;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8); /* Añadir un resplandor más visible */
+  border-radius: 0; /* Eliminar border-radius para forma de estrella */
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%); /* Forma de estrella de 4 puntas puntiagudas */
+  z-index: 1000; /* Aumentar z-index para máxima visibilidad */
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 1); /* Aumentar resplandor para mejor visibilidad */
 }
 
-/* Estrella con forma más interesante */
-.star.star-diamond {
-  border-radius: 0;
-  transform: rotate(45deg);
+.star.shooting-star.zoom-in {
+  animation: shootingStarZoomIn 2s linear;
 }
 
-.star.star-plus {
-  border-radius: 0;
-  background: 
-    linear-gradient(to bottom, transparent 40%, #fff 40%, #fff 60%, transparent 60%),
-    linear-gradient(to right, transparent 40%, #fff 40%, #fff 60%, transparent 60%);
-  background-position: center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+.star.shooting-star.zoom-out {
+  animation: shootingStarZoomOut 2s linear;
 }
+
+
 
 /* Pantalla de presentación */
 .presentation-screen {
@@ -125,6 +141,8 @@ body {
 .logo {
   max-width: 350px;
   /* Eliminar cualquier efecto de resplandor o difuminado */
+  position: relative;
+  z-index: 1;
 }
 
 /* Animaciones mejoradas */
@@ -184,6 +202,30 @@ body {
   }
 }
 
+/* Animación para efecto de tintineo suave (nunca invisible) */
+@keyframes softSparkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.5);
+  }
+  25% {
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.5);
+  }
+}
+
 /* Animación para destellos mucho más fuertes */
 @keyframes strongTwinkle {
   0%, 100% {
@@ -198,6 +240,11 @@ body {
   }
 }
 
+/* Estrella con destello extremadamente fuerte */
+.star.extreme-twinkle {
+  animation: extremeTwinkle var(--duration, 5s) infinite ease-in-out;
+}
+
 @keyframes veryStrongTwinkle {
   0%, 100% {
     opacity: 0;
@@ -208,6 +255,20 @@ body {
     opacity: 1;
     transform: scale(3);
     box-shadow: 0 0 30px 20px #fff;
+  }
+}
+
+/* Animación para destellos extremadamente fuertes (doble intensidad) */
+@keyframes extremeTwinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.1);
+    box-shadow: 0 0 0px #fff;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(4);
+    box-shadow: 0 0 60px 40px #fff;
   }
 }
 
@@ -234,12 +295,53 @@ body {
 @keyframes shootingStar {
   0% {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
-    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
+    transform: translate(0, 0) scale(0.5);
+    box-shadow: 0 0 15px 8px rgba(255, 255, 255, 0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(calc(var(--distance-x, 100px) * 0.5), calc(var(--distance-y, 100px) * 0.5)) scale(2);
+    box-shadow: 0 0 30px 15px rgba(255, 255, 255, 1);
   }
   100% {
     opacity: 0;
-    transform: translate(var(--distance-x, 100px), var(--distance-y, 100px)) scale(0.5);
+    transform: translate(var(--distance-x, 100px), var(--distance-y, 100px)) scale(0.1);
+    box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes shootingStarZoomIn {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.5);
+    box-shadow: 0 0 15px 8px rgba(255, 255, 255, 0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(calc(var(--distance-x, 100px) * 0.5), calc(var(--distance-y, 100px) * 0.5)) scale(2);
+    box-shadow: 0 0 30px 15px rgba(255, 255, 255, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--distance-x, 100px), var(--distance-y, 100px)) scale(0.1);
+    box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes shootingStarZoomOut {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.5);
+    box-shadow: 0 0 15px 8px rgba(255, 255, 255, 0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(calc(var(--distance-x, 100px) * 0.5), calc(var(--distance-y, 100px) * 0.5)) scale(2);
+    box-shadow: 0 0 30px 15px rgba(255, 255, 255, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--distance-x, 100px), var(--distance-y, 100px)) scale(0.1);
     box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0);
   }
 }
@@ -279,9 +381,151 @@ body {
   animation: warpSpeed 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
+.warp-speed-continuous {
+  animation: warpSpeedContinuous 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
 /* Asegurarse de que las estrellas individuales no se vean afectadas por la transformación del contenedor */
 .warp-speed .star:not(.warp-star) {
   transform: scale(1) !important;
+}
+
+.warp-speed-continuous .star:not(.warp-star) {
+  transform: scale(1) !important;
+}
+
+@keyframes warpSpeedContinuous {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(4);
+  }
+}
+
+@keyframes continuousZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.continuous-zoom {
+  animation: continuousZoom 4s ease-in-out infinite;
+}
+
+/* Pantalla de construcción */
+.construction-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #222222; /* Gris oscuro */
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 1s ease-in-out 0.5s;
+  pointer-events: none;
+}
+
+.construction-screen.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.construction-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 40px 60px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e0e0e0;
+  max-width: 600px;
+}
+
+.construction-text {
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.emoji {
+  font-size: 2rem;
+  margin-right: 15px;
+  color: #ff6b35;
+}
+
+/* Línea divisoria elegante */
+.divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
+  margin: 20px auto;
+  border-radius: 2px;
+}
+
+/* Información de contacto */
+.contact-info {
+  color: #666;
+  font-size: 1rem;
+  margin-top: 25px;
+  font-weight: 400;
+}
+
+.email-link {
+  color: #ff6b35;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.email-link:hover {
+  color: #f7931e;
+  text-decoration: underline;
+}
+
+/* Estilos para el footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  background-color: transparent; /* Fondo transparente */
+  color: #888; /* Texto gris */
+  font-size: 14px;
+  box-sizing: border-box;
+  z-index: 20;
+  border: none; /* Eliminar borde */
+  box-shadow: none; /* Eliminar sombras */
+}
+
+.footer-link {
+  color: #888; /* Color gris para el enlace */
+  text-decoration: none; /* Sin subrayado */
+}
+
+.footer-link:hover {
+  text-decoration: none; /* Sin subrayado al pasar el mouse */
+  color: #fff; /* Color blanco al pasar el mouse */
+}
+
+.codexa-x {
+  color: #00CCC2; /* Color turquesa para la X */
 }
 
 /* Responsive design */

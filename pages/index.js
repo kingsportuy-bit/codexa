@@ -4,7 +4,7 @@ import Footer from './Footer'; // Importar el componente Footer
 
 export default function Home() {
   useEffect(() => {
-    // Crear estrellas para el fondo (más estrellas, más pequeñas y más separadas)
+    // Crear estrellas de 4 puntas para el fondo (más estrellas, más pequeñas y más separadas)
     function createStars() {
       const starfield = document.getElementById('starfield');
       if (!starfield) return;
@@ -19,8 +19,8 @@ export default function Home() {
         const left = Math.random() * 100;
         const top = Math.random() * 100;
         
-        // Tamaño más pequeño (más pequeñas)
-        const size = Math.random() * 1.5 + 0.5;
+        // Tamaño variable para las estrellas de 4 puntas
+        let size = Math.random() * 3 + 1; // Entre 1 y 4 píxeles
         
         // Duración aleatoria
         const duration = Math.random() * 10 + 8; // Volvemos a la duración anterior
@@ -31,36 +31,41 @@ export default function Home() {
         // Retardo aleatorio reducido para que comiencen antes
         const delay = Math.random() * 10; // Reducido de 20 a 10
         
-        // Tipo de estrella aleatorio
-        const starType = Math.random();
-        if (starType < 0.3) {
-          star.classList.add('star-diamond');
-        } else if (starType < 0.6) {
-          star.classList.add('star-plus');
-        }
+        // Ángulo de rotación aleatorio para la forma de estrella
+        const rotation = Math.random() * 360;
         
         // Tipo de animación aleatorio
         const animationType = Math.random();
-        if (animationType < 0.25) {
-          // Estrellas con destello rápido (25%)
+        if (animationType < 0.2) {
+          // Estrellas con destello rápido (20%)
           star.classList.add('fast-twinkle');
           // Duración más corta para destellos rápidos
           const fastDuration = Math.random() * 3 + 1;
           star.style.setProperty('--duration', `${fastDuration}s`);
-        } else if (animationType < 0.5) {
-          // Estrellas con efecto de tintineo (25%)
+        } else if (animationType < 0.4) {
+          // Estrellas con efecto de tintineo (20%)
           star.classList.add('sparkle');
           // Duración para tintineo
           const sparkleDuration = Math.random() * 4 + 2;
           star.style.setProperty('--duration', `${sparkleDuration}s`);
+        } else if (animationType < 0.5) {
+          // Estrellas con efecto de tintineo suave (10%)
+          star.classList.add('soft-sparkle');
+          // Duración para tintineo suave
+          const softSparkleDuration = Math.random() * 4 + 4;
+          star.style.setProperty('--duration', `${softSparkleDuration}s`);
+          // Opacidad para tintineo suave
+          star.style.setProperty('--opacity', '0.9');
         } else if (animationType < 0.6) {
-          // Estrellas con destello mucho más fuerte (10%)
-          star.classList.add('strong-twinkle');
-          // Duración para destellos fuertes
-          const strongDuration = Math.random() * 6 + 4;
-          star.style.setProperty('--duration', `${strongDuration}s`);
-          // Opacidad más alta para destellos fuertes
+          // Estrellas con destello extremadamente fuerte (10%)
+          star.classList.add('extreme-twinkle');
+          // Duración para destellos extremadamente fuertes
+          const extremeDuration = Math.random() * 6 + 4;
+          star.style.setProperty('--duration', `${extremeDuration}s`);
+          // Opacidad 100% para destellos extremadamente fuertes
           star.style.setProperty('--opacity', '1');
+          // Reducir tamaño a 1/4 para estrellas con destello extremadamente fuerte
+          size = size * 0.25;
         }
         // El 40% restante usa la animación normal de destello
         
@@ -72,7 +77,14 @@ export default function Home() {
           // Solo establecer opacidad para estrellas normales
           star.style.setProperty('--opacity', opacity);
         }
+        // El 40% restante usa la animación normal de destello
         star.style.animationDelay = `${delay}s`;
+        
+        // Aplicar rotación aleatoria
+        star.style.transform = `rotate(${rotation}deg)`;
+        
+        // Agregar animación continua de zoom
+        star.classList.add('continuous-zoom');
         
         starfield.appendChild(star);
       }
@@ -113,16 +125,20 @@ export default function Home() {
             break;
         }
         
-        // Posición final aleatoria
-        const endX = Math.random() * 100;
-        const endY = Math.random() * 100;
+        // Posición final aleatoria en el centro de la pantalla
+        const endX = 30 + Math.random() * 40; // Entre 30% y 70%
+        const endY = 30 + Math.random() * 40; // Entre 30% y 70%
         
         // Calcular la distancia a recorrer
         const distanceX = (endX - startX) * window.innerWidth / 100;
         const distanceY = (endY - startY) * window.innerHeight / 100;
         
-        // Tamaño más visible para estrellas fugaces
-        const size = Math.random() * 3 + 2; // Entre 2 y 5 píxeles (más grande que antes)
+        // Tamaño inicial más pequeño para estrellas fugaces
+        const size = Math.random() * 2 + 1; // Entre 1 y 3 píxeles (más pequeño que antes)
+        
+        // Efecto de profundidad: zoom aleatorio sutil
+        const zoomEffect = Math.random() > 0.5 ? 'zoom-in' : 'zoom-out';
+        const zoomFactor = 1 + (Math.random() * 1); // Entre 1 y 2
         
         star.style.left = `${startX}%`;
         star.style.top = `${startY}%`;
@@ -130,6 +146,8 @@ export default function Home() {
         star.style.height = `${size}px`;
         star.style.setProperty('--distance-x', `${distanceX}px`);
         star.style.setProperty('--distance-y', `${distanceY}px`);
+        star.style.setProperty('--zoom-factor', zoomFactor);
+        star.classList.add(zoomEffect);
         
         starfield.appendChild(star);
         
@@ -138,15 +156,15 @@ export default function Home() {
           if (star.parentNode) {
             star.parentNode.removeChild(star);
           }
-        }, 2000); // Aumentamos a 2 segundos para coincidir con la duración de la animación
+        }, 3000); // Aumentamos a 3 segundos para dar más tiempo a la animación
       }
       
-      // Crear una nueva estrella cada 3-8 segundos (más frecuente que antes)
-      const interval = Math.random() * 5000 + 3000; // Entre 3 y 8 segundos
+      // Crear una nueva estrella cada 5-15 segundos para mejor visibilidad
+      const interval = Math.random() * 10000 + 5000; // Entre 5 y 15 segundos
       setInterval(createSingleStar, interval);
       
       // Crear una primera estrella inmediatamente
-      setTimeout(createSingleStar, 1000);
+      setTimeout(createSingleStar, 2000); // Crear primera estrella después de 2 segundos
     }
     
     // Función para mostrar la pantalla de costrucción
@@ -166,10 +184,9 @@ export default function Home() {
         // Aplicar animación de alejamiento más rápida al logo
         logo.classList.add('logo-recede-fast');
         // Aplicar efecto de velocidad de la luz a las estrellas
-        starfield.classList.add('warp-speed');
+        starfield.classList.add('warp-speed-continuous');
         
         // Esperar a que terminen las animaciones antes de mostrar la pantalla de construcción
-        // Aumentamos el tiempo de espera para que las estrellas desaparezcan completamente
         setTimeout(() => {
           if (presentationScreen) presentationScreen.classList.add('hidden');
           if (constructionScreen) constructionScreen.classList.add('visible');
@@ -262,8 +279,8 @@ export default function Home() {
             </p>
             <div className="divider"></div>
             <p className="contact-info">
-              Para consultas comerciales, contáctenos en 
-              <a href="mailto:info@codexa.uy" className="email-link">info@codexa.uy</a>
+              Para consultas comerciales, contáctenos en  
+              <a href="mailto:info@codexa.uy" className="email-link"> info@codexa.uy</a>
             </p>
           </div>
         </div>
