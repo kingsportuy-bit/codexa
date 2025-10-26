@@ -255,7 +255,7 @@ export default function Home() {
         </div>
         
         {/* Pantalla de construcción */}
-        <div className="construction-screen" id="constructionScreen">
+        <div className="construction-screen hidden" id="constructionScreen">
           <div className="construction-content">
             <p className="construction-text">
               <span className="emoji">🚧</span> Sitio web en costrucción
