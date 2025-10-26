@@ -17,7 +17,7 @@ body {
   background: #000000;
   overflow: hidden;
   z-index: -1;
-  animation: rotateSky 120s linear infinite;
+  animation: rotateSky 240s linear infinite;
   transform-origin: center center;
 }
 
