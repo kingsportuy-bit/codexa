@@ -221,7 +221,7 @@ export default function Home() {
         {/* Pantalla de presentación */}
         <div className="presentation-screen" id="presentationScreen">
           <div className="logo-container">
-            <img src="https://i.postimg.cc/BQ8JGJ8f/LOGO-CODEXA-fondo-transp-blanco2.png" 
+            <img src="https://i.postimg.cc/RVKmfTt5/LOGO-CODEXA-sin-fondo-blanco2.png" 
                  alt="Codexa Logo" 
                  className="logo" />
           </div>
