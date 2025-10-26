@@ -157,14 +157,16 @@ export default function Home() {
       const logo = document.querySelector('.logo');
       const starfield = document.getElementById('starfield');
       
+      // Agregar efecto visual inmediato al hacer clic o presionar espacio
+      if (presentationScreen) {
+        presentationScreen.classList.add('screen-click-effect');
+      }
+      
       if (logo && starfield) {
-        // Aplicar animación de alejamiento al logo
-        logo.classList.add('logo-recede');
+        // Aplicar animación de alejamiento más rápida al logo
+        logo.classList.add('logo-recede-fast');
         // Aplicar efecto de velocidad de la luz a las estrellas
         starfield.classList.add('warp-speed');
-        
-        // Crear más estrellas para el efecto de velocidad
-        createWarpSpeedStars();
         
         // Esperar a que terminen las animaciones antes de mostrar la pantalla de construcción
         setTimeout(() => {
@@ -175,7 +177,7 @@ export default function Home() {
           if (footer) {
             footer.style.display = 'block';
           }
-        }, 2000); // Duración de las animaciones
+        }, 1000); // Duración más corta para animaciones más rápidas
       } else {
         // Fallback al comportamiento original si no se encuentran los elementos
         if (presentationScreen) presentationScreen.classList.add('hidden');
@@ -185,44 +187,6 @@ export default function Home() {
         if (footer) {
           footer.style.display = 'block';
         }
-      }
-    }
-    
-    // Función para crear estrellas adicionales para el efecto de velocidad
-    function createWarpSpeedStars() {
-      const starfield = document.getElementById('starfield');
-      if (!starfield) return;
-      
-      // Crear un gran número de estrellas para el efecto de velocidad
-      const starCount = 200;
-      
-      for (let i = 0; i < starCount; i++) {
-        // Crear las estrellas con un pequeño retraso para crear el efecto de "ráfaga"
-        setTimeout(() => {
-          const star = document.createElement('div');
-          star.classList.add('star', 'warp-star');
-          
-          // Posición aleatoria
-          const left = Math.random() * 100;
-          const top = Math.random() * 100;
-          
-          // Tamaño aleatorio
-          const size = Math.random() * 3 + 1;
-          
-          star.style.left = `${left}%`;
-          star.style.top = `${top}%`;
-          star.style.width = `${size}px`;
-          star.style.height = `${size}px`;
-          
-          starfield.appendChild(star);
-          
-          // Eliminar la estrella después de la animación
-          setTimeout(() => {
-            if (star.parentNode) {
-              star.parentNode.removeChild(star);
-            }
-          }, 2000); // Duración de la animación de velocidad
-        }, i * 10); // Crear estrellas rápidamente
       }
     }
     
