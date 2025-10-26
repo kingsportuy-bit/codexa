@@ -154,13 +154,31 @@ export default function Home() {
       const presentationScreen = document.getElementById('presentationScreen');
       const constructionScreen = document.getElementById('constructionScreen');
       const footer = document.getElementById('mainFooter');
+      const logo = document.querySelector('.logo');
       
-      if (presentationScreen) presentationScreen.classList.add('hidden');
-      if (constructionScreen) constructionScreen.classList.add('visible');
-      
-      // Mostrar el footer cuando aparece la pantalla de construcción
-      if (footer) {
-        footer.style.display = 'block';
+      if (logo) {
+        // Aplicar animación de agrandamiento al logo
+        logo.classList.add('logo-expand');
+        
+        // Esperar a que termine la animación antes de ocultar la pantalla de presentación
+        setTimeout(() => {
+          if (presentationScreen) presentationScreen.classList.add('hidden');
+          if (constructionScreen) constructionScreen.classList.add('visible');
+          
+          // Mostrar el footer cuando aparece la pantalla de construcción
+          if (footer) {
+            footer.style.display = 'block';
+          }
+        }, 1000); // Duración de la animación
+      } else {
+        // Fallback al comportamiento original si no se encuentra el logo
+        if (presentationScreen) presentationScreen.classList.add('hidden');
+        if (constructionScreen) constructionScreen.classList.add('visible');
+        
+        // Mostrar el footer cuando aparece la pantalla de construcción
+        if (footer) {
+          footer.style.display = 'block';
+        }
       }
     }
     

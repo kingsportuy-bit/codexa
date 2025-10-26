@@ -331,6 +331,22 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Animación para el agrandamiento del logo */
+@keyframes expandAndFade {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(20);
+    opacity: 0;
+  }
+}
+
+.logo-expand {
+  animation: expandAndFade 1s ease-in-out forwards;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .logo {
