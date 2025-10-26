@@ -42,7 +42,7 @@ body {
 
 /* Estrella fugaz */
 .star.shooting-star {
-  animation: shootingStar 1s linear;
+  animation: shootingStar 2s linear;
   /* Ajustar para que las estrellas fugaces sean más intensas */
   background-color: white; /* Color blanco puro */
   border-radius: 50%;

@@ -138,7 +138,7 @@ export default function Home() {
           if (star.parentNode) {
             star.parentNode.removeChild(star);
           }
-        }, 1000); // 1 segundo, que es la duración de la animación
+        }, 2000); // Aumentamos a 2 segundos para coincidir con la duración de la animación
       }
       
       // Crear una nueva estrella cada 3-8 segundos (más frecuente que antes)
