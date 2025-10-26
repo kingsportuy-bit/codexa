@@ -169,6 +169,7 @@ export default function Home() {
         starfield.classList.add('warp-speed');
         
         // Esperar a que terminen las animaciones antes de mostrar la pantalla de construcción
+        // Aumentamos el tiempo de espera para que las estrellas desaparezcan completamente
         setTimeout(() => {
           if (presentationScreen) presentationScreen.classList.add('hidden');
           if (constructionScreen) constructionScreen.classList.add('visible');
@@ -177,7 +178,7 @@ export default function Home() {
           if (footer) {
             footer.style.display = 'block';
           }
-        }, 1000); // Duración más corta para animaciones más rápidas
+        }, 2000); // Aumentamos a 2 segundos para dar tiempo a que las estrellas desaparezcan
       } else {
         // Fallback al comportamiento original si no se encuentran los elementos
         if (presentationScreen) presentationScreen.classList.add('hidden');

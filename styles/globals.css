@@ -276,7 +276,7 @@ body {
 }
 
 .warp-speed {
-  animation: warpSpeed 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  animation: warpSpeed 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
 /* Asegurarse de que las estrellas individuales no se vean afectadas por la transformación del contenedor */
