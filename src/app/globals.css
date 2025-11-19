@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* Variables CSS personalizadas */
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --accent: 180 100% 40%; /* hsl(180, 100%, 40%) - #00CCC2 */
+  --accent-foreground: #000000;
+}
+
+/* Clases personalizadas */
+@layer base {
+  .bg-background {
+    background-color: var(--background);
+  }
+  
+  .text-foreground {
+    color: var(--foreground);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+/* Componentes personalizados */
+@layer components {
+  .btn-primary {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    font-weight: 500;
+    border-radius: 9999px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px hsl(var(--accent));
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: hsl(var(--accent));
+    border: 1px solid hsl(var(--accent));
+    font-weight: 500;
+    border-radius: 9999px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    transform: scale(1.05);
+  }
+}
+
+/* Estilos personalizados */
+body {
+  font-family: var(--font-inter), sans-serif;
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+/* Clases de utilidad personalizadas */
+.bg-accent {
+  background-color: hsl(var(--accent));
+}
+
+.text-accent {
+  color: hsl(var(--accent));
+}
+
+.bg-accent\/20 {
+  background-color: hsl(var(--accent) / 0.2);
+}
