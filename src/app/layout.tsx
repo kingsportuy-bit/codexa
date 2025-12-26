@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from 'next/font/google';
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
+import { BackgroundScene } from "@/components/BackgroundScene";
 
 // Configuración de fuentes de Google
 const spaceGrotesk = Space_Grotesk({
@@ -30,7 +32,10 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} font-sans bg-black text-white antialiased`}
       >
-        {children}
+        <BackgroundScene />
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

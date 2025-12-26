@@ -21,6 +21,10 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(0, 204, 194, 0.18) 0, transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(88, 28, 135, 0.25) 0, transparent 60%);
+    background-attachment: fixed;
   }
 }
 
@@ -87,4 +91,43 @@ body {
 
 .bg-accent\/20 {
   background-color: hsl(var(--accent) / 0.2);
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(0, 204, 194, 0.3) 0, transparent 55%),
+    radial-gradient(circle at 80% 100%, rgba(129, 140, 248, 0.45) 0, transparent 50%);
+  filter: blur(40px);
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 16s linear infinite;
+}
+
+.card-tilt {
+  transform-style: preserve-3d;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.card-tilt:hover {
+  transform: translateY(-4px) rotate3d(1, 1, 0, 4deg);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+}
+
+/* Estilos para tarjetas con efecto tilt */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.tilt-card:hover {
+  transform: translateY(-4px) rotate3d(1, 1, 0, 6deg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
 }
