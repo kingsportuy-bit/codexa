@@ -162,26 +162,27 @@ const BarberoxLandingPage = () => {
                     </div>
 
                     <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-none animate-fade-up delay-100">
-                        <span className="block text-white">AGENDA</span>
-                        <span className="block text-gradient-orange">AUTOMÁTICA.</span>
+                        <span className="block text-white">AGENDA AUTOMÁTICA</span>
+                        <span className="block text-gradient-orange uppercase">por WhatsApp.</span>
                     </h1>
 
                     <p className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto mb-12 font-light animate-fade-up delay-200">
-                        Tu <b className="text-primary font-medium">recepcionista IA</b> gestiona citas, responde dudas y llena tu calendario 24/7.
-                        <br />
-                        <span className="text-white/20">¡Tu agenda se llena y solo te preocupas por cortar!</span>
+                        Tu <b className="text-primary font-medium">recepcionista IA</b> atiende clientes, responde dudas y llena tu calendario 24/7. Cada mensaje que no respondés es un turno perdido.
+                        <br /><br />
+                        <span className="text-white/40 text-sm">Todo queda guardado en la <b className="text-white/60">base de datos de tu barbería:</b> clientes, citas y caja.</span>
                     </p>
 
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 animate-fade-up delay-300">
+                    <div className="flex flex-col items-center justify-center gap-4 animate-fade-up delay-300">
                         <a href="#pricing" className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden w-full md:w-auto hover:scale-105 transition-transform duration-300">
                             <div className="absolute inset-0 bg-primary/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                             <span className="relative z-10 flex items-center justify-center gap-2">
-                                EMPEZAR AHORA
+                                Quiero activar la agenda automática
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
                             </span>
                         </a>
+                        <p className="text-xs text-white/40 mt-2">¿Estás listo para el futuro?</p>
                     </div>
 
                     <div className="absolute w-full max-w-lg left-1/2 -translate-x-1/2 bottom-10 opacity-50 animate-bounce delay-1000">
@@ -197,14 +198,15 @@ const BarberoxLandingPage = () => {
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold mb-4">La Gran <span className="text-primary">División</span></h2>
-                        <p className="text-white/50">¿Links aburridos o Conversación Real?</p>
+                        <p className="text-white/50 mb-4">¿Links aburridos o Conversación Real?</p>
+                        <p className="text-red-900/60 text-xs font-bold uppercase tracking-widest">Antes: mensajes perdidos, turnos mal anotados y clientes enojados.</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                        <div className="p-8 rounded-3xl border border-white/5 bg-[#0a0a0a] grayscale opacity-50 hover:opacity-100 transition-opacity relative overflow-hidden group">
+                        <div className="p-8 rounded-3xl border border-white/10 bg-[#0a0a0a] opacity-60 hover:opacity-100 transition-opacity relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-full h-1 bg-red-800"></div>
-                            <h3 className="text-lg font-bold text-white/40 mb-6 uppercase tracking-widest border-b border-white/5 pb-4">1. El Pasado (Manual)</h3>
-                            <ul className="space-y-4 text-white/50 text-sm">
+                            <h3 className="text-lg font-bold text-white/60 mb-6 uppercase tracking-widest border-b border-white/5 pb-4">1. El Pasado (Manual)</h3>
+                            <ul className="space-y-4 text-white/70 text-sm">
                                 <li className="flex items-start gap-3">
                                     <svg className="w-4 h-4 text-red-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -226,10 +228,10 @@ const BarberoxLandingPage = () => {
                             </ul>
                         </div>
 
-                        <div className="p-8 rounded-3xl border border-red-900/10 bg-[#0a0a0a] opacity-40 hover:opacity-60 transition-opacity relative overflow-hidden group grayscale">
-                            <div className="absolute top-0 left-0 w-full h-1 bg-red-900/30"></div>
-                            <h3 className="text-lg font-bold text-white/20 mb-6 uppercase tracking-widest border-b border-white/5 pb-4">2. La Trampa (Apps)</h3>
-                            <ul className="space-y-4 text-white/60 text-sm">
+                        <div className="p-8 rounded-3xl border border-white/10 bg-[#0a0a0a] opacity-60 hover:opacity-100 transition-opacity relative overflow-hidden group">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-yellow-700/50"></div>
+                            <h3 className="text-lg font-bold text-white/60 mb-6 uppercase tracking-widest border-b border-white/5 pb-4">2. La Trampa (Apps)</h3>
+                            <ul className="space-y-4 text-white/70 text-sm">
                                 <li className="flex items-start gap-3">
                                     <svg className="w-4 h-4 text-yellow-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
@@ -258,19 +260,19 @@ const BarberoxLandingPage = () => {
                             <ul className="space-y-4 text-white">
                                 <li className="flex items-start gap-3">
                                     <div className="p-1 bg-green-500/20 rounded-full"><svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg></div>
-                                    <span><b className="text-primary">Invisible:</b> Todo pasa en el chat. Cero Fricción.</span>
+                                    <span className="text-sm font-medium">Agenda automática 24/7 por WhatsApp <br /><span className="text-white/40 text-xs font-normal">(sin apps raras, solo WhatsApp).</span></span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <div className="p-1 bg-green-500/20 rounded-full"><svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg></div>
-                                    <span><b className="text-primary">Conversacional:</b> &quot;Hola bro, tenés lugar hoy?&quot; -&gt; Agendado.</span>
+                                    <span className="text-sm font-medium">Asistente IA que responde preguntas frecuentes y toma turnos solo.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <div className="p-1 bg-green-500/20 rounded-full"><svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg></div>
-                                    <span>La IA <b className="text-primary">cierra la venta</b>, responde dudas y re-confirma 2hs antes.</span>
+                                    <span className="text-sm font-medium">Cada turno queda guardado en la <b className="text-primary">base de datos de tu barbería.</b></span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <div className="p-1 bg-green-500/20 rounded-full"><svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg></div>
-                                    <span>Sin apps. Sin logins. Solo máxima facturación.</span>
+                                    <span className="text-sm font-medium">Menos mensajes sin responder, más turnos ocupados.</span>
                                 </li>
                             </ul>
                         </div>
@@ -283,27 +285,28 @@ const BarberoxLandingPage = () => {
                 <div className="absolute inset-0 bg-primary/5"></div>
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
-                        LA IA NO VA A <br /> <span className="text-primary">REEMPLAZARTE.</span>
+                        LA IA NO VA A <span className="text-[#ff7700]">REEMPLAZARTE.</span><br />
+                        <span className="text-[#ff7700]">VA A REEMPLAZAR A QUIEN NO LA USE.</span>
                     </h2>
-                    <p className="text-2xl md:text-3xl font-light text-white/80 max-w-3xl mx-auto mb-12">
-                        Pero un barbero que use IA <b className="text-primary">sí te va a reemplazar.</b>
+                    <p className="text-2xl md:text-3xl font-light text-white/50 max-w-3xl mx-auto mb-12">
+                        El futuro de tu barbería es <b className="text-primary">ahora.</b>
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto border-t border-b border-white/10 py-12">
                         <div>
                             <div className="text-4xl font-bold text-white mb-2">80%</div>
-                            <div className="text-sm text-white/40 uppercase tracking-widest">Barberías Líderes</div>
-                            <p className="text-xs text-white/30 mt-2">Ya están automatizando citas.</p>
+                            <div className="text-sm text-white/40 uppercase tracking-widest">Efectividad</div>
+                            <p className="text-xs text-white/30 mt-2">Menos mensajes sin responder.</p>
                         </div>
                         <div>
                             <div className="text-4xl font-bold text-white mb-2">+15hs</div>
-                            <div className="text-sm text-white/40 uppercase tracking-widest">Ahorradas Semanales</div>
-                            <p className="text-xs text-white/30 mt-2">De gestión manual de WhatsApp.</p>
+                            <div className="text-sm text-white/40 uppercase tracking-widest">Tiempo Libre</div>
+                            <p className="text-xs text-white/30 mt-2">Al mes que dejás de gastar contestando WhatsApp.</p>
                         </div>
                         <div>
                             <div className="text-4xl font-bold text-white mb-2">24/7</div>
-                            <div className="text-sm text-white/40 uppercase tracking-widest">Disponibilidad</div>
-                            <p className="text-xs text-white/30 mt-2">Jamás pierdes un cliente nocturno.</p>
+                            <div className="text-sm text-white/40 uppercase tracking-widest">Atención</div>
+                            <p className="text-xs text-white/30 mt-2">Atendiendo incluso cuando estás cortando o dormido.</p>
                         </div>
                     </div>
                     <p className="mt-12 text-white/50 italic">&quot;Adaptarse o desaparecer. El mercado no espera.&quot;</p>
@@ -315,7 +318,8 @@ const BarberoxLandingPage = () => {
                 <div className="container mx-auto px-6">
                     <div className="mb-20">
                         <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block">La Solución</span>
-                        <h2 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-up"><span className="text-primary">INTELIGENCIA</span> <br /><span className="text-white/30">QUE SE SIENTE.</span></h2>
+                        <h2 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-up"><span className="text-[#ff7700]">INTELIGENCIA</span> <br /><span className="text-[#ff7700] text-3xl md:text-5xl">QUE SE SIENTE.</span></h2>
+                        <p className="text-white/40 text-sm font-bold uppercase tracking-widest animate-fade-up">Todo pasa en WhatsApp, como siempre, pero ahora responde solo.</p>
                     </div>
 
                     <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -334,7 +338,7 @@ const BarberoxLandingPage = () => {
                                     </div>
                                     <div>
                                         <h4 className="text-xl font-bold">Respuesta Instantánea</h4>
-                                        <p className="text-white/50 text-sm">El cliente dice &quot;Hola&quot; y ya tiene respuesta. La velocidad cierra ventas.</p>
+                                        <p className="text-white/50 text-sm">Respuestas instantáneas a tus clientes. La velocidad cierra ventas.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-4">
@@ -345,7 +349,7 @@ const BarberoxLandingPage = () => {
                                     </div>
                                     <div>
                                         <h4 className="text-xl font-bold">Sincronización Real</h4>
-                                        <p className="text-white/50 text-sm">Lo que pasa en WhatsApp, aparece en tu agenda Web al instante.</p>
+                                        <p className="text-white/50 text-sm">Sincronización real con tu agenda. Cada conversación genera datos en tu base de datos de barbería.</p>
                                     </div>
                                 </div>
                             </div>
@@ -471,7 +475,7 @@ const BarberoxLandingPage = () => {
 
                         <div className="md:w-1/2 order-1 md:order-2 text-left">
                             <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block animate-fade-up">Zero Inasistencias</span>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Recordatorios que<br /><span className="text-white/40">SÍ FUNCIONAN.</span></h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Recordatorios que<br /><span className="text-[#ff7700]">SÍ FUNCIONAN.</span></h2>
                             <p className="text-white/60 text-lg mb-8 animate-fade-up">
                                 La IA envía una notificación automática <b className="text-primary">2 horas antes</b>. Los clientes pueden confirmar o avisar si se retrasan con un solo mensaje.
                                 <br /><br />
@@ -480,9 +484,9 @@ const BarberoxLandingPage = () => {
 
                             <div className="space-y-4 animate-fade-up">
                                 {[
-                                    'Confirmación Automática: "Confirmo que voy bro!"',
-                                    'Liberación de Turnos: Si cancelan, el hueco se libera al toque.',
-                                    'Re-Agendado Inteligente: Ofrece el próximo turno libre.'
+                                    'Recordatorios automáticos antes del turno (2hs antes).',
+                                    'Reducción de faltazos y cancelaciones de último minuto.',
+                                    'Confirmaciones automáticas: el sistema sabe quién viene y quién no.'
                                 ].map((text, i) => (
                                     <div key={i} className="flex items-center gap-3">
                                         <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
@@ -524,26 +528,28 @@ const BarberoxLandingPage = () => {
                                 <span className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase">BONUS: Barberox Web OS</span>
                             </div>
                             <div className="absolute -left-4 top-10 w-24 h-24 bg-blue-500/20 rounded-full blur-3xl"></div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Tu <span className="text-primary">Negocio.</span><br /><span className="text-white/40">Bajo Control.</span></h2>
+                            <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-up">Detrás de la agenda,<br /><span className="text-[#ff7700]">TU PANEL WEB.</span></h2>
                             <div className="bg-blue-500/10 border-l-2 border-blue-500 p-4 mb-8 rounded-r-xl">
-                                <p className="text-white/80 text-sm font-medium">Incluye Sistema de Caja, Métricas y CRM (Valor $100/mes) <span className="text-primary font-bold ml-2">GRATIS</span></p>
+                                <p className="text-white/80 text-sm font-medium">Controla turnos, caja y clientes desde un solo lugar. <span className="text-primary font-bold ml-2">INCLUIDO</span></p>
                             </div>
                             <p className="text-white/60 text-lg mb-8">Gestión profesional multidispositivo. Centraliza agenda, caja y clientes en una sola plataforma diseñada para escalar.</p>
 
-                            <ul className="space-y-4">
+                            <ul className="space-y-3">
                                 {[
-                                    { bold: 'Multi-Sucursal:', text: 'Gestiona barberos, servicios y horarios por local.', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-                                    { bold: 'Caja Avanzada:', text: 'Conectada a turnos. Reportes por servicio y barbero.', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-                                    { bold: 'Dashboard KPI:', text: 'Métricas de retención, Citas vs No-Show.', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-                                    { bold: 'CRM 360:', text: 'Historial, Notas de corte y Sistema de Puntaje.', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z' }
+                                    { bold: 'Base de Datos Profesional:', text: 'Tus clientes, citas e historial de caja profesional.', icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4' },
+                                    { bold: 'Sistema de Puntajes:', text: 'Ranking mensual e histórico de clientes para fidelización.', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+                                    { bold: 'Ranking de Barberos:', text: 'Ranking mensual e histórico de rendimiento por barbero.', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+                                    { bold: 'Gestión de Horarios:', text: 'Configura almuerzos, bloquea horas y días fácilmente.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+                                    { bold: 'Reportes Claros:', text: 'Métricas para ver qué días y barberos generan más ingresos.', icon: 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z' },
+                                    { bold: 'Multi-Sucursal:', text: 'Todo tu negocio y locales en un solo panel centralizado.', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' }
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                    <li key={i} className="flex items-start gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0">
                                             <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
                                             </svg>
                                         </div>
-                                        <span className="text-white/80"><b className="text-primary">{item.bold}</b> {item.text}</span>
+                                        <span className="text-white/80 text-sm"><b className="text-primary">{item.bold}</b> {item.text}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -560,9 +566,9 @@ const BarberoxLandingPage = () => {
                                         <div className="ml-4 h-4 w-64 bg-white/5 rounded-full text-[10px] text-white/20 flex items-center px-2 font-mono" id="browser-url">app.barberox.com/dashboard</div>
                                     </div>
 
-                                    <div className="relative w-full h-full bg-[#0f1115]">
+                                    <div className="relative w-full bg-[#0f1115]" style={{ height: 'calc(100% - 32px)' }}>
                                         {['dashboard_citas', 'calendario_mensual', 'lista_clientes', 'whatsapp_web', 'dashboard_financiero'].map((img, i) => (
-                                            <img key={i} src={`/barberox/img/screenshots/${img}.png`} className="screenshot-slide absolute inset-0 w-full h-full object-cover object-top opacity-0 transition-opacity duration-1000" alt={img} />
+                                            <img key={i} src={`/barberox/img/screenshots/${img}.png`} className="screenshot-slide absolute inset-0 w-full h-full object-contain object-top opacity-0 transition-opacity duration-1000" alt={img} />
                                         ))}
                                     </div>
                                 </div>
@@ -579,15 +585,15 @@ const BarberoxLandingPage = () => {
                     <div className="flex flex-col md:flex-row-reverse items-center gap-16">
                         <div className="md:w-1/2 text-left relative">
                             <div className="inline-flex items-center gap-2 mb-6 animate-fade-up">
-                                <span className="bonus-badge">REGALO #2</span>
-                                <span className="text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">BONUS: Asistente 24/7</span>
+                                <span className="bonus-badge">BONUS DE LANZAMIENTO</span>
+                                <span className="text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">Gratis con Barberox AI</span>
                             </div>
                             <div className="absolute -right-4 top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-3xl"></div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Tu <span className="text-primary">Asistente</span><br /><span className="text-white/40">Personal.</span></h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Asistente Personal<br /><span className="text-[#ff7700]">POR WHATSAPP.</span></h2>
                             <div className="bg-yellow-500/10 border-l-2 border-yellow-500 p-4 mb-8 rounded-r-xl">
-                                <p className="text-white/80 text-sm font-medium">Atención por Audio y Resúmenes Diarios (Valor $50/mes) <span className="text-primary font-bold ml-2">GRATIS</span></p>
+                                <p className="text-white/80 text-sm font-medium">IA que responde precios, horarios y dudas frecuentes. <span className="text-primary font-bold ml-2">INCLUIDO</span></p>
                             </div>
-                            <p className="text-white/60 text-lg mb-8">No solo atiende a tus clientes, trabaja para vos. Pídele lo que quieras por audio, como si fuera una secretaria real.</p>
+                            <p className="text-white/60 text-lg mb-8">Un asistente IA que responde todas las dudas de tus clientes por WhatsApp sin que tengas que levantar el celular.</p>
 
                             <ul className="space-y-4">
                                 {[
@@ -656,7 +662,73 @@ const BarberoxLandingPage = () => {
                 </div>
             </section>
 
-            {/* 6. Trust & FAQ */}
+            {/* 6. Testimonials */}
+            <section className="py-24 bg-black border-t border-white/5 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]"></div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <div className="text-center mb-16">
+                        <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Barberos Reales</span>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4">Lo que dicen <span className="text-primary">nuestros clientes.</span></h2>
+                        <p className="text-white/50 max-w-2xl mx-auto">Barberías en Uruguay que ya automatizaron su agenda y multiplicaron sus ingresos.</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                        {[
+                            {
+                                text: "Antes vivía con el WhatsApp explotado y anotando turnos en una libreta. Desde que activé la agenda automática casi no pierdo mensajes y tengo la barbería llena toda la semana.",
+                                name: "Martín",
+                                location: "Barbería Centro (Montevideo)",
+                                highlight: "casi no pierdo mensajes"
+                            },
+                            {
+                                text: "Lo que más me sorprendió es que los clientes contestan solos a los recordatorios y el sistema ya sabe quién viene y quién no. Bajaron muchísimo los faltazos y sé exactamente cuánto facturé cada día en el panel.",
+                                name: "Lucas",
+                                location: "Barbería del Parque (Canelones)",
+                                highlight: "Bajaron muchísimo los faltazos"
+                            },
+                            {
+                                text: "Yo no soy de andar con computadoras, pero acá todo pasa por WhatsApp y queda guardado en la base de datos de mi barbería. Cambio de celular y no pierdo nada: clientes, citas ni caja.",
+                                name: "Diego",
+                                location: "Barbería Barrio Sur (Montevideo)",
+                                highlight: "no pierdo nada"
+                            }
+                        ].map((testimonial, i) => (
+                            <div key={i} className="relative group">
+                                {/* Decorative quote icon */}
+                                <div className="absolute -top-6 -left-6 w-16 h-16 bg-[#ff7700]/10 rounded-full flex items-center justify-center z-20">
+                                    <svg className="w-8 h-8 text-[#ff7700] opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                                    </svg>
+                                </div>
+
+                                <div className="p-8 pt-10 rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-[#ff7700]/40 transition-all duration-300 backdrop-blur-sm relative z-10 h-full flex flex-col">
+                                    {/* Highlight badge */}
+                                    <div className="inline-flex items-center gap-2 mb-4 self-start">
+                                        <div className="w-2 h-2 rounded-full bg-[#ff7700] animate-pulse"></div>
+                                        <span className="text-[#ff7700] font-bold text-xs uppercase tracking-wider">{testimonial.highlight}</span>
+                                    </div>
+
+                                    {/* Text content - reduced */}
+                                    <p className="text-white/70 text-base leading-relaxed mb-6 flex-grow line-clamp-4">"{testimonial.text}"</p>
+
+                                    {/* Author info with enhanced design */}
+                                    <div className="flex items-center gap-4 pt-6 border-t border-white/10">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#ff7700] to-[#ff8800] flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                                            {testimonial.name[0]}
+                                        </div>
+                                        <div>
+                                            <div className="text-white font-bold text-sm">– {testimonial.name}</div>
+                                            <div className="text-white/40 text-xs mt-0.5">{testimonial.location}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* 7. Trust & FAQ */}
             <section className="py-24 bg-[#0a0a0a]">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <div className="text-center mb-16">
@@ -666,9 +738,9 @@ const BarberoxLandingPage = () => {
 
                     <div className="space-y-4">
                         {[
-                            { q: '¿Es difícil de configurar?', a: 'Para nada. Si sabes usar WhatsApp, sabes usar Barberox. Nosotros te guiamos en el proceso y en menos de 24 horas tu sistema está operativo y agendando turnos.' },
-                            { q: '¿Mis clientes se van a molestar con un bot?', a: 'Al contrario. Los clientes aman la inmediatez. Odian esperar horas a que les contestes "si tienes turno". La IA les responde en 2 segundos y confirma su cita al instante.' },
-                            { q: '¿Qué pasa si no me funciona?', a: 'Tienes nuestra Garantía de 30 días. Si no ves resultados, te devolvemos tu dinero. Cero riesgo para vos.' }
+                            { q: '¿Qué pasa si ya tengo un sistema para barbería?', a: 'Podés seguir usándolo. Barberox se encarga de la agenda automática por WhatsApp y la recepción con IA. Todo lo que pase en el chat queda guardado en tu base de datos.' },
+                            { q: '¿Pierdo mis datos si cambio de celular?', a: 'No. Todo queda en la base de datos de tu barbería, no en tu WhatsApp. Podés cambiar de teléfono sin perder clientes ni citas.' },
+                            { q: '¿Es difícil de configurar?', a: 'No. Te ayudamos a conectarlo y dejarlo andando. En menos de 24 horas podés tener tu agenda automática activa.' }
                         ].map((faq, i) => (
                             <details key={i} className="group bg-black border border-white/5 rounded-2xl open:border-primary/30 transition-all">
                                 <summary className="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-lg">
@@ -694,7 +766,7 @@ const BarberoxLandingPage = () => {
                     <div className="max-w-xl mx-auto">
                         <div className="text-center mb-10">
                             <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Oferta Limitada</span>
-                            <h2 className="text-4xl font-bold">Únete al Club.</h2>
+                            <h2 className="text-4xl font-bold">¿Estás listo para el futuro?</h2>
                         </div>
 
                         <div className="group relative perspective-1000">
@@ -717,30 +789,23 @@ const BarberoxLandingPage = () => {
 
                                 <div className="relative z-10 space-y-3 my-8 border-t border-white/5 pt-8">
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Agente IA WhatsApp</span>
+                                        <span className="text-white/60">Agenda automática 24/7 por WhatsApp</span>
                                         <span className="text-white font-medium">Incluido</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Recordatorios 2hs antes</span>
+                                        <span className="text-white/60">Asistente IA (Bonus Lanzamiento)</span>
                                         <span className="text-white font-medium">Incluido</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Bonus: Asistente Barbero</span>
-                                        <span className="text-white font-medium">Incluido</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Bonus: Sistema Web</span>
+                                        <span className="text-white/60">Panel Web Completo + Base de Datos</span>
                                         <span className="text-white font-medium">Incluido</span>
                                     </div>
                                 </div>
 
                                 <div className="relative z-10 flex flex-col items-center">
                                     <a href="https://wa.me/message/TJKNS7LTAVVGN1" className="inline-flex items-center gap-3 bg-[#ff7700] hover:bg-[#ff8800] text-white px-8 py-5 rounded-full font-bold transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,119,0,0.3)]">
-                                        Quiero entrar a Barberox AI
+                                        Quiero activar Barberox en mi barbería
                                     </a>
-                                    <p className="text-[10px] text-center text-white/20 mt-4 uppercase tracking-widest">
-                                        <span className="text-primary">Acceso Inmediato</span> a todo el ecosistema.
-                                    </p>
                                 </div>
                             </div>
                         </div>
