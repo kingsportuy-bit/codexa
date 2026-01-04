@@ -141,9 +141,10 @@ const BarberoxLandingPage = () => {
                         <img src="/barberox/img/logo.png" alt="Barberox" className="h-8 w-auto object-contain" />
                         <span className="text-xs font-bold tracking-[0.2em] text-white/40 uppercase ml-2 border-l border-white/10 pl-2">Premium</span>
                     </div>
-                    <a href="#pricing" className="bg-white/5 hover:bg-primary/20 text-white text-sm font-medium px-6 py-2.5 rounded-full border border-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-2 group">
-                        Obtener Acceso
-                        <svg className="w-4 h-4 text-white/50 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="#pricing" className="bg-white/5 hover:bg-primary/20 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2 md:py-2.5 rounded-full border border-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-1 md:gap-2 group whitespace-nowrap">
+                        <span className="hidden sm:inline">Obtener Acceso</span>
+                        <span className="sm:hidden">Acceso</span>
+                        <svg className="w-3 h-3 md:w-4 md:h-4 text-white/50 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
                     </a>
@@ -803,7 +804,7 @@ const BarberoxLandingPage = () => {
                                 </div>
 
                                 <div className="relative z-10 flex flex-col items-center">
-                                    <a href="https://wa.me/message/TJKNS7LTAVVGN1" className="inline-flex items-center gap-3 bg-[#ff7700] hover:bg-[#ff8800] text-white px-8 py-5 rounded-full font-bold transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,119,0,0.3)]">
+                                    <a href="https://wa.me/message/TJKNS7LTAVVGN1" className="inline-flex items-center justify-center gap-2 md:gap-3 bg-[#ff7700] hover:bg-[#ff8800] text-white px-6 md:px-8 py-4 md:py-5 rounded-full font-bold text-sm md:text-base transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,119,0,0.3)] w-full max-w-md">
                                         Quiero activar Barberox en mi barbería
                                     </a>
                                 </div>
