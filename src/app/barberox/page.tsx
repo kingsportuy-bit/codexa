@@ -231,7 +231,7 @@ const BarberoxLandingPage = () => {
 
                         <div className="p-8 rounded-3xl border border-white/10 bg-[#0a0a0a] opacity-60 hover:opacity-100 transition-opacity relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-full h-1 bg-yellow-700/50"></div>
-                            <h3 className="text-lg font-bold text-white/60 mb-6 uppercase tracking-widest border-b border-white/5 pb-4">2. La Trampa (Apps)</h3>
+                            <h3 className="text-lg font-bold text-white/60 mb-6 uppercase tracking-widest border-b border-white/5 pb-4">2. Compartiendo Links (Apps)</h3>
                             <ul className="space-y-4 text-white/70 text-sm">
                                 <li className="flex items-start gap-3">
                                     <svg className="w-4 h-4 text-yellow-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -339,7 +339,7 @@ const BarberoxLandingPage = () => {
                                     </div>
                                     <div>
                                         <h4 className="text-xl font-bold">Respuesta Instantánea</h4>
-                                        <p className="text-white/50 text-sm">Respuestas instantáneas a tus clientes. La velocidad cierra ventas.</p>
+                                        <p className="text-white/50 text-sm">Respuestas instantáneas a tus clientes. La velocidad cierra turnos.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-4">
@@ -530,8 +530,8 @@ const BarberoxLandingPage = () => {
                             </div>
                             <div className="absolute -left-4 top-10 w-24 h-24 bg-blue-500/20 rounded-full blur-3xl"></div>
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-up">Detrás de la agenda,<br /><span className="text-[#ff7700]">TU PANEL WEB.</span></h2>
-                            <div className="bg-blue-500/10 border-l-2 border-blue-500 p-4 mb-8 rounded-r-xl">
-                                <p className="text-white/80 text-sm font-medium">Controla turnos, caja y clientes desde un solo lugar. <span className="text-primary font-bold ml-2">INCLUIDO</span></p>
+                            <div className="bg-blue-500/10 border-l-2 border-blue-500 p-4 mb-8 rounded-r-xl animate-pulse">
+                                <p className="text-white/80 text-sm font-medium">Controla turnos, caja y clientes desde un solo lugar. <span className="text-primary font-bold ml-2 blink-text">INCLUIDO</span></p>
                             </div>
                             <p className="text-white/60 text-lg mb-8">Gestión profesional multidispositivo. Centraliza agenda, caja y clientes en una sola plataforma diseñada para escalar.</p>
 
@@ -589,12 +589,15 @@ const BarberoxLandingPage = () => {
                                 <span className="bonus-badge">BONUS DE LANZAMIENTO</span>
                                 <span className="text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">Gratis con Barberox AI</span>
                             </div>
-                            <div className="absolute -right-4 top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-3xl"></div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Asistente Personal<br /><span className="text-[#ff7700]">POR WHATSAPP.</span></h2>
-                            <div className="bg-yellow-500/10 border-l-2 border-yellow-500 p-4 mb-8 rounded-r-xl">
-                                <p className="text-white/80 text-sm font-medium">IA que responde precios, horarios y dudas frecuentes. <span className="text-primary font-bold ml-2">INCLUIDO</span></p>
+                            <div className="mb-4">
+                                <span className="text-xs text-white/60 uppercase tracking-widest">Para tu barbería</span>
                             </div>
-                            <p className="text-white/60 text-lg mb-8">Un asistente IA que responde todas las dudas de tus clientes por WhatsApp sin que tengas que levantar el celular.</p>
+                            <div className="absolute -right-4 top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-3xl"></div>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Asistente Barbero<br /><span className="text-[#ff7700]">POR WHATSAPP.</span></h2>
+                            <div className="bg-yellow-500/10 border-l-2 border-yellow-500 p-4 mb-8 rounded-r-xl animate-pulse">
+                                <p className="text-white/80 text-sm font-medium">IA que responde precios, horarios y dudas frecuentes. <span className="text-primary font-bold ml-2 blink-text">INCLUIDO</span></p>
+                            </div>
+                            <p className="text-white/60 text-lg mb-8">Tiene acceso total a los datos de tu barbería. Le preguntás por WhatsApp lo que quieras saber: lista de turnos, agregar clientes, agregar turnos, bloquear días, bloquear horas, cambiar horarios. Podés pedir la lista de turnos de hoy en la tarde o de otro día. Podés pedirle ingresos del último mes, ranking de barberos o clientes mensual e histórico, etc.</p>
 
                             <ul className="space-y-4">
                                 {[
@@ -741,7 +744,7 @@ const BarberoxLandingPage = () => {
                         {[
                             { q: '¿Qué pasa si ya tengo un sistema para barbería?', a: 'Podés seguir usándolo. Barberox se encarga de la agenda automática por WhatsApp y la recepción con IA. Todo lo que pase en el chat queda guardado en tu base de datos.' },
                             { q: '¿Pierdo mis datos si cambio de celular?', a: 'No. Todo queda en la base de datos de tu barbería, no en tu WhatsApp. Podés cambiar de teléfono sin perder clientes ni citas.' },
-                            { q: '¿Es difícil de configurar?', a: 'No. Te ayudamos a conectarlo y dejarlo andando. En menos de 24 horas podés tener tu agenda automática activa.' }
+                            { q: '¿Es difícil de activarlo?', a: 'No. Te ayudamos a activarlo y dejarlo andando. En menos de 24 horas podés tener tu agenda automática activa.' }
                         ].map((faq, i) => (
                             <details key={i} className="group bg-black border border-white/5 rounded-2xl open:border-primary/30 transition-all">
                                 <summary className="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-lg">

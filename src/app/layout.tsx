@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${inter.variable} ${outfit.variable} font-sans bg-black text-white antialiased`}
       >
         <BackgroundScene />
