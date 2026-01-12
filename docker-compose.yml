@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  codexa-web:
+    image: codexa-web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.codexa.rule=Host(`codexa.uy`)"
+        - "traefik.http.routers.codexa.entrypoints=websecure"
+        - "traefik.http.routers.codexa.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.codexa.loadbalancer.server.port=3000"
+        - "traefik.docker.network=oraclelabsnet"
+      restart_policy:
+        condition: on-failure
+    networks:
+      - oraclelabsnet
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_PUBLIC_SUPABASE_URL=https://supabasecodexa.codexa.uy
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzE1MDUwODAwLAogICJleHAiOiAxODcyODE3MjAwCn0._7l1lovT1XijXtfVT2hrehUwSATfKL4XNJFbhgmaINM
+    ports:
+      - "3000:3000"
+
+networks:
+  oraclelabsnet:
+    external: true
