@@ -1,22 +1,28 @@
-version: '3.3'
+version: '3.8'
 
 services:
   codexa-web:
-    image: codexa-web:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: codexa:latest  
     deploy:
       replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.codexa.rule=Host(`codexa.uy`)"
         - "traefik.http.routers.codexa.entrypoints=websecure"
         - "traefik.http.routers.codexa.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.codexa.loadbalancer.server.port=3000"
-        - "traefik.docker.network=codexanet"
-      restart_policy:
-        condition: on-failure
+        - "traefik.docker.network=codexanet"  
+        
+        # Redirect HTTP to HTTPS (como en MiBarber)
+        - "traefik.http.routers.codexa-http.rule=Host(`codexa.uy`)"
+        - "traefik.http.routers.codexa-http.entrypoints=web"
+        - "traefik.http.routers.codexa-http.middlewares=redirect-to-https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
     networks:
       - codexanet
     environment:
@@ -24,8 +30,6 @@ services:
       - PORT=3000
       - NEXT_PUBLIC_SUPABASE_URL=https://supabasecodexa.codexa.uy
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzE1MDUwODAwLAogICJleHAiOiAxODcyODE3MjAwCn0._7l1lovT1XijXtfVT2hrehUwSATfKL4XNJFbhgmaINM
-    ports:
-      - "3000:3000"
 
 networks:
   codexanet:
