@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;700;900&display=swap');
+
+:root {
+    --primary: #FF7700;
+    --primary-hover: #E66B00;
+    --bg: #000000;
+    --text: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.font-outfit {
+    font-family: 'Outfit', sans-serif;
+}
+
+.barberox2-root {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+}
+
+.text-gradient-orange {
+    background: linear-gradient(to bottom, #FFB347, #FF7700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bg-hero-gradient {
+    background: radial-gradient(circle at center, rgba(255, 119, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.btn-primary-v2 {
+    background-color: var(--primary);
+    color: black;
+    font-weight: 900;
+    padding: 1.25rem 2.5rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 0 30px rgba(255, 119, 0, 0.3);
+}
+
+.btn-primary-v2:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(255, 119, 0, 0.5);
+    background-color: #ffffff;
+}
+
+.card-v2 {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 2rem;
+    padding: 2.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.animate-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.Founders-badge {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: black;
+    font-weight: 900;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}

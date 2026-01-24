@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
         // Get filename from formData, fallback to default if missing or invalid
         // Sanitize: remove any path traversal chars
-        let filename = (formData.get('file') as any).name || 'chat_reel.webm';
+        let filename = (formData.get('file') as any).name || 'chat_reel.mp4';
         filename = path.basename(filename);
 
         if (!file) {
@@ -53,10 +53,11 @@ export async function GET(request: Request) {
     }
 
     const fileBuffer = fs.readFileSync(filePath);
+    const isMP4 = safeName.toLowerCase().endsWith('.mp4');
 
     return new NextResponse(fileBuffer, {
         headers: {
-            'Content-Type': 'video/webm',
+            'Content-Type': isMP4 ? 'video/mp4' : 'video/webm',
             'Content-Disposition': `attachment; filename="${safeName}"`,
         },
     });
