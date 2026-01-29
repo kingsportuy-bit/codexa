@@ -6,8 +6,8 @@ export default function Barberox2Layout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="barberox2-root">
+        <>
             {children}
-        </div>
+        </>
     );
 }

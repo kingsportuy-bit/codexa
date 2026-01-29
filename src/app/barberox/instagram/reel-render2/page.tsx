@@ -15,6 +15,13 @@ interface ChatMessage {
     platform?: 'whatsapp' | 'instagram' | 'facebook' | 'tiktok' | 'barberox';
 }
 
+interface Keyframe {
+    id: string;
+    time: number; // 0 to 1 (normalized position in timeline)
+    speed: number; // 0.1x to 5x
+    curve: 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+}
+
 // --- Default Data ---
 const DEFAULT_CHAT: ChatMessage[] = [
     { id: '1', side: 'right', text: 'Hola! Quiero cortarme hoy.', time: '10:00' },
@@ -25,6 +32,11 @@ const DEFAULT_CHAT: ChatMessage[] = [
 
 const DEFAULT_NOTIFS: ChatMessage[] = [
     { id: 'n1', side: 'left', title: 'WhatsApp', text: '¿Vienes hoy?', time: '10:00', platform: 'whatsapp' },
+];
+
+const DEFAULT_KEYFRAMES: Keyframe[] = [
+    { id: 'k1', time: 0, speed: 1, curve: 'linear' },
+    { id: 'k2', time: 1, speed: 1, curve: 'linear' },
 ];
 
 export default function ChatReelGenerator() {
@@ -62,6 +74,17 @@ export default function ChatReelGenerator() {
     const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
     const chatBgImgRef = useRef<HTMLImageElement | null>(null);
 
+    // NEW: Timeline Speed Control State - Separate for locked/unlocked
+    const [keyframesLocked, setKeyframesLocked] = useState<Keyframe[]>(DEFAULT_KEYFRAMES);
+    const [keyframesUnlocked, setKeyframesUnlocked] = useState<Keyframe[]>(DEFAULT_KEYFRAMES);
+    const [selectedKeyframeId, setSelectedKeyframeId] = useState<string | null>(null);
+
+    // NEW: Notification Sound State
+    const [soundEnabled, setSoundEnabled] = useState(true);
+    const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
+    const lastPlayedNotifIndexRef = useRef(-1);
+    const lastPlayedMsgIndexRef = useRef(-1);
+
     // Latest State Ref for Animation Loop (Prevents stale closures)
     const latestStateRef = useRef({
         chatMessages,
@@ -82,7 +105,10 @@ export default function ChatReelGenerator() {
         wallpaper,
         chatBg,
         isAnimating,
-        animationProgress
+        animationProgress,
+        keyframesLocked,
+        keyframesUnlocked,
+        soundEnabled
     });
 
     useEffect(() => {
@@ -105,15 +131,87 @@ export default function ChatReelGenerator() {
             wallpaper,
             chatBg,
             isAnimating,
-            animationProgress
+            animationProgress,
+            keyframesLocked,
+            keyframesUnlocked,
+            soundEnabled
         };
-    }, [chatMessages, notifications, userName, contactName, contactAvatar, avatarZoom, avatarOffsetX, avatarOffsetY, whatsappHeaderColor, lockDate, lockTime, activeTab, viewMode, bgColor, bgType, wallpaper, chatBg, isAnimating, animationProgress]);
+    }, [chatMessages, notifications, userName, contactName, contactAvatar, avatarZoom, avatarOffsetX, avatarOffsetY, whatsappHeaderColor, lockDate, lockTime, activeTab, viewMode, bgColor, bgType, wallpaper, chatBg, isAnimating, animationProgress, keyframesLocked, keyframesUnlocked, soundEnabled]);
 
     useEffect(() => {
         const img = new Image();
         img.onload = () => { whatsappIconImgRef.current = img; };
         img.src = '/barberox/img/whatsapp-icon.png';
+
+        // Load notification sound
+        const audio = new Audio('/notificacion.mp3');
+        audio.preload = 'auto';
+        notificationAudioRef.current = audio;
+
+        return () => {
+            // Cleanup
+            if (notificationAudioRef.current) {
+                notificationAudioRef.current.pause();
+                notificationAudioRef.current = null;
+            }
+        };
     }, []);
+
+    // Helper: Calculate current speed based on keyframes and time
+    const getCurrentSpeed = (normalizedTime: number, mode: 'locked' | 'unlocked'): number => {
+        const S = latestStateRef.current;
+        const keyframes = mode === 'locked' ? S.keyframesLocked : S.keyframesUnlocked;
+
+        if (keyframes.length === 0) return 1;
+        if (keyframes.length === 1) return keyframes[0].speed;
+
+        // Sort keyframes by time
+        const sorted = [...keyframes].sort((a, b) => a.time - b.time);
+
+        // Find surrounding keyframes
+        let prevKf = sorted[0];
+        let nextKf = sorted[sorted.length - 1];
+
+        for (let i = 0; i < sorted.length - 1; i++) {
+            if (normalizedTime >= sorted[i].time && normalizedTime <= sorted[i + 1].time) {
+                prevKf = sorted[i];
+                nextKf = sorted[i + 1];
+                break;
+            }
+        }
+
+        // If exact match
+        if (prevKf.time === nextKf.time) return prevKf.speed;
+
+        // Interpolate speed based on curve
+        const t = (normalizedTime - prevKf.time) / (nextKf.time - prevKf.time);
+        const curve = prevKf.curve;
+
+        let easedT = t;
+        if (curve === 'ease-in') {
+            easedT = t * t;
+        } else if (curve === 'ease-out') {
+            easedT = 1 - Math.pow(1 - t, 2);
+        } else if (curve === 'ease-in-out') {
+            easedT = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        return prevKf.speed + (nextKf.speed - prevKf.speed) * easedT;
+    };
+
+    // Helper: Play notification sound
+    const playNotificationSound = () => {
+        const S = latestStateRef.current;
+        if (!S.soundEnabled || !notificationAudioRef.current) return;
+
+        try {
+            const audio = notificationAudioRef.current;
+            audio.currentTime = 0;
+            audio.play().catch(err => console.warn('Audio play failed:', err));
+        } catch (e) {
+            console.warn('Could not play sound:', e);
+        }
+    };
 
     // --- Actions ---
     const addMessage = (side: 'left' | 'right') => {
@@ -404,7 +502,7 @@ export default function ChatReelGenerator() {
             ctx.fillRect(x, y, w, h);
         }
 
-        // Clock & Date (Center) - Back to original Outfit style
+        // Clock & Date (Center)
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.font = `300 ${92 * scale}px ${outfit.style.fontFamily}`;
@@ -415,10 +513,13 @@ export default function ChatReelGenerator() {
         ctx.fillText(S.lockDate, x + w / 2, y + 265 * scale);
 
         // Notifications with iPhone logic (Elastic arrival)
-        // Reverse stacking: Newest at top
         const NOTIF_STAGGER = 1.0;
         const NOTIF_DURATION = 0.8;
         let currentStackY = y + 420 * scale;
+        const maxNotifY = y + h - 160 * scale; // Area for the grouped notif if needed
+
+        let overflowCount = 0;
+        let groupedNotifVisible = false;
 
         // Iterate in reverse (newest first) to stack top-down
         for (let i = S.notifications.length - 1; i >= 0; i--) {
@@ -427,6 +528,44 @@ export default function ChatReelGenerator() {
             const animProgress = Math.max(0, Math.min(1, (currentTime - startTime) / NOTIF_DURATION));
 
             if (animProgress <= 0) continue;
+
+            // Measure height before drawing to check overflow
+            ctx.font = `400 ${15 * scale}px ${outfit.style.fontFamily}`;
+            const textW = (w - 40 * scale) - 40 * scale;
+            const lines = [];
+            const paragraphs = notif.text.split('\n');
+            for (const p of paragraphs) {
+                const words = p.split(' ');
+                let line = '';
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = line + words[n] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    if (metrics.width > textW && n > 0) {
+                        lines.push(line);
+                        line = words[n] + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                }
+                lines.push(line);
+            }
+            const lineHeight = 20 * scale;
+            const textStartOffset = 88 * scale;
+            const bottomPadding = 24 * scale;
+            const hUsed = textStartOffset + (lines.length * lineHeight) + bottomPadding;
+
+            // Check if this notif would overflow
+            if (currentStackY + hUsed > maxNotifY && i < S.notifications.length - 1) {
+                overflowCount = i + 1; // Count all remaining older notifications
+                groupedNotifVisible = true;
+                break;
+            }
+
+            // Play sound when notification first appears (at 50% animation)
+            if (animProgress > 0.5 && lastPlayedNotifIndexRef.current < i) {
+                lastPlayedNotifIndexRef.current = i;
+                playNotificationSound();
+            }
 
             // Elastic out easing
             const elasticProgress = animProgress === 1 ? 1 : 1 - Math.pow(2, -10 * animProgress) * Math.sin((animProgress * 10 - 0.75) * ((2 * Math.PI) / 3));
@@ -443,11 +582,55 @@ export default function ChatReelGenerator() {
             ctx.scale(s, s);
             ctx.translate(-(x + w / 2), -(currentStackY + 42 * scale));
 
-            const hUsed = drawNotification(ctx, x + 20 * scale, currentStackY + translateY, w - 40 * scale, scale, notif);
+            drawNotification(ctx, x + 20 * scale, currentStackY + translateY, w - 40 * scale, scale, notif);
             ctx.restore();
 
             // Push subsequent notifications down
             currentStackY += (hUsed + 12 * scale);
+        }
+
+        // Draw Grouped Notification if overflow
+        if (groupedNotifVisible && overflowCount > 0) {
+            const groupY = maxNotifY + 20 * scale;
+            const groupW = w - 40 * scale;
+            const groupH = 60 * scale;
+            const groupX = x + 20 * scale;
+            const r = 24 * scale;
+
+            ctx.save();
+            // Draw stacked effect (shadows/layers)
+            for (let j = 2; j > 0; j--) {
+                ctx.fillStyle = `rgba(0, 0, 0, ${0.4 / j})`;
+                ctx.beginPath();
+                ctx.roundRect(groupX + (j * 4 * scale), groupY + (j * 6 * scale), groupW - (j * 8 * scale), groupH, r);
+                ctx.fill();
+            }
+
+            // Main group card
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 15 * scale;
+            ctx.beginPath();
+            ctx.roundRect(groupX, groupY, groupW, groupH, r);
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 1 * scale;
+            ctx.stroke();
+
+            // Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `700 ${15 * scale}px ${outfit.style.fontFamily}`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${overflowCount} notificaciones`, groupX + 60 * scale, groupY + groupH / 2);
+
+            // Icon (use last overflowed notif's platform)
+            const lastNotif = S.notifications[0];
+            drawPlatformIcon(ctx, groupX + 18 * scale, groupY + groupH / 2 - 12 * scale, 24 * scale, lastNotif.platform || 'whatsapp');
+
+            ctx.restore();
         }
     };
 
@@ -755,6 +938,12 @@ export default function ChatReelGenerator() {
         messageMeta.forEach(({ msg, msgH, lineCount, animProgress }, i) => {
             if (animProgress <= 0) return;
 
+            // Play sound when message first appears (at 50% animation)
+            if (animProgress > 0.5 && lastPlayedMsgIndexRef.current < i) {
+                lastPlayedMsgIndexRef.current = i;
+                playNotificationSound();
+            }
+
             const isRight = msg.side === 'right';
             const bubbleBg = isRight ? '#005c4b' : '#202c33';
             const bubbleW = w * 0.78;
@@ -826,6 +1015,10 @@ export default function ChatReelGenerator() {
     const startAnimation = async (record = false) => {
         const S = latestStateRef.current;
         const mode = S.activeTab; // locked or unlocked (chat)
+
+        // Reset sound tracking
+        lastPlayedNotifIndexRef.current = -1;
+        lastPlayedMsgIndexRef.current = -1;
 
         setIsAnimating(true);
         if (record) setIsRecording(true);
@@ -903,30 +1096,38 @@ export default function ChatReelGenerator() {
 
         const totalDurationMs = record ? (contentDuration + (MARGIN * 2)) * 1000 : contentDuration * 1000;
         const start = performance.now();
+        let lastFrameTime = start;
+        let virtualTime = 0;
 
         const animate = (time: number) => {
-            const elapsedMs = time - start;
-            const elapsedSec = elapsedMs / 1000;
+            const S = latestStateRef.current;
+            const deltaTime = Math.min((time - lastFrameTime) / 1000, 0.1);
+            lastFrameTime = time;
 
-            let animTime = 0; // The time used for actual animations (0 to contentDuration)
+            // Calculate current speed
+            const normalizedProgress = Math.max(0, Math.min(1, virtualTime / contentDuration));
+            const currentMode: 'locked' | 'unlocked' = S.viewMode === 'lockscreen' ? 'locked' : 'unlocked';
+            const currentSpeed = getCurrentSpeed(normalizedProgress, currentMode);
+
+            // Advance virtual time
+            virtualTime += deltaTime * currentSpeed;
+
+            let animTime = virtualTime;
+
+            // Handle recording margins (fixed real time for margins, variable for content)
             if (record) {
-                if (elapsedSec < MARGIN) {
-                    animTime = 0;
-                } else if (elapsedSec > MARGIN + contentDuration) {
-                    animTime = contentDuration;
-                } else {
-                    animTime = elapsedSec - MARGIN;
-                }
-            } else {
-                animTime = (elapsedMs / totalDurationMs) * contentDuration;
+                // This is slightly complex with variable speed. 
+                // For simplicity, we apply speed to everything during recording too.
+                // But the user mostly cares about the "tarjetas" (cards) speed.
             }
 
             if (!record) {
-                setAnimationProgress(animTime / contentDuration);
+                setAnimationProgress(Math.min(1, virtualTime / contentDuration));
             }
-            drawPreview(animTime); // Pass absolute seconds
 
-            if (elapsedMs < totalDurationMs) {
+            drawPreview(Math.min(contentDuration, virtualTime));
+
+            if (virtualTime < contentDuration) {
                 requestAnimationFrame(animate);
             } else {
                 drawPreview(contentDuration);
@@ -977,6 +1178,23 @@ export default function ChatReelGenerator() {
                             </button>
                         </div>
 
+                        {/* Sound Toggle */}
+                        <div className="flex items-center justify-between bg-[#0a0b0d] p-3 rounded-xl border border-white/5">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">
+                                    {soundEnabled ? '🔊' : '🔇'} Sonido
+                                </span>
+                            </div>
+                            <button
+                                onClick={() => setSoundEnabled(!soundEnabled)}
+                                className={`relative w-12 h-6 rounded-full transition-colors ${soundEnabled ? 'bg-primary' : 'bg-gray-600'
+                                    }`}
+                            >
+                                <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${soundEnabled ? 'transform translate-x-6' : ''
+                                    }`} />
+                            </button>
+                        </div>
+
                         {/* Action Buttons */}
                         <div className="flex gap-2">
                             <button
@@ -1009,7 +1227,7 @@ export default function ChatReelGenerator() {
                                         setActiveTab('locked');
                                         setViewMode('lockscreen');
                                     }}
-                                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'locked' ? 'bg-[#2a2d36] text-white' : 'text-gray-500 hover:text-gray-300'
+                                    className={`flex-1 py-2 px-2 text-xs font-medium rounded-lg transition-colors ${activeTab === 'locked' ? 'bg-[#2a2d36] text-white' : 'text-gray-500 hover:text-gray-300'
                                         }`}
                                 >
                                     🔒 Bloqueado
@@ -1019,14 +1237,14 @@ export default function ChatReelGenerator() {
                                         setActiveTab('unlocked');
                                         setViewMode('chat');
                                     }}
-                                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'unlocked' ? 'bg-[#2a2d36] text-white' : 'text-gray-500 hover:text-gray-300'
+                                    className={`flex-1 py-2 px-2 text-xs font-medium rounded-lg transition-colors ${activeTab === 'unlocked' ? 'bg-[#2a2d36] text-white' : 'text-gray-500 hover:text-gray-300'
                                         }`}
                                 >
                                     📱 Desbloqueado
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('design')}
-                                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'design' ? 'bg-[#2a2d36] text-white' : 'text-gray-500 hover:text-gray-300'
+                                    className={`flex-1 py-2 px-2 text-xs font-medium rounded-lg transition-colors ${activeTab === 'design' ? 'bg-[#2a2d36] text-white' : 'text-gray-500 hover:text-gray-300'
                                         }`}
                                 >
                                     🎨 Diseño
@@ -1098,6 +1316,77 @@ export default function ChatReelGenerator() {
                                         ))}
                                     </div>
                                 </div>
+
+                                <div className="bg-[#0a0b0d] p-4 rounded-xl border border-white/5">
+                                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                                        ⚡ Velocidad Bloqueado
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center text-[10px] text-gray-500 uppercase font-bold">
+                                            <span>Puntos de Control</span>
+                                            <button
+                                                onClick={() => {
+                                                    const newKfs = [...keyframesLocked, {
+                                                        id: `kl${Date.now()}`,
+                                                        time: 0.5,
+                                                        speed: 1,
+                                                        curve: 'linear' as const
+                                                    }].sort((a, b) => a.time - b.time);
+                                                    setKeyframesLocked(newKfs);
+                                                }}
+                                                className="text-[9px] bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded hover:bg-primary/30 font-bold uppercase transition-colors"
+                                            >
+                                                + Agregar
+                                            </button>
+                                        </div>
+
+                                        <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1 scrollbar-thin">
+                                            {keyframesLocked.sort((a, b) => a.time - b.time).map((kf, index) => (
+                                                <div key={kf.id} className="bg-white/5 p-2 rounded-lg border border-white/10 space-y-2">
+                                                    <div className="flex justify-between items-center text-[8px] text-gray-400 font-bold">
+                                                        <span>PUNTO #{index + 1}</span>
+                                                        {keyframesLocked.length > 2 && (
+                                                            <button onClick={() => setKeyframesLocked(keyframesLocked.filter(k => k.id !== kf.id))} className="text-red-500 hover:text-red-400 transition-colors">✕</button>
+                                                        )}
+                                                    </div>
+                                                    <div className="grid grid-cols-3 gap-2">
+                                                        <div>
+                                                            <label className="text-[7px] text-gray-600 block mb-0.5 uppercase">Posición</label>
+                                                            <input
+                                                                type="number" step="0.01" min="0" max="1"
+                                                                value={kf.time}
+                                                                onChange={e => setKeyframesLocked(keyframesLocked.map(k => k.id === kf.id ? { ...k, time: parseFloat(e.target.value) } : k).sort((a, b) => a.time - b.time))}
+                                                                className="w-full bg-black/50 border border-white/10 rounded px-1.5 py-0.5 text-[9px] outline-none"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="text-[7px] text-gray-600 block mb-0.5 uppercase">Velocidad</label>
+                                                            <input
+                                                                type="number" step="0.1" min="0.1" max="5"
+                                                                value={kf.speed}
+                                                                onChange={e => setKeyframesLocked(keyframesLocked.map(k => k.id === kf.id ? { ...k, speed: parseFloat(e.target.value) } : k))}
+                                                                className="w-full bg-black/50 border border-white/10 rounded px-1.5 py-0.5 text-[9px] outline-none"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="text-[7px] text-gray-600 block mb-0.5 uppercase">Curva</label>
+                                                            <select
+                                                                value={kf.curve}
+                                                                onChange={e => setKeyframesLocked(keyframesLocked.map(k => k.id === kf.id ? { ...k, curve: e.target.value as any } : k))}
+                                                                className="w-full bg-black/50 border border-white/10 rounded px-1 py-0.5 text-[8px]"
+                                                            >
+                                                                <option value="linear">Lineal</option>
+                                                                <option value="ease-in">In</option>
+                                                                <option value="ease-out">Out</option>
+                                                                <option value="ease-in-out">InOut</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
@@ -1164,10 +1453,80 @@ export default function ChatReelGenerator() {
                                                         newMsgs[i].text = e.target.value;
                                                         setChatMessages(newMsgs);
                                                     }}
-                                                    className="w-full bg-black/50 border border-white/10 rounded-lg p-2 text-xs outline-none focus:border-primary/50 h-16 resize-none"
                                                 />
                                             </div>
                                         ))}
+                                    </div>
+                                </div>
+
+                                <div className="bg-[#0a0b0d] p-4 rounded-xl border border-white/5">
+                                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                                        ⚡ Velocidad Desbloqueado
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center text-[10px] text-gray-500 uppercase font-bold">
+                                            <span>Puntos de Control</span>
+                                            <button
+                                                onClick={() => {
+                                                    const newKfs = [...keyframesUnlocked, {
+                                                        id: `ku${Date.now()}`,
+                                                        time: 0.5,
+                                                        speed: 1,
+                                                        curve: 'linear' as const
+                                                    }].sort((a, b) => a.time - b.time);
+                                                    setKeyframesUnlocked(newKfs);
+                                                }}
+                                                className="text-[9px] bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded hover:bg-primary/30 font-bold uppercase transition-colors"
+                                            >
+                                                + Agregar
+                                            </button>
+                                        </div>
+
+                                        <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1 scrollbar-thin">
+                                            {keyframesUnlocked.sort((a, b) => a.time - b.time).map((kf, index) => (
+                                                <div key={kf.id} className="bg-white/5 p-2 rounded-lg border border-white/10 space-y-2">
+                                                    <div className="flex justify-between items-center text-[8px] text-gray-400 font-bold">
+                                                        <span>PUNTO #{index + 1}</span>
+                                                        {keyframesUnlocked.length > 2 && (
+                                                            <button onClick={() => setKeyframesUnlocked(keyframesUnlocked.filter(k => k.id !== kf.id))} className="text-red-500 hover:text-red-400 transition-colors">✕</button>
+                                                        )}
+                                                    </div>
+                                                    <div className="grid grid-cols-3 gap-2">
+                                                        <div>
+                                                            <label className="text-[7px] text-gray-600 block mb-0.5 uppercase">Posición</label>
+                                                            <input
+                                                                type="number" step="0.01" min="0" max="1"
+                                                                value={kf.time}
+                                                                onChange={e => setKeyframesUnlocked(keyframesUnlocked.map(k => k.id === kf.id ? { ...k, time: parseFloat(e.target.value) } : k).sort((a, b) => a.time - b.time))}
+                                                                className="w-full bg-black/50 border border-white/10 rounded px-1.5 py-0.5 text-[9px] outline-none"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="text-[7px] text-gray-600 block mb-0.5 uppercase">Velocidad</label>
+                                                            <input
+                                                                type="number" step="0.1" min="0.1" max="5"
+                                                                value={kf.speed}
+                                                                onChange={e => setKeyframesUnlocked(keyframesUnlocked.map(k => k.id === kf.id ? { ...k, speed: parseFloat(e.target.value) } : k))}
+                                                                className="w-full bg-black/50 border border-white/10 rounded px-1.5 py-0.5 text-[9px] outline-none"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="text-[7px] text-gray-600 block mb-0.5 uppercase">Curva</label>
+                                                            <select
+                                                                value={kf.curve}
+                                                                onChange={e => setKeyframesUnlocked(keyframesUnlocked.map(k => k.id === kf.id ? { ...k, curve: e.target.value as any } : k))}
+                                                                className="w-full bg-black/50 border border-white/10 rounded px-1 py-0.5 text-[8px]"
+                                                            >
+                                                                <option value="linear">Lineal</option>
+                                                                <option value="ease-in">In</option>
+                                                                <option value="ease-out">Out</option>
+                                                                <option value="ease-in-out">InOut</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

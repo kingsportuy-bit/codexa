@@ -1,11 +1,27 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import './landing_v3.css';
 
-import './landing_v2.css';
-const Barberox2Page = () => {
+const Barberox3Page = () => {
+    const [scrolled, setScrolled] = useState(false);
+
     useEffect(() => {
-        // Carousel Script
+        // Scroll and reveal logic from both
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-reveal, .animate-fade-up').forEach(el => revealObserver.observe(el));
+
+        // Carousel Script (V1)
         const slides = document.querySelectorAll('.screenshot-slide');
         const urlBar = document.getElementById('browser-url');
         const urls = [
@@ -16,33 +32,32 @@ const Barberox2Page = () => {
             'app.barberox.com/finanzas'
         ];
         let currentSlide = 0;
+        let carouselInterval: NodeJS.Timeout;
 
         if (slides.length > 0) {
             slides[0].classList.add('active');
-            const interval = setInterval(() => {
+            carouselInterval = setInterval(() => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
                 if (urlBar) urlBar.textContent = urls[currentSlide];
             }, 4000);
-            return () => clearInterval(interval);
         }
-    }, []);
 
-    useEffect(() => {
-        // Assistant Messages Script
+        // Assistant Messages Script (V1)
         const cards = document.querySelectorAll('.message-card-persistent');
         const assistantSection = document.getElementById('assistant-section');
         let current = 0;
-        let animated = false;
+        let assistantAnimated = false;
+        let assistantTimeout: NodeJS.Timeout;
 
         const showNext = () => {
             if (current < cards.length) {
                 cards[current].classList.remove('opacity-0', 'translate-y-4');
                 current++;
-                setTimeout(showNext, 3000);
+                assistantTimeout = setTimeout(showNext, 3000);
             } else {
-                setTimeout(() => {
+                assistantTimeout = setTimeout(() => {
                     cards.forEach(c => c.classList.add('opacity-0', 'translate-y-4'));
                     current = 0;
                     setTimeout(showNext, 1000);
@@ -50,36 +65,20 @@ const Barberox2Page = () => {
             }
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !animated) {
-                animated = true;
+        const assistantObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !assistantAnimated) {
+                assistantAnimated = true;
                 setTimeout(showNext, 500);
             }
         }, { threshold: 0.2 });
 
-        if (assistantSection) observer.observe(assistantSection);
-        return () => observer.disconnect();
-    }, []);
+        if (assistantSection) assistantObserver.observe(assistantSection);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.animate-fade-up').forEach(el => observer.observe(el));
-        return () => observer.disconnect();
-    }, []);
-
-    useEffect(() => {
-        // WhatsApp Chat Animation (First Phone)
+        // WhatsApp Chat Animation (V1)
         const bubbles = document.querySelectorAll('.chat-bubble-reveal');
         const phoneSection = document.getElementById('features');
         let index = 0;
-        let animated = false;
+        let chatAnimated = false;
 
         const showBubbles = () => {
             if (index < bubbles.length) {
@@ -99,26 +98,23 @@ const Barberox2Page = () => {
             }
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !animated) {
-                animated = true;
+        const chatObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !chatAnimated) {
+                chatAnimated = true;
                 setTimeout(showBubbles, 500);
             }
         }, { threshold: 0.2 });
 
-        if (phoneSection) observer.observe(phoneSection);
-        return () => observer.disconnect();
-    }, []);
+        if (phoneSection) chatObserver.observe(phoneSection);
 
-    useEffect(() => {
-        // Smart Reminder Notification Animation
+        // Smart Reminder Animation (V1)
         const notification = document.querySelector('.reminder-notification-reveal');
         const reminderSection = document.getElementById('reminders-section');
-        let animated = false;
+        let reminderAnimated = false;
 
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !animated) {
-                animated = true;
+        const reminderObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !reminderAnimated) {
+                reminderAnimated = true;
                 setTimeout(() => {
                     if (notification) {
                         notification.classList.remove('opacity-0', 'translate-y-8');
@@ -128,86 +124,115 @@ const Barberox2Page = () => {
             }
         }, { threshold: 0.5 });
 
-        if (reminderSection) observer.observe(reminderSection);
-        return () => observer.disconnect();
+        if (reminderSection) reminderObserver.observe(reminderSection);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            revealObserver.disconnect();
+            if (carouselInterval) clearInterval(carouselInterval);
+            if (assistantTimeout) clearTimeout(assistantTimeout);
+            assistantObserver.disconnect();
+            chatObserver.disconnect();
+            reminderObserver.disconnect();
+        };
     }, []);
 
     return (
-        <div className="barberox-landing bg-[#050505] text-white min-h-screen font-outfit antialiased selection:bg-primary/30 selection:text-white">
-            {/* Fixed Glass Navbar */}
-            <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/50 backdrop-blur-xl">
-                <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        <img src="/barberox/img/logo.png" alt="Barberox" className="h-8 w-auto object-contain" />
-                        <span className="text-xs font-bold tracking-[0.2em] text-white/40 uppercase ml-2 border-l border-white/10 pl-2">Premium</span>
+        <div className="barberox3-content font-outfit">
+            {/* Minimalist Navbar (V2 Style) */}
+            <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-4' : 'bg-transparent py-8'}`}>
+                <div className="container mx-auto px-6 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                        <img src="/barberox/img/logo.png" alt="Barberox" className="h-8 w-auto brightness-200" />
+                        <span className="Founders-badge">Optimized v3</span>
                     </div>
-                    <a href="#pricing" className="bg-white/5 hover:bg-primary/20 text-white text-xs md:text-sm font-medium px-4 md:px-6 py-2 md:py-2.5 rounded-full border border-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-1 md:gap-2 group whitespace-nowrap">
-                        <span className="hidden sm:inline">Obtener Acceso</span>
-                        <span className="sm:hidden">Acceso</span>
-                        <svg className="w-3 h-3 md:w-4 md:h-4 text-white/50 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
+                    <a href="#pricing" className="text-white font-bold text-sm tracking-widest hover:text-primary transition-colors">
+                        ACCESO EXCLUSIVO
                     </a>
                 </div>
             </nav>
 
-            {/* 1. Cinematic Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/10 rounded-full blur-[150px] opacity-40 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
-
+            {/* 1. Aggressive Hero Section (V2) */}
+            <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-hero-gradient">
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 animate-fade-up">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
-                        <span className="text-xs font-medium tracking-widest uppercase text-white/70">La Nueva Era de la Barbería</span>
+                    <div className="mb-8 animate-reveal">
+                        <span className="text-primary font-black tracking-[0.3em] uppercase text-sm">El mercado ha cambiado</span>
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-none animate-fade-up delay-100">
-                        <span className="block text-white">AGENDA AUTOMÁTICA</span>
-                        <span className="block text-gradient-orange uppercase">por WhatsApp.</span>
+                    <h1 className="text-6xl md:text-[100px] font-black leading-[0.9] tracking-tighter mb-8 animate-reveal">
+                        DEJA DE SER <span className="text-gradient-orange">ESCLAVO</span> <br />
+                        DE TU WHATSAPP.
                     </h1>
 
-                    <div className="max-w-2xl mx-auto mb-12 animate-fade-up delay-200">
-                        <p className="text-xl md:text-2xl text-white/50 mb-8 font-light">
-                            Tu <b className="text-primary font-medium">recepcionista IA</b> atiende clientes, responde dudas y llena tu calendario 24/7.
-                        </p>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-xl mx-auto">
-                            {[
-                                'Contesta WhatsApp 24/7',
-                                'Resuelve dudas frecuentes',
-                                'Agenda turnos automática',
-                                'Cuida tu caja y finanzas'
-                            ].map((item, i) => (
-                                <li key={i} className="flex items-center gap-2 text-white/60">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary/60"></div>
-                                    <span className="text-sm md:text-base">{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <p className="text-2xl md:text-3xl text-text-muted max-w-3xl mx-auto mb-12 font-light animate-reveal">
+                        Tu negocio debe producir dinero mientras <b className="text-white">cortas el pelo</b>, no mientras pierdes tiempo contestando "precios?".
+                        <br />
+                        <span className="text-white/40 text-lg mt-4 block">Barberox es el sistema que Alex Hormozi usaría para escalar su barbería.</span>
+                    </p>
 
-                    <div className="flex flex-col items-center justify-center gap-4 animate-fade-up delay-300">
-                        <a href="#pricing" className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden w-full md:w-auto hover:scale-105 transition-transform duration-300">
-                            <div className="absolute inset-0 bg-primary/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                            <span className="relative z-10 flex items-center justify-center gap-2">
-                                Quiero activar la agenda automática
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                </svg>
-                            </span>
+                    <div className="animate-reveal">
+                        <a href="#pricing" className="btn-primary-v2">
+                            Quiero automatizar mi barbería ahora
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
                         </a>
-                        <p className="text-xs text-white/40 mt-2">¿Estás listo para el futuro?</p>
+                        <p className="text-xs text-white/30 mt-6 uppercase tracking-widest">Atiende clientes 24/7 sin mover un dedo</p>
                     </div>
+                </div>
 
-                    <div className="absolute w-full max-w-lg left-1/2 -translate-x-1/2 bottom-10 opacity-50 animate-bounce delay-1000">
-                        <svg className="w-6 h-6 mx-auto text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                        </svg>
+                {/* iPhone Mockup Floating */}
+                <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-full max-w-2xl opacity-40 blur-sm pointer-events-none">
+                    <div className="relative aspect-[16/9] w-full bg-primary/20 rounded-full blur-[120px]"></div>
+                </div>
+            </section>
+
+            {/* 2. The Hard Truth Section (ROI focus from V2) */}
+            <section className="py-32 bg-black">
+                <div className="container mx-auto px-6">
+                    <div className="grid md:grid-cols-2 gap-20 items-center">
+                        <div className="animate-reveal">
+                            <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
+                                LA MATEMÁTICA <br />
+                                <span className="text-primary">ES SIMPLE.</span>
+                            </h2>
+                            <div className="space-y-8">
+                                <div className="p-6 rounded-3xl bg-white/5 border-l-4 border-red-500">
+                                    <p className="text-white/60 mb-2 uppercase text-xs font-bold tracking-widest">El Duelo Actual</p>
+                                    <p className="text-2xl font-bold">1 turno perdido al día = <span className="text-red-500">$15.000 / mes</span> tirados a la basura.</p>
+                                </div>
+                                <div className="p-6 rounded-3xl bg-white/5 border-l-4 border-green-500">
+                                    <p className="text-white/60 mb-2 uppercase text-xs font-bold tracking-widest">Con Barberox</p>
+                                    <p className="text-2xl font-bold">Respuesta en 2 segundos = <span className="text-green-500">30% más</span> de volumen mensual.</p>
+                                </div>
+                            </div>
+                            <p className="text-text-muted mt-12 text-lg">
+                                Si no tienes un sistema que trabaje por ti 24/7, entonces <b className="text-white">tú eres el sistema</b>. Y los sistemas humanos tienen un límite de escala.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 animate-reveal">
+                            <div className="card-v2 flex flex-col items-center justify-center text-center">
+                                <div className="text-5xl font-black text-primary mb-2">24/7</div>
+                                <div className="text-xs uppercase tracking-widest font-bold">Atención</div>
+                            </div>
+                            <div className="card-v2 flex flex-col items-center justify-center text-center mt-8">
+                                <div className="text-5xl font-black text-primary mb-2">0</div>
+                                <div className="text-xs uppercase tracking-widest font-bold">Fricción</div>
+                            </div>
+                            <div className="card-v2 flex flex-col items-center justify-center text-center">
+                                <div className="text-5xl font-black text-primary mb-2">100%</div>
+                                <div className="text-xs uppercase tracking-widest font-bold">Control</div>
+                            </div>
+                            <div className="card-v2 flex flex-col items-center justify-center text-center mt-8">
+                                <div className="text-5xl font-black text-primary mb-2">+15h</div>
+                                <div className="text-xs uppercase tracking-widest font-bold">Libres/Mes</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* 2. The Great Divide (Comparison) */}
+            {/* 3. The Comparison (V1) */}
             <section className="py-24 bg-black relative border-t border-white/5">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
@@ -294,7 +319,7 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 3. AI Revolution */}
+            {/* 4. AI Revolution (V1) */}
             <section className="py-24 relative overflow-hidden">
                 <div className="absolute inset-0 bg-primary/5"></div>
                 <div className="container mx-auto px-6 relative z-10 text-center">
@@ -327,7 +352,7 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 4. The Solution */}
+            {/* 5. The Solution (V1 Mockup) */}
             <section id="features" className="py-32 relative bg-black">
                 <div className="container mx-auto px-6">
                     <div className="mb-20">
@@ -424,29 +449,10 @@ const Barberox2Page = () => {
                             </div>
                         </div>
                     </div>
-
-                    <div className="grid md:grid-cols-4 gap-6 mt-24 pt-16 border-t border-white/5">
-                        {[
-                            { title: 'Multi-Sucursal', desc: 'Gestiona múltiples locales y barberos desde un solo número de WhatsApp. La IA rutea cada turno al calendario correcto.', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-                            { title: 'Entiende Contexto', desc: 'Detecta intenciones reales: "Quiero cancelar", "Cambíame el turno", o "Llego tarde". No es un menú fijo, es inteligencia.', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
-                            { title: 'Cálculo Real', desc: 'Analiza duración de servicios y huecos libres en tiempo real. Nunca ofrece horarios imposibles.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-                            { title: 'Notificaciones', desc: 'Te avisa al instante si alguien reserva o cancela. Mantienes el control total sin mirar la pantalla.', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9' }
-                        ].map((f, i) => (
-                            <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-primary/30 transition-colors animate-fade-up">
-                                <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center mb-4 text-primary">
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={f.icon} />
-                                    </svg>
-                                </div>
-                                <h4 className="text-lg font-bold text-white mb-2">{f.title}</h4>
-                                <p className="text-white/50 text-sm">{f.desc}</p>
-                            </div>
-                        ))}
-                    </div>
                 </div>
             </section>
 
-            {/* 4.5. Zero Inasistencias (Smart Reminders) */}
+            {/* 6. Smart Reminders (V1) */}
             <section id="reminders-section" className="py-24 relative overflow-hidden bg-black border-t border-white/5">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
                 <div className="container mx-auto px-6 relative z-10">
@@ -514,7 +520,7 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* Bonus Pack Header */}
+            {/* Bonus Pack Header (V1) */}
             <section className="py-20 bonus-header overflow-hidden">
                 <div className="container mx-auto px-6 text-center">
                     <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-primary/30 bg-primary/5 backdrop-blur-md mb-6 animate-fade-up">
@@ -530,7 +536,7 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 5. Bonus 1: Web OS */}
+            {/* 7. Bonus 1: Web OS (V1) */}
             <section className="py-24 bg-black border-t border-white/5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-blue-500/5 blur-[100px]"></div>
                 <div className="container mx-auto px-6 relative z-10">
@@ -543,7 +549,7 @@ const Barberox2Page = () => {
                             <div className="absolute -left-4 top-10 w-24 h-24 bg-blue-500/20 rounded-full blur-3xl"></div>
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-up">Detrás de la agenda,<br /><span className="text-[#ff7700]">TU PANEL WEB.</span></h2>
                             <div className="bg-blue-500/10 border-l-2 border-blue-500 p-4 mb-8 rounded-r-xl animate-pulse">
-                                <p className="text-white/80 text-sm font-medium">Controla turnos, caja y clientes desde un solo lugar. <br /><span className="text-primary font-bold blink-text">TAMBIÉN ACCESIBLE DESDE TU CELULAR</span></p>
+                                <p className="text-white/80 text-sm font-medium">Controla turnos, caja y clientes desde un solo lugar. <span className="text-primary font-bold ml-2 blink-text">INCLUIDO</span></p>
                             </div>
                             <p className="text-white/60 text-lg mb-8">Gestión profesional multidispositivo. Centraliza agenda, caja y clientes en una sola plataforma diseñada para escalar.</p>
 
@@ -591,7 +597,7 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 5b. Bonus 2: AI Assistant */}
+            {/* 8. Bonus 2: AI Assistant (V1) */}
             <section id="assistant-section" className="py-24 bg-[#050505] border-t border-white/5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-yellow-500/5 blur-[100px]"></div>
                 <div className="container mx-auto px-6 relative z-10">
@@ -605,11 +611,11 @@ const Barberox2Page = () => {
                                 <span className="text-xs text-white/60 uppercase tracking-widest">Para tu barbería</span>
                             </div>
                             <div className="absolute -right-4 top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-3xl"></div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Tu mano derecha,<br /><span className="text-[#ff7700]">EL ASISTENTE IA.</span></h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Asistente Barbero<br /><span className="text-[#ff7700]">POR WHATSAPP.</span></h2>
                             <div className="bg-yellow-500/10 border-l-2 border-yellow-500 p-4 mb-8 rounded-r-xl animate-pulse">
-                                <p className="text-white/80 text-sm font-medium">IA que te asiste en la gestión de turnos y clientes. <span className="text-primary font-bold ml-2 blink-text">EXCLUSIVO PARA TI</span></p>
+                                <p className="text-white/80 text-sm font-medium">IA que responde precios, horarios and dudas frecuentes. <span className="text-primary font-bold ml-2 blink-text">INCLUIDO</span></p>
                             </div>
-                            <p className="text-white/60 text-lg mb-8">Es tu asistente personal por WhatsApp. Tiene acceso total a los datos de tu barbería. Le preguntás lo que quieras saber: lista de turnos, agregar clientes, bloquear días o ver tus ingresos. No es para el cliente, es para facilitarte la vida a vos.</p>
+                            <p className="text-white/60 text-lg mb-8">Tiene acceso total a los datos de tu barbería. Le preguntás por WhatsApp lo que quieras saber: lista de turnos, agregar clientes, agregar turnos, bloquear días, bloquear horas, cambiar horarios. Podés pedir la lista de turnos de hoy en la tarde o de otro día. Podés pedirle ingresos del último mes, ranking de barberos o clientes mensual e histórico, etc.</p>
 
                             <ul className="space-y-4">
                                 {[
@@ -678,7 +684,7 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 6. Testimonials */}
+            {/* 6. Testimonials (V1) */}
             <section className="py-24 bg-black border-t border-white/5 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]"></div>
                 <div className="container mx-auto px-6 relative z-10">
@@ -710,24 +716,18 @@ const Barberox2Page = () => {
                             }
                         ].map((testimonial, i) => (
                             <div key={i} className="relative group">
-                                {/* Decorative quote icon */}
                                 <div className="absolute -top-6 -left-6 w-16 h-16 bg-[#ff7700]/10 rounded-full flex items-center justify-center z-20">
                                     <svg className="w-8 h-8 text-[#ff7700] opacity-50" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                                     </svg>
                                 </div>
 
-                                <div className="p-8 pt-10 rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-[#ff7700]/40 transition-all duration-300 backdrop-blur-sm relative z-10 h-full flex flex-col">
-                                    {/* Highlight badge */}
+                                <div className="p-8 pt-10 rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-[#ff7700]/40 transition-all duration-300 backdrop-blur-sm relative z-10 h-full flex flex-col text-left">
                                     <div className="inline-flex items-center gap-2 mb-4 self-start">
                                         <div className="w-2 h-2 rounded-full bg-[#ff7700] animate-pulse"></div>
                                         <span className="text-[#ff7700] font-bold text-xs uppercase tracking-wider">{testimonial.highlight}</span>
                                     </div>
-
-                                    {/* Text content - reduced */}
-                                    <p className="text-white/70 text-base leading-relaxed mb-6 flex-grow line-clamp-4">"{testimonial.text}"</p>
-
-                                    {/* Author info with enhanced design */}
+                                    <p className="text-white/70 text-base leading-relaxed mb-6 flex-grow">"{testimonial.text}"</p>
                                     <div className="flex items-center gap-4 pt-6 mt-auto border-t border-white/10">
                                         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#ff7700] to-[#ff8800] flex items-center justify-center text-white font-bold text-lg shadow-lg">
                                             {testimonial.name[0]}
@@ -744,12 +744,12 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 7. Trust & FAQ */}
+            {/* 7. Trust & FAQ (V1) */}
             <section className="py-24 bg-[#0a0a0a]">
                 <div className="container mx-auto px-6 max-w-4xl">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold mb-4">Preguntas Frecuentes</h2>
-                        <p className="text-white/50">Elimina tus dudas y empieza a crecer.</p>
+                    <div className="text-center mb-16 text-left">
+                        <h2 className="text-3xl font-bold mb-4 text-center">Preguntas Frecuentes</h2>
+                        <p className="text-white/50 text-center">Elimina tus dudas y empieza a crecer.</p>
                     </div>
 
                     <div className="space-y-4">
@@ -758,7 +758,7 @@ const Barberox2Page = () => {
                             { q: '¿Pierdo mis datos si cambio de celular?', a: 'No. Todo queda en la base de datos de tu barbería, no en tu WhatsApp. Podés cambiar de teléfono sin perder clientes ni citas.' },
                             { q: '¿Es difícil de activarlo?', a: 'No. Te ayudamos a activarlo y dejarlo andando. En menos de 24 horas podés tener tu agenda automática activa.' }
                         ].map((faq, i) => (
-                            <details key={i} className="group bg-black border border-white/5 rounded-2xl open:border-primary/30 transition-all">
+                            <details key={i} className="group bg-black border border-white/5 rounded-2xl open:border-primary/30 transition-all text-left">
                                 <summary className="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-lg">
                                     <span>{faq.q}</span>
                                     <span className="transition group-open:rotate-180">
@@ -774,76 +774,32 @@ const Barberox2Page = () => {
                 </div>
             </section>
 
-            {/* 7. Pricing */}
-            <section id="pricing" className="pt-32 pb-20 relative bg-black flex flex-col items-center justify-center">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-black to-black opacity-50 pointer-events-none"></div>
-
-                <div className="container mx-auto px-6 relative z-10 w-full">
-                    <div className="max-w-xl mx-auto">
-                        <div className="text-center mb-10">
-                            <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Oferta Limitada</span>
-                            <h2 className="text-4xl font-bold">¿Estás listo para el futuro?</h2>
-                        </div>
-
-                        <div className="group relative perspective-1000">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-primary via-white/20 to-primary rounded-[24px] blur opacity-20 group-hover:opacity-40 transition duration-1000 animate-pulse"></div>
-                            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[20px] p-8 md:p-12 overflow-hidden shadow-2xl transition-transform duration-500 hover:rotate-x-2 animate-fade-up">
-                                <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-                                <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/5 rounded-full blur-[80px]"></div>
-
-                                <div className="relative z-10 flex justify-between items-start mb-12">
-                                    <div>
-                                        <img src="/barberox/img/logo.png" alt="Barberox" className="h-6 opacity-80 mb-2 grayscale brightness-200" />
-                                        <div className="text-[10px] text-white/40 uppercase tracking-[0.3em]">Founders Edition</div>
-                                    </div>
-                                </div>
-
-                                <div className="relative z-10 text-center py-8">
-                                    <span className="text-6xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500 tracking-tight">$5.000</span>
-                                    <div className="text-sm text-white/30 uppercase tracking-widest mt-2">Mensuales</div>
-                                </div>
-
-                                <div className="relative z-10 space-y-3 my-8 border-t border-white/5 pt-8">
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Agenda automática 24/7 por WhatsApp</span>
-                                        <span className="text-white font-medium">Incluido</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Asistente IA (Bonus Lanzamiento)</span>
-                                        <span className="text-white font-medium">Incluido</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-white/60">Panel Web Completo + Base de Datos</span>
-                                        <span className="text-white font-medium">Incluido</span>
-                                    </div>
-                                </div>
-
-                                <div className="relative z-10 flex flex-col items-center">
-                                    <a href="https://wa.me/message/TJKNS7LTAVVGN1" className="inline-flex items-center justify-center gap-2 md:gap-3 bg-[#ff7700] hover:bg-[#ff8800] text-white px-6 md:px-8 py-4 md:py-5 rounded-full font-bold text-sm md:text-base transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,119,0,0.3)] w-full max-w-md">
-                                        Quiero activar Barberox en mi barbería
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+            {/* 10. Pricing / Closing CTA (V2 Elite Style) */}
+            <section id="pricing" className="py-40 bg-black text-center relative overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px] opacity-20"></div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <h2 className="text-5xl md:text-8xl font-black mb-12 tracking-tighter animate-reveal">ÚNETE A LA ÉLITE.</h2>
+                    <div className="max-w-2xl mx-auto p-12 card-v2 border-primary/30 animate-reveal">
+                        <span className="Founders-badge mb-6 inline-block">Plan Único de Lanzamiento</span>
+                        <div className="text-7xl font-black mb-4">$5.000 <span className="text-lg text-text-muted font-normal">/mes</span></div>
+                        <p className="text-text-muted mb-10">Precio congelado de por vida para los primeros 25 barberos de Uruguay.</p>
+                        <ul className="text-left space-y-4 mb-12 max-w-sm mx-auto font-medium">
+                            <li className="flex items-center gap-4"><svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg> Agenda Smart 24/7</li>
+                            <li className="flex items-center gap-4"><svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg> Asistente IA Personal</li>
+                            <li className="flex items-center gap-4"><svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg> Multi-Sucursal Ilimitada</li>
+                        </ul>
+                        <a href="https://wa.me/message/TJKNS7LTAVVGN1" className="btn-primary-v2 w-full justify-center">
+                            ASEGURAR MI CUPO
+                        </a>
                     </div>
-
-                    <div className="mt-16 text-center">
-                        <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm">
-                            <svg className="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                            </svg>
-                            <span className="text-sm text-white/50">Garantía de 30 días. Sin riesgo.</span>
-                        </div>
-                    </div>
+                    <p className="text-text-muted mt-12 text-sm italic animate-reveal">"La mejor inversión es la que te devuelve tu tiempo."</p>
                 </div>
             </section>
-            <footer className="py-5 border-t border-white/5 bg-black text-center text-sm text-[gray]">
-                <div className="container mx-auto px-6">
-                    Todos los derechos reservados | &copy; 2025 <a href="https://codexa.uy" className="text-[gray] hover:text-white transition-colors no-underline">Code<span className="text-[#00CCC2]">x</span>a.uy</a>
-                </div>
+            <footer className="py-12 border-t border-white/5 bg-black text-center">
+                <p className="text-white/20 text-xs tracking-widest uppercase">© 2026 BARBEROX - OPTIMIZED CONVERSION LANDING</p>
             </footer>
         </div>
     );
 };
 
-export default Barberox2Page;
+export default Barberox3Page;

@@ -1,101 +1,198 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;700;900&display=swap');
+/* src/app/barberox/landing.css */
 
-:root {
-    --primary: #FF7700;
-    --primary-hover: #E66B00;
-    --bg: #000000;
-    --text: #ffffff;
-    --text-muted: rgba(255, 255, 255, 0.6);
-    --glass: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-}
-
-.font-outfit {
-    font-family: 'Outfit', sans-serif;
-}
-
-.barberox2-root {
-    background-color: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-family: 'Outfit', sans-serif;
-    overflow-x: hidden;
-}
-
-.text-gradient-orange {
-    background: linear-gradient(to bottom, #FFB347, #FF7700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.bg-hero-gradient {
-    background: radial-gradient(circle at center, rgba(255, 119, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-}
-
-.btn-primary-v2 {
-    background-color: var(--primary);
-    color: black;
-    font-weight: 900;
-    padding: 1.25rem 2.5rem;
-    border-radius: 9999px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    box-shadow: 0 0 30px rgba(255, 119, 0, 0.3);
-}
-
-.btn-primary-v2:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 50px rgba(255, 119, 0, 0.5);
-    background-color: #ffffff;
-}
-
-.card-v2 {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 2rem;
-    padding: 2.5rem;
-    backdrop-filter: blur(10px);
-}
-
-.animate-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.animate-reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.Founders-badge {
-    background: linear-gradient(45deg, #FFD700, #FFA500);
-    color: black;
-    font-weight: 900;
-    font-size: 0.7rem;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    text-transform: uppercase;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
+/* Premium Scrollbar */
+.barberox-landing ::-webkit-scrollbar {
     width: 8px;
 }
 
-::-webkit-scrollbar-track {
-    background: #000000;
+.barberox-landing ::-webkit-scrollbar-track {
+    background: #050505;
 }
 
-::-webkit-scrollbar-thumb {
-    background: #222;
-    border-radius: 10px;
+.barberox-landing ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary);
+.barberox-landing ::-webkit-scrollbar-thumb:hover {
+    background: #ff7700;
+}
+
+/* Glass Surface Utility */
+.glass-surface {
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card-hover:hover {
+    border-color: rgba(255, 119, 0, 0.3);
+    box-shadow: 0 0 30px rgba(255, 119, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Text Gradient */
+.text-gradient-gold {
+    background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-orange {
+    background: linear-gradient(135deg, #ff7700 0%, #ffb84d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Animations */
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.animate-fade-up.visible {
+    animation: fadeUp 1s ease-out forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+details>summary {
+    list-style: none;
+}
+
+details>summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Screenshot Carousel Utility */
+.screenshot-slide {
+    transition: opacity 1s ease-in-out;
+}
+
+.screenshot-slide.active {
+    opacity: 1;
+}
+
+/* Perspective */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.rotate-x-2 {
+    transform: rotateX(2deg);
+}
+
+/* Gold Surface Premium */
+.gold-surface-premium {
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(255, 119, 0, 0.08) 100%) !important;
+    border: 2px solid #ff7700 !important;
+    box-shadow: 0 0 40px rgba(255, 119, 0, 0.25), inset 0 0 20px rgba(255, 119, 0, 0.1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.gold-surface-premium::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 180deg at 50% 50%, transparent 0%, rgba(255, 119, 0, 0.1) 40%, transparent 100%);
+    animation: rotate-gold 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotate-gold {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Bonus Section Styles */
+.bonus-header {
+    background: linear-gradient(90deg, transparent, rgba(255, 119, 0, 0.1), transparent);
+    border-top: 1px solid rgba(255, 119, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 119, 0, 0.2);
+}
+
+.bonus-badge {
+    background: #ff7700;
+    color: white;
+    font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    box-shadow: 0 0 15px rgba(255, 119, 0, 0.4);
+}
+
+.animate-glow-border {
+    position: relative;
+    border: 1px solid rgba(255, 119, 0, 0.2);
+}
+
+.animate-glow-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(90deg, #ff7700, transparent, #ff7700);
+    background-size: 200% 100%;
+    animation: move-gradient 3s linear infinite;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0.3;
+}
+
+@keyframes move-gradient {
+    0% {
+        background-position: 100% 0%;
+    }
+
+    100% {
+        background-position: -100% 0%;
+    }
+}
+
+/* Blink/Blinking Text Effect */
+.blink-text {
+    animation: blink-animation 1.5s infinite;
+}
+
+@keyframes blink-animation {
+
+    0%,
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 119, 0, 0.5);
+    }
+
+    50% {
+        opacity: 0.7;
+        text-shadow: 0 0 20px rgba(255, 119, 0, 0.8);
+    }
 }
