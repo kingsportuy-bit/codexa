@@ -141,13 +141,15 @@ const BarberoxPage = () => {
         <div className="barberox4-root font-outfit selection:bg-primary/30 selection:text-white">
             {/* Minimalist Navbar (Source: /barberox) */}
             <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-4' : 'bg-transparent py-8'}`}>
-                <div className="container mx-auto px-6 flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                        <img src="/barberox/img/logo.png" alt="Barberox" className="h-8 w-auto brightness-200" />
-                        <span className="Founders-badge">Premium Edition</span>
+                <div className="container mx-auto px-6 flex justify-between items-center gap-4">
+                    <div className="flex items-center gap-2 md:gap-3 shrink-0">
+                        <img src="/barberox/img/logo.png" alt="Barberox" className="h-6 md:h-8 w-auto brightness-200" />
+                        <span className="Founders-badge text-[10px] md:text-xs hidden md:inline-flex">Premium Edition</span>
                     </div>
-                    <a href="#pricing" className="text-white font-bold text-sm tracking-widest hover:text-primary transition-colors">
-                        ACCESO EXCLUSIVO
+                    <a href="#pricing" className="relative group text-white font-bold text-[10px] md:text-sm tracking-[0.1em] md:tracking-widest hover:text-primary transition-colors text-right leading-tight">
+                        <span className="relative z-10">ACCESO EXCLUSIVO</span>
+                        <span className="absolute -inset-x-4 -inset-y-2 bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></span>
                     </a>
                 </div>
             </nav>
@@ -211,6 +213,15 @@ const BarberoxPage = () => {
                             <p className="text-text-muted mt-12 text-lg">
                                 Si no tienes un sistema que trabaje por ti 24/7, entonces <b className="text-white">tú eres el sistema</b>. Y los sistemas humanos tienen un límite de escala.
                             </p>
+
+                            <div className="mt-20 text-center animate-reveal md:text-left">
+                                <a href="#pricing" className="btn-primary-v2">
+                                    Mátame esa libreta ahora
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4 animate-reveal">
                             <div className="card-v2 flex flex-col items-center justify-center text-center">
@@ -390,7 +401,7 @@ const BarberoxPage = () => {
                             },
                             {
                                 title: 'Notificaciones VIP',
-                                desc: 'Alertas críticas directo a tu celular. Si alguien cancela o agendar, lo sabes al segundo sin tocar la agenda.',
+                                desc: 'Alertas críticas directo a tu celular. Si alguien cancela o agenda, lo sabes al segundo sin tocar el calendario.',
                                 icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9'
                             }
                         ].map((f, i) => (
@@ -404,6 +415,15 @@ const BarberoxPage = () => {
                                 <p className="text-text-muted text-sm leading-relaxed">{f.desc}</p>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="mt-20 text-center animate-reveal">
+                        <a href="#pricing" className="btn-primary-v2">
+                            Quiero mi secretaria IA
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -463,6 +483,15 @@ const BarberoxPage = () => {
                                         <span className="text-white/70 text-sm">{text}</span>
                                     </div>
                                 ))}
+                            </div>
+
+                            <div className="mt-12 animate-fade-up">
+                                <a href="#pricing" className="btn-primary-v2">
+                                    Eliminar inasistencias hoy
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -532,6 +561,15 @@ const BarberoxPage = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="mt-20 text-center animate-reveal">
+                        <a href="#pricing" className="btn-primary-v2">
+                            Conseguir mi panel GRATIS
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -567,6 +605,15 @@ const BarberoxPage = () => {
                                     </li>
                                 ))}
                             </ul>
+
+                            <div className="mt-20 text-left animate-reveal">
+                                <a href="#pricing" className="btn-primary-v2">
+                                    Activar Asistente IA
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
 
                         <div className="md:w-1/2 w-full flex justify-center perspective-1000">
