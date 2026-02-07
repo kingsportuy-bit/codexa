@@ -27,7 +27,7 @@ export default function BarberoxLayout({
                         t.src=v;s=b.getElementsByTagName(e)[0];
                         s.parentNode.insertBefore(t,s)}(window, document,'script',
                         'https://connect.facebook.net/en_US/fbevents.js');
-                        fbq('init', '2449346852172904');
+                        fbq('init', '5464847157073197');
                         fbq('track', 'PageView');
                     `,
                 }}
@@ -37,7 +37,7 @@ export default function BarberoxLayout({
                     height="1"
                     width="1"
                     style={{ display: 'none' }}
-                    src="https://www.facebook.com/tr?id=2449346852172904&ev=PageView&noscript=1"
+                    src="https://www.facebook.com/tr?id=5464847157073197&ev=PageView&noscript=1"
                     alt=""
                 />
             </noscript>
