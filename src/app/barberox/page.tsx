@@ -13,12 +13,30 @@ declare global {
 const BarberoxPage = () => {
     const [scrolled, setScrolled] = useState(false);
 
+    // Analytics tracking function
+    const trackEvent = async (type: 'page_view' | 'cta_click' | 'pricing_navigation' | 'section_view', metadata?: { source?: string }) => {
+        try {
+            await fetch('/api/barberox-analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type, metadata })
+            });
+        } catch (error) {
+            console.error('Analytics tracking error:', error);
+        }
+    };
+
     useEffect(() => {
+        // Track page view
+        trackEvent('page_view');
+
         // Meta Pixel: Track AddToCart when URL contains #pricing
         if (window.location.hash === '#pricing') {
             if (typeof window.fbq === 'function') {
                 window.fbq('track', 'AddToCart');
             }
+            // Track pricing navigation from direct URL
+            trackEvent('pricing_navigation', { source: 'direct-url' });
         }
 
         // Meta Pixel: Listen for hash changes to track AddToCart
@@ -150,6 +168,26 @@ const BarberoxPage = () => {
 
         if (reminderSection) reminderObserver.observe(reminderSection);
 
+        // Section Scroll Tracking (Drop-off analysis)
+        const trackedSections = new Set<string>();
+        const sectionScrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    if (!trackedSections.has(sectionId)) {
+                        trackedSections.add(sectionId);
+                        trackEvent('section_view', { source: sectionId });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const sectionsToTrack = ['hero', 'hard-truth', 'anti-app', 'features', 'reminders-section', 'bonus-panel-section', 'assistant-section', 'pricing'];
+        sectionsToTrack.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) sectionScrollObserver.observe(el);
+        });
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('hashchange', handleHashChange);
@@ -159,6 +197,7 @@ const BarberoxPage = () => {
             assistantObserver.disconnect();
             chatObserver.disconnect();
             reminderObserver.disconnect();
+            sectionScrollObserver.disconnect();
         };
     }, []);
 
@@ -171,7 +210,11 @@ const BarberoxPage = () => {
                         <img src="/barberox/img/logo.png" alt="Barberox" className="h-6 md:h-8 w-auto brightness-200" />
                         <span className="Founders-badge text-[10px] md:text-xs hidden md:inline-flex">Premium Edition</span>
                     </div>
-                    <a href="#pricing" className="relative group text-white font-bold text-[10px] md:text-sm tracking-[0.1em] md:tracking-widest hover:text-primary transition-colors text-right leading-tight">
+                    <a
+                        href="#pricing"
+                        className="relative group text-white font-bold text-[10px] md:text-sm tracking-[0.1em] md:tracking-widest hover:text-primary transition-colors text-right leading-tight"
+                        onClick={() => trackEvent('pricing_navigation', { source: 'navigation' })}
+                    >
                         <span className="relative z-10">ACCESO EXCLUSIVO</span>
                         <span className="absolute -inset-x-4 -inset-y-2 bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></span>
                         <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></span>
@@ -180,7 +223,7 @@ const BarberoxPage = () => {
             </nav>
 
             {/* 1. Aggressive Hero Section (Source: /barberox + mod) */}
-            <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-hero-gradient">
+            <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-hero-gradient">
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="mb-8 animate-reveal">
                         <span className="text-primary font-black tracking-[0.3em] uppercase text-sm">El mercado ha cambiado</span>
@@ -198,7 +241,7 @@ const BarberoxPage = () => {
                     </p>
 
                     <div className="animate-reveal">
-                        <a href="#pricing" className="btn-primary-v2">
+                        <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'hero' })}>
                             Quiero automatizar mi barbería ahora
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -217,7 +260,7 @@ const BarberoxPage = () => {
             </section>
 
             {/* 2. The Hard Truth Section (Source: /barberox) */}
-            <section className="py-32 bg-black">
+            <section id="hard-truth" className="py-32 bg-black">
                 <div className="container mx-auto px-6">
                     <div className="grid md:grid-cols-2 gap-20 items-center">
                         <div className="animate-reveal">
@@ -240,7 +283,7 @@ const BarberoxPage = () => {
                             </p>
 
                             <div className="mt-20 text-center animate-reveal md:text-left">
-                                <a href="#pricing" className="btn-primary-v2">
+                                <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'hard-truth' })}>
                                     Mátame esa libreta ahora
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -271,7 +314,7 @@ const BarberoxPage = () => {
             </section>
 
             {/* 3. The "Anti-App" Section (Source: /barberox - chat box) */}
-            <section className="py-32 border-t border-white/5 relative overflow-hidden">
+            <section id="anti-app" className="py-32 border-t border-white/5 relative overflow-hidden">
                 <div className="container mx-auto px-6 text-center relative z-10">
                     <span className="text-primary font-black tracking-[0.3em] uppercase text-sm mb-6 block animate-reveal">Basta de apps lentas</span>
                     <h2 className="text-5xl md:text-7xl font-black mb-12 animate-reveal">TU CLIENTE NO QUIERE <br /> BAJAR OTRAS APPS NI LINKS.</h2>
@@ -443,7 +486,7 @@ const BarberoxPage = () => {
                     </div>
 
                     <div className="mt-20 text-center animate-reveal">
-                        <a href="#pricing" className="btn-primary-v2">
+                        <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'solution' })}>
                             Quiero mi secretaria IA
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -511,7 +554,7 @@ const BarberoxPage = () => {
                             </div>
 
                             <div className="mt-12 animate-fade-up">
-                                <a href="#pricing" className="btn-primary-v2">
+                                <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'reminders' })}>
                                     Eliminar inasistencias hoy
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -536,7 +579,7 @@ const BarberoxPage = () => {
             </section>
 
             {/* Bonus 1: Web OS */}
-            <section className="py-24 bg-black border-t border-white/5 relative overflow-hidden">
+            <section id="bonus-panel-section" className="py-24 bg-black border-t border-white/5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-blue-500/5 blur-[100px]"></div>
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="flex flex-col md:flex-row items-center gap-16">
@@ -588,7 +631,7 @@ const BarberoxPage = () => {
                     </div>
 
                     <div className="mt-20 text-center animate-reveal">
-                        <a href="#pricing" className="btn-primary-v2">
+                        <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'bonus-panel' })}>
                             Conseguir mi panel GRATIS
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -632,7 +675,7 @@ const BarberoxPage = () => {
                             </ul>
 
                             <div className="mt-20 text-left animate-reveal">
-                                <a href="#pricing" className="btn-primary-v2">
+                                <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'bonus-assistant' })}>
                                     Activar Asistente IA
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -893,6 +936,10 @@ const BarberoxPage = () => {
                             href="https://wa.me/message/TJKNS7LTAVVGN1"
                             className="btn-primary-v2 w-full justify-center"
                             onClick={() => {
+                                // Track CTA click
+                                trackEvent('cta_click', { source: 'pricing' });
+
+                                // Meta Pixel tracking
                                 if (typeof window.fbq === 'function') {
                                     window.fbq('track', 'Purchase', {
                                         currency: 'UYU',
