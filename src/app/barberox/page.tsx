@@ -3,10 +3,34 @@
 import React, { useEffect, useState } from 'react';
 import './landing.css';
 
+// Declare fbq for Meta Pixel
+declare global {
+    interface Window {
+        fbq: (action: string, eventName: string, params?: Record<string, any>) => void;
+    }
+}
+
 const BarberoxPage = () => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
+        // Meta Pixel: Track AddToCart when URL contains #pricing
+        if (window.location.hash === '#pricing') {
+            if (typeof window.fbq === 'function') {
+                window.fbq('track', 'AddToCart');
+            }
+        }
+
+        // Meta Pixel: Listen for hash changes to track AddToCart
+        const handleHashChange = () => {
+            if (window.location.hash === '#pricing') {
+                if (typeof window.fbq === 'function') {
+                    window.fbq('track', 'AddToCart');
+                }
+            }
+        };
+        window.addEventListener('hashchange', handleHashChange);
+
         // Core Scroll Logic
         const handleScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener('scroll', handleScroll);
@@ -128,6 +152,7 @@ const BarberoxPage = () => {
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('hashchange', handleHashChange);
             revealObserver.disconnect();
             if (carouselInterval) clearInterval(carouselInterval);
             if (assistantTimeout) clearTimeout(assistantTimeout);
@@ -864,7 +889,18 @@ const BarberoxPage = () => {
                                 <span className="badge-free-shimmer">Incluido Gratis</span>
                             </li>
                         </ul>
-                        <a href="https://wa.me/message/TJKNS7LTAVVGN1" className="btn-primary-v2 w-full justify-center">
+                        <a
+                            href="https://wa.me/message/TJKNS7LTAVVGN1"
+                            className="btn-primary-v2 w-full justify-center"
+                            onClick={() => {
+                                if (typeof window.fbq === 'function') {
+                                    window.fbq('track', 'Purchase', {
+                                        currency: 'UYU',
+                                        value: 5000
+                                    });
+                                }
+                            }}
+                        >
                             QUIERO ACTIVAR MI AGENDA AUTOMÁTICA
                         </a>
                     </div>
