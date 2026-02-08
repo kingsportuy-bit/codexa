@@ -223,39 +223,114 @@ const BarberoxPage = () => {
             </nav>
 
             {/* 1. Aggressive Hero Section (Source: /barberox + mod) */}
-            <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-hero-gradient">
+            <section id="hero" className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-hero-gradient">
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="mb-8 animate-reveal">
                         <span className="text-primary font-black tracking-[0.3em] uppercase text-sm">El mercado ha cambiado</span>
                     </div>
 
-                    <h1 className="text-6xl md:text-[100px] font-black leading-[0.9] tracking-tighter mb-8 animate-reveal">
-                        DEJA DE SER <span className="text-gradient-orange">ESCLAVO</span> <br />
-                        DE TU WHATSAPP.
+                    <h1 className="text-5xl md:text-[90px] font-black leading-[0.9] tracking-tighter mb-8 animate-reveal uppercase">
+                        TU WHATSAPP <br />
+                        <span className="text-gradient-orange text-6xl md:text-[100px]">AGENDA CLIENTES SOLO</span> <br />
+                        MIENTRAS VOS CORTÁS PELO
                     </h1>
 
-                    <p className="text-2xl md:text-3xl text-text-muted max-w-3xl mx-auto mb-12 font-light animate-reveal">
-                        Tu negocio debe producir dinero mientras <b className="text-white">cortas el pelo</b>, no mientras pierdes tiempo <br /> contestando "tenes hora hoy?".
-                        <br />
-                        <span className="text-white/40 text-lg mt-4 block">Tu recepcionista IA atiende clientes, responde dudas y llena tu calendario 24/7.</span>
+                    <p className="text-xl md:text-3xl text-text-muted max-w-4xl mx-auto mb-12 font-bold animate-reveal">
+                        Más turnos. Menos mensajes. Sin apps complicadas.
                     </p>
 
                     <div className="animate-reveal">
-                        <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'hero' })}>
-                            Quiero automatizar mi barbería ahora
+                        <a href="#pricing" className="btn-primary-v2 text-lg md:text-2xl py-6 px-10" onClick={() => trackEvent('pricing_navigation', { source: 'hero' })}>
+                            QUIERO QUE MI WHATSAPP AGENDE SOLO
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                             </svg>
                         </a>
-                        <div className="mt-6 flex flex-col items-center gap-2">
-                            <p className="text-red-500 font-bold text-xs uppercase tracking-[0.2em] blink-text">¡ATENCIÓN! QUEDAN SOLO 5 CUPOS DISPONIBLES</p>
-                            <p className="text-white/30 text-[10px] uppercase tracking-widest">A este precio promocional para Uruguay</p>
+                        <div className="mt-8">
+                            <p className="text-white/60 text-sm md:text-base font-medium tracking-tight">
+                                Se activa escaneando un QR en el Whatsapp de tu barberia
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-full max-w-2xl opacity-40 blur-sm pointer-events-none">
                     <div className="relative aspect-[16/9] w-full bg-primary/20 rounded-full blur-[120px]"></div>
+                </div>
+            </section>
+
+            {/* 1.5. Onboarding Steps Section (Enhanced Visuals) */}
+            <section id="onboarding" className="py-24 bg-black border-y border-white/5 relative overflow-hidden">
+                {/* Background Glows */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,119,0,0.05)_0%,_transparent_70%)] pointer-events-none"></div>
+
+                <div className="container mx-auto px-6 relative z-10">
+                    <h2 className="text-3xl md:text-5xl font-black text-center mb-24 animate-reveal tracking-tight">
+                        Así de fácil empieza a <span className="text-primary italic">agendar solo</span>
+                    </h2>
+
+                    <div className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto">
+                        {/* Step 1 */}
+                        <div className="group relative p-8 rounded-[2.5rem] bg-white/[0.02] backdrop-blur-3xl border border-white/5 hover:border-primary/30 transition-all duration-500 animate-reveal">
+                            <div className="absolute -top-6 left-8">
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(255,119,0,0.4)]">
+                                    1
+                                </div>
+                            </div>
+                            <div className="pt-4">
+                                <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Escaneás el <span className="text-primary">QR</span></h3>
+                                <p className="text-white/60 text-lg leading-relaxed">Conectás tu WhatsApp en segundos.</p>
+                            </div>
+
+                            {/* Connector Arrow (Desktop Only) */}
+                            <div className="absolute top-1/2 -right-10 hidden lg:block opacity-20 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500">
+                                <svg className="w-8 h-8 text-primary shadow-glow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Step 2 */}
+                        <div className="group relative p-8 rounded-[2.5rem] bg-white/[0.02] backdrop-blur-3xl border border-white/5 hover:border-primary/30 transition-all duration-500 animate-reveal delay-100">
+                            <div className="absolute -top-6 left-8">
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(255,119,0,0.4)]">
+                                    2
+                                </div>
+                            </div>
+                            <div className="pt-4">
+                                <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Cargamos tus <span className="text-primary">horarios</span></h3>
+                                <p className="text-white/60 text-lg leading-relaxed">Definimos turnos, servicios y días.</p>
+                            </div>
+
+                            {/* Connector Arrow (Desktop Only) */}
+                            <div className="absolute top-1/2 -right-10 hidden lg:block opacity-20 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500">
+                                <svg className="w-8 h-8 text-primary shadow-glow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Step 3 */}
+                        <div className="group relative p-8 rounded-[2.5rem] bg-white/[0.02] backdrop-blur-3xl border border-white/5 hover:border-primary/30 transition-all duration-500 animate-reveal delay-200">
+                            <div className="absolute -top-6 left-8">
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(255,119,0,0.4)]">
+                                    3
+                                </div>
+                            </div>
+                            <div className="pt-4">
+                                <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Empieza a <span className="text-primary">agendar</span></h3>
+                                <p className="text-white/60 text-lg leading-relaxed">Los clientes reservan aunque estés cortando.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-24 text-center animate-reveal">
+                        <div className="inline-flex items-center gap-3 py-4 px-10 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md shadow-[0_0_30px_rgba(255,119,0,0.1)] hover:shadow-[0_0_30px_rgba(255,119,0,0.2)] transition-all duration-300 group">
+                            <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                            <p className="text-primary font-black text-xl tracking-tight">En menos de 10 minutos queda funcionando.</p>
+                            <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -284,7 +359,7 @@ const BarberoxPage = () => {
 
                             <div className="mt-20 text-center animate-reveal md:text-left">
                                 <a href="#pricing" className="btn-primary-v2" onClick={() => trackEvent('pricing_navigation', { source: 'hard-truth' })}>
-                                    Mátame esa libreta ahora
+                                    QUIERO RECUPERAR ESOS TURNOS
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                                     </svg>

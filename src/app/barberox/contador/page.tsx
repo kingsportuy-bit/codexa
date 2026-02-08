@@ -219,7 +219,7 @@ const ContadorPage = () => {
                                     </div>
                                 </div>
                                 <div className="text-4xl font-black text-white mb-2">{summary.ctaClicks}</div>
-                                <p className="text-xs text-white/40">Botones que llevan a #pricing</p>
+                                <p className="text-xs text-white/40">click en CTA a Whatsapp</p>
                             </div>
                         </div>
 
@@ -233,17 +233,24 @@ const ContadorPage = () => {
                             </h3>
                             <div className="space-y-6">
                                 {[
-                                    { id: 'hero', source: 'hero', label: '1. Inicio (Hero)' },
-                                    { id: 'hard-truth', source: 'hard-truth', label: '2. Problema (Hard Truth)' },
+                                    { id: 'hero', source: 'hero', label: '1. Inicio (Agendar Solo)' },
+                                    { id: 'hard-truth', source: 'hard-truth', label: '2. Problema (Recuperar Turnos)' },
                                     { id: 'anti-app', source: null, label: '3. Diferenciación (Anti-App)' },
                                     { id: 'features', source: 'solution', label: '4. Solución (IA Chat)' },
                                     { id: 'reminders-section', source: 'reminders', label: '5. Recordatorios' },
                                     { id: 'bonus-panel-section', source: 'bonus-panel', label: '6. Bonus: Panel Web' },
                                     { id: 'assistant-section', source: 'bonus-assistant', label: '7. Bonus: Asistente IA' },
-                                    { id: 'pricing', source: null, label: '8. Precios (Llegada)' },
+                                    { id: 'pricing', source: 'pricing', label: '8. Precios (Final WhatsApp)' },
                                 ].map((section) => {
                                     const viewCount = summary.sectionViewsBySource?.[section.id] || 0;
-                                    const clickCount = section.source ? (summary.pricingNavigationsBySource?.[section.source] || 0) : 0;
+
+                                    // For the final pricing step, we track actual CTA clicks to WhatsApp
+                                    // For other steps, we track navigation clicks to the pricing section
+                                    const clickCount = section.source
+                                        ? (section.id === 'pricing'
+                                            ? (summary.ctaClicksBySource?.[section.source] || 0)
+                                            : (summary.pricingNavigationsBySource?.[section.source] || 0))
+                                        : 0;
 
                                     const viewPercentage = summary.pageViews > 0
                                         ? Math.round((viewCount / summary.pageViews) * 100)
