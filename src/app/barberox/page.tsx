@@ -810,7 +810,7 @@ const BarberoxPage = () => {
                             <span className="text-primary tracking-normal not-italic">POR TIEMPO LIMITADO.</span>
                         </h2>
                         <p className="text-xl text-white/60 max-w-2xl mx-auto font-medium leading-relaxed mb-6">
-                            Una vez completados los 25 cupos de lanzamiento, el <b className="text-white">Panel Web</b> y el <b className="text-white">Asistente IA</b> pasarán a ser módulos de pago mensual adicional.
+                            Una vez completados los 50 cupos de lanzamiento, el <b className="text-white">Panel Web</b> y el <b className="text-white">Asistente IA</b> pasarán a ser módulos de pago mensual adicional.
                         </p>
                         <div className="animate-pulse">
                             <span className="gold-shimmer-text font-black text-2xl uppercase tracking-tighter italic">
@@ -828,7 +828,7 @@ const BarberoxPage = () => {
                     <div className="text-center mb-16">
                         <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Barberos Reales</span>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4">Lo que dicen <span className="text-primary">nuestros clientes.</span></h2>
-                        <p className="text-white/50 max-w-2xl mx-auto">Barberías en Uruguay que ya automatizaron su agenda y multiplicaron sus ingresos.</p>
+                        <p className="text-white/50 max-w-2xl mx-auto">Barberías que ya automatizaron su agenda y multiplicaron sus ingresos.</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -842,13 +842,13 @@ const BarberoxPage = () => {
                             {
                                 text: "Lo que más me sorprendió es que los clientes contestan solos a los recordatorios y el sistema ya sabe quién viene y quién no. Bajaron muchísimo los faltazos y sé exactamente cuánto facturé cada día en el panel.",
                                 name: "Lucas",
-                                location: "Barbería del Parque (Canelones)",
+                                location: "Barbería del Parque (Buenos Aires)",
                                 highlight: "Bajaron muchísimo los faltazos"
                             },
                             {
                                 text: "Yo no soy de andar con computadoras, pero acá todo pasa por WhatsApp y queda guardado en la base de datos de mi barbería. Cambio de celular y no pierdo nada: clientes, citas ni caja.",
                                 name: "Diego",
-                                location: "Barbería Barrio Sur (Montevideo)",
+                                location: "Barbería Barrio Sur (Cordoba)",
                                 highlight: "no pierdo nada"
                             }
                         ].map((testimonial, i) => (
@@ -989,7 +989,7 @@ const BarberoxPage = () => {
                     <div className="max-w-2xl mx-auto p-12 card-v2 border-primary/30 animate-reveal">
                         <span className="Founders-badge mb-6 inline-block">Plan Único de Lanzamiento</span>
                         <div className="text-7xl font-black mb-4">69usd <span className="text-lg text-text-muted font-normal">/mes</span></div>
-                        <p className="text-text-muted mb-10">No dejes pasar tus regalos de lanzamiento incluidos para los primeros 25 barberos de Uruguay.</p>
+                        <p className="text-text-muted mb-10">No dejes pasar tus regalos de lanzamiento incluidos para los primeros 50 barberias.</p>
                         <ul className="text-left space-y-4 mb-12 max-w-sm mx-auto font-medium">
                             <li className="flex items-center gap-4"><svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg> Agenda Smart 24/7</li>
                             <li className="flex items-center gap-4 justify-between">
