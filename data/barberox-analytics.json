@@ -1,3 +1,158 @@
 {
-  "events": []
+  "events": [
+    {
+      "id": "1770642142211-dynpgsc28",
+      "timestamp": "2026-02-09T13:02:22.211Z",
+      "type": "page_view",
+      "metadata": {}
+    },
+    {
+      "id": "1770642142236-alkdrl0gj",
+      "timestamp": "2026-02-09T13:02:22.236Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "hero"
+      }
+    },
+    {
+      "id": "1770642143207-i4m6a1yq5",
+      "timestamp": "2026-02-09T13:02:23.207Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "hard-truth"
+      }
+    },
+    {
+      "id": "1770642146596-x910cztff",
+      "timestamp": "2026-02-09T13:02:26.596Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "anti-app"
+      }
+    },
+    {
+      "id": "1770642147672-pj4hha8e3",
+      "timestamp": "2026-02-09T13:02:27.672Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "features"
+      }
+    },
+    {
+      "id": "1770642149516-81dfuzpn9",
+      "timestamp": "2026-02-09T13:02:29.516Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "reminders-section"
+      }
+    },
+    {
+      "id": "1770642150459-9gjgxv2jf",
+      "timestamp": "2026-02-09T13:02:30.459Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "bonus-panel-section"
+      }
+    },
+    {
+      "id": "1770642150920-2lhwjrk72",
+      "timestamp": "2026-02-09T13:02:30.920Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "assistant-section"
+      }
+    },
+    {
+      "id": "1770642161023-k62twiwqz",
+      "timestamp": "2026-02-09T13:02:41.023Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "pricing"
+      }
+    },
+    {
+      "id": "1770642267082-2gg9sw0y3",
+      "timestamp": "2026-02-09T13:04:27.082Z",
+      "type": "page_view",
+      "metadata": {}
+    },
+    {
+      "id": "1770642267100-1c918xozl",
+      "timestamp": "2026-02-09T13:04:27.100Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "pricing"
+      }
+    },
+    {
+      "id": "1770642300680-dsq7z7gg5",
+      "timestamp": "2026-02-09T13:05:00.680Z",
+      "type": "page_view",
+      "metadata": {}
+    },
+    {
+      "id": "1770642300690-iz1keqvra",
+      "timestamp": "2026-02-09T13:05:00.690Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "pricing"
+      }
+    },
+    {
+      "id": "1770642304862-62urgusxk",
+      "timestamp": "2026-02-09T13:05:04.862Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "assistant-section"
+      }
+    },
+    {
+      "id": "1770642305215-uqlz99cmg",
+      "timestamp": "2026-02-09T13:05:05.215Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "bonus-panel-section"
+      }
+    },
+    {
+      "id": "1770642305728-s4x2216k1",
+      "timestamp": "2026-02-09T13:05:05.728Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "reminders-section"
+      }
+    },
+    {
+      "id": "1770642306115-l09fcsto2",
+      "timestamp": "2026-02-09T13:05:06.115Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "features"
+      }
+    },
+    {
+      "id": "1770642306962-clvpurjzf",
+      "timestamp": "2026-02-09T13:05:06.962Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "anti-app"
+      }
+    },
+    {
+      "id": "1770642307298-mxm9ptwni",
+      "timestamp": "2026-02-09T13:05:07.298Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "hard-truth"
+      }
+    },
+    {
+      "id": "1770642308040-82ta8r88h",
+      "timestamp": "2026-02-09T13:05:08.040Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "hero"
+      }
+    }
+  ]
 }

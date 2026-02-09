@@ -648,7 +648,7 @@ const BarberoxPage = () => {
                         Te regalamos <span className="text-primary italic">2 HERRAMIENTAS</span> <br /> que otros te cobrarían aparte.
                     </h2>
                     <p className="text-xl text-text-muted max-w-2xl mx-auto animate-reveal">
-                        Al activar tu agenda hoy, te llevas estos <b className="text-white">2 Bonus exclusivos</b> valorados en mas de $2.500/mes totalmente GRATIS.
+                        Al activar tu agenda hoy, te llevas estos <b className="text-white">2 Bonus exclusivos</b> valorados en mas de 30 USD/mes totalmente GRATIS.
                     </p>
                 </div>
             </section>
@@ -661,7 +661,7 @@ const BarberoxPage = () => {
                         <div className="md:w-1/2 relative text-left">
                             <div className="inline-flex items-center gap-2 mb-6 animate-fade-up">
                                 <span className="bonus-badge bg-blue-600">REGALO #1</span>
-                                <span className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase">VALOR: $1.500/mes — GRATIS</span>
+                                <span className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase">VALOR: 20 USD/mes — GRATIS</span>
                             </div>
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-up">Detrás de la agenda,<br /><span className="text-[#ff7700]">TU PANEL WEB.</span></h2>
                             <div className="bg-blue-500/10 border-l-2 border-blue-500 p-4 mb-8 rounded-r-xl animate-pulse">
@@ -725,7 +725,7 @@ const BarberoxPage = () => {
                         <div className="md:w-1/2 text-left relative">
                             <div className="inline-flex items-center gap-2 mb-6 animate-fade-up">
                                 <span className="bonus-badge bg-yellow-600">REGALO #2</span>
-                                <span className="text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">VALOR: $1.000/mes — GRATIS</span>
+                                <span className="text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">VALOR: 10 USD/mes — GRATIS</span>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up">Tu mano derecha,<br /><span className="text-[#ff7700]">EL ASISTENTE IA.</span></h2>
                             <div className="bg-yellow-500/10 border-l-2 border-yellow-500 p-4 mb-8 rounded-r-xl animate-pulse">
@@ -988,7 +988,7 @@ const BarberoxPage = () => {
                     <h2 className="text-5xl md:text-8xl font-black mb-12 tracking-tighter animate-reveal">ÚNETE A LA ÉLITE.</h2>
                     <div className="max-w-2xl mx-auto p-12 card-v2 border-primary/30 animate-reveal">
                         <span className="Founders-badge mb-6 inline-block">Plan Único de Lanzamiento</span>
-                        <div className="text-7xl font-black mb-4">$5.000 <span className="text-lg text-text-muted font-normal">/mes</span></div>
+                        <div className="text-7xl font-black mb-4">69usd <span className="text-lg text-text-muted font-normal">/mes</span></div>
                         <p className="text-text-muted mb-10">No dejes pasar tus regalos de lanzamiento incluidos para los primeros 25 barberos de Uruguay.</p>
                         <ul className="text-left space-y-4 mb-12 max-w-sm mx-auto font-medium">
                             <li className="flex items-center gap-4"><svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg> Agenda Smart 24/7</li>
@@ -1017,8 +1017,8 @@ const BarberoxPage = () => {
                                 // Meta Pixel tracking
                                 if (typeof window.fbq === 'function') {
                                     window.fbq('track', 'Purchase', {
-                                        currency: 'UYU',
-                                        value: 5000
+                                        currency: 'USD',
+                                        value: 69
                                     });
                                 }
                             }}
