@@ -3,6 +3,8 @@ import { Space_Grotesk, Inter, Outfit } from 'next/font/google';
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { BackgroundScene } from "@/components/BackgroundScene";
+import { ShootingStars } from "@/components/ShootingStars";
+import { ChatWidgetProvider } from "@/components/ChatWidget";
 
 // Configuración de fuentes de Google
 const spaceGrotesk = Space_Grotesk({
@@ -26,6 +28,9 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Codexa - Software a medida",
   description: "Desarrollo de software a medida, productos SaaS, e integración de inteligencia artificial con agentes que atienden por WhatsApp.",
+  icons: {
+    icon: "/faviconcodexa.png",
+  },
 };
 
 export default function RootLayout({
@@ -40,8 +45,11 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${inter.variable} ${outfit.variable} font-sans bg-black text-white antialiased`}
       >
         <BackgroundScene />
+        <ShootingStars />
         <SmoothScroll>
-          {children}
+          <ChatWidgetProvider>
+            {children}
+          </ChatWidgetProvider>
         </SmoothScroll>
       </body>
     </html>

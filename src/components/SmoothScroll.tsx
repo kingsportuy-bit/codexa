@@ -1,61 +1,57 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, createContext, useContext } from "react";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import gsap from "gsap";
 
+// Expose Lenis instance via context so other components can stop/start it
+const LenisContext = createContext<{ stop: () => void; start: () => void }>({
+  stop: () => { },
+  start: () => { },
+});
+
+export const useLenis = () => useContext(LenisContext);
+
 function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
-    // Registrar el plugin ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    // Crear la instancia de Lenis
     const lenis = new Lenis({
-      lerp: 0.1,
-      wheelMultiplier: 0.8,
+      lerp: 0.08,
+      wheelMultiplier: 0.9,
       touchMultiplier: 1.5,
       infinite: false,
     });
 
-    // Configurar ScrollTrigger para que funcione con Lenis
-    ScrollTrigger.scrollerProxy(document.body, {
-      scrollTop(value) {
-        if (arguments.length && value !== undefined) {
-          lenis.scrollTo(value);
-          return value;
-        }
-        return window.scrollY;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
-      pinType: document.body.style.transform ? "transform" : "fixed",
+    lenisRef.current = lenis;
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
     });
 
-    // Función de animación
-    function raf(time: number) {
-      lenis.raf(time);
-      ScrollTrigger.update();
-      requestAnimationFrame(raf);
-    }
+    gsap.ticker.lagSmoothing(0);
 
-    // Iniciar el loop de animación
-    requestAnimationFrame(raf);
-
-    // Limpiar al desmontar
     return () => {
       lenis.destroy();
-      ScrollTrigger.removeEventListener("refresh", () => { });
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <LenisContext.Provider value={{
+      stop: () => lenisRef.current?.stop(),
+      start: () => lenisRef.current?.start(),
+    }}>
+      {children}
+    </LenisContext.Provider>
+  );
 }
 
 export default SmoothScroll;

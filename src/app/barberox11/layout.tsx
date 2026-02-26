@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-    title: "Barberox - La Barbería con IA",
-    description: "De WhatsApp caótico a agenda llena en 7 días. Barberox conecta tu barbería, tus clientes y tu equipo con IA.",
+    title: "Barberox — Sistema de Turnos para Barberías",
+    description: "No es lo mismo cortar bien que manejar bien la barbería. Barberox automatiza tu agenda por WhatsApp.",
     icons: {
         icon: "/logo-barberox.png",
     },
 };
 
-export default function BarberoxLayout({
+export default function Barberox11Layout({
     children,
 }: {
     children: React.ReactNode;
@@ -44,9 +44,8 @@ export default function BarberoxLayout({
                     alt=""
                 />
             </noscript>
-            {/* End Meta Pixel Code */}
 
-            <div className="barberox2-root">
+            <div className="barberox11-root">
                 {children}
             </div>
         </>

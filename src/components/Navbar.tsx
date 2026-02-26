@@ -2,145 +2,106 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { useChatWidget } from "./ChatWidget";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navRef = useRef<HTMLElement | null>(null);
-  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  const progressBarRef = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const lastScrollY = useRef(0);
+  const { open: openChat } = useChatWidget();
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
 
-    // Animación de entrada inicial
-    if (navRef.current) {
-      gsap.from(navRef.current, {
-        yPercent: -100,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-    }
-
-    const ctx = gsap.context(() => {
-      // Smart Navbar: Ocultar al bajar, mostrar al subir
-      const showAnim = gsap.from(navRef.current, {
-        yPercent: -100,
-        paused: true,
-        duration: 0.3,
-        ease: "power2.inOut"
-      }).progress(1);
-
-      ScrollTrigger.create({
-        start: "top top",
-        end: 99999,
-        onUpdate: (self) => {
-          if (self.direction === -1) {
-            showAnim.play();
-          } else if (self.direction === 1 && self.progress > 0.01 && !isMenuOpen) {
-            showAnim.reverse();
-          }
-        }
-      });
-
-      // Barra de progreso
-      if (progressBarRef.current) {
-        gsap.to(progressBarRef.current, {
-          scaleX: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: document.body,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 0,
-          },
-        });
+      if (currentScrollY < 100) {
+        setIsVisible(true);
+        setIsScrolled(false);
+        lastScrollY.current = currentScrollY;
+        return;
       }
 
-      // Fondo dinámico al hacer scroll
-      ScrollTrigger.create({
-        start: "top -10",
-        onUpdate: (self) => {
-          const isScrolled = self.progress > 0;
-          gsap.to(navRef.current, {
-            backgroundColor: isScrolled ? "rgba(0,0,0,0.8)" : "transparent",
-            backdropFilter: isScrolled ? "blur(12px)" : "blur(0px)",
-            duration: 0.3,
-          });
-        }
-      });
+      setIsScrolled(true);
 
-    }, navRef);
+      if (currentScrollY < lastScrollY.current) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY.current + 10) {
+        setIsVisible(false);
+      }
 
-    return () => ctx.revert();
-  }, [isMenuOpen]);
+      lastScrollY.current = currentScrollY;
+    };
 
-  const toggleMenu = () => {
-    const nextState = !isMenuOpen;
-    setIsMenuOpen(nextState);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    if (!nextState) return;
-
-    // Animación del menú móvil
-    if (mobileMenuRef.current) {
-      gsap.fromTo(
-        mobileMenuRef.current,
-        { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
-      );
-
-      gsap.fromTo(
-        mobileMenuRef.current.querySelectorAll("a"),
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.25, stagger: 0.05, ease: "power2.out" }
-      );
-    }
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <nav
-      ref={navRef}
-      className="fixed w-full z-50 py-4 top-0 left-0"
+      className={`fixed w-full z-50 top-0 left-0 transition-all duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"
+        } ${isScrolled
+          ? "bg-black/80 backdrop-blur-xl py-3"
+          : "bg-transparent py-5"
+        }`}
     >
-      <div
-        ref={progressBarRef}
-        className="absolute bottom-0 left-0 h-[1px] w-full bg-accent origin-left scale-x-0"
-      />
+      {/* Progress bar */}
+      <div className="absolute bottom-0 left-0 h-[1px] w-full">
+        <div
+          className="h-full bg-accent/50 transition-none origin-left"
+          style={{ transform: "scaleX(0)" }}
+          ref={(el) => {
+            if (!el) return;
+            const updateProgress = () => {
+              const scrollTop = window.scrollY;
+              const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+              const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+              el.style.transform = `scaleX(${progress})`;
+            };
+            window.addEventListener("scroll", updateProgress, { passive: true });
+            updateProgress();
+          }}
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-accent font-space-grotesk tracking-tight">
-              codexa
-            </h1>
+            <a href="/">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-codexa.png"
+                alt="Codexa"
+                className="h-7 md:h-8 w-auto drop-shadow-[0_0_12px_rgba(0,229,209,0.4)]"
+              />
+            </a>
           </div>
 
-          {/* Menú de escritorio */}
+          {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
-              {[
-                { href: "/", label: "Inicio" },
-                { href: "/productos", label: "Productos" },
-                { href: "/barberox", label: "BarberoX" },
-                { href: "/servicios", label: "Servicios" },
-                { href: "/empresa", label: "Empresa" },
-                { href: "/contacto", label: "Contacto" },
-              ].map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="relative text-sm uppercase tracking-[0.18em] text-white/80 hover:text-white transition-colors group"
-                >
-                  <span>{item.label}</span>
-                  <span className="pointer-events-none absolute left-0 -bottom-1 h-[1px] w-0 bg-accent transition-all duration-300 group-hover:w-full" />
-                </a>
-              ))}
+              <a href="/" className="relative text-sm uppercase tracking-[0.18em] text-white/80 hover:text-white transition-colors group">
+                <span>Inicio</span>
+                <span className="pointer-events-none absolute left-0 -bottom-1 h-[1px] w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </a>
+              <a href="/barberox" className="relative text-sm uppercase tracking-[0.18em] text-white/80 hover:text-white transition-colors group">
+                <span>BarberoX</span>
+                <span className="pointer-events-none absolute left-0 -bottom-1 h-[1px] w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </a>
+              <button
+                onClick={openChat}
+                className="relative text-sm uppercase tracking-[0.18em] text-white/80 hover:text-white transition-colors group cursor-pointer bg-transparent border-none"
+              >
+                <span>Contacto</span>
+                <span className="pointer-events-none absolute left-0 -bottom-1 h-[1px] w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </button>
             </div>
           </div>
 
-          {/* Botón del menú móvil */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -153,49 +114,22 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Menú móvil */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden">
-          <div
-            ref={mobileMenuRef}
-            className="mobile-menu px-4 pt-3 pb-6 space-y-1 bg-black/90 backdrop-blur-lg border-b border-white/10"
-          >
-            <a
-              href="/"
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent"
-            >
+          <div className="px-4 pt-3 pb-6 space-y-1 bg-black/90 backdrop-blur-lg border-b border-white/10">
+            <a href="/" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent" onClick={() => setIsMenuOpen(false)}>
               Inicio
             </a>
-            <a
-              href="/productos"
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent"
-            >
-              Productos
-            </a>
-            <a
-              href="/barberox"
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent"
-            >
+            <a href="/barberox" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent" onClick={() => setIsMenuOpen(false)}>
               BarberoX
             </a>
-            <a
-              href="/servicios"
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent"
-            >
-              Servicios
-            </a>
-            <a
-              href="/empresa"
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent"
-            >
-              Empresa
-            </a>
-            <a
-              href="/contacto"
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent"
+            <button
+              onClick={() => { setIsMenuOpen(false); openChat(); }}
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:text-accent bg-transparent border-none cursor-pointer"
             >
               Contacto
-            </a>
+            </button>
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Footer } from '@/components/Footer';
 import './landing.css';
 
 // Declare fbq for Meta Pixel
@@ -982,7 +983,7 @@ const BarberoxPage = () => {
                 </div>
             </section>
 
-            <section id="pricing" className="py-40 bg-black text-center relative overflow-hidden">
+            <section id="pricing" className="pt-40 pb-16 bg-transparent text-center relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px] opacity-20"></div>
                 <div className="container mx-auto px-6 relative z-10">
                     <h2 className="text-5xl md:text-8xl font-black mb-12 tracking-tighter animate-reveal">ÚNETE A LA ÉLITE.</h2>
@@ -1038,12 +1039,8 @@ const BarberoxPage = () => {
                 </div>
             </section>
 
-            {/* Footer (Source: /barberox2) */}
-            <footer className="py-8 border-t border-white/5 bg-black text-center text-sm text-white/30">
-                <div className="container mx-auto px-6">
-                    Todos los derechos reservados | &copy; 2026 <a href="https://codexa.uy" className="text-white/40 hover:text-white transition-colors no-underline">Code<span className="text-[#00CCC2]">x</span>a.uy</a>
-                </div>
-            </footer>
+            {/* Footer (Source: /components/Footer) */}
+            <Footer theme="barberox" />
         </div>
     );
 };

@@ -685,7 +685,7 @@ const Barberox2Page = () => {
                     <div className="text-center mb-16">
                         <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Barberos Reales</span>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4">Lo que dicen <span className="text-primary">nuestros clientes.</span></h2>
-                        <p className="text-white/50 max-w-2xl mx-auto">Barberías en Uruguay que ya automatizaron su agenda y multiplicaron sus ingresos.</p>
+                        <p className="text-white/50 max-w-2xl mx-auto">Barberías que ya automatizaron su agenda y multiplicaron sus ingresos.</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -699,13 +699,13 @@ const Barberox2Page = () => {
                             {
                                 text: "Lo que más me sorprendió es que los clientes contestan solos a los recordatorios y el sistema ya sabe quién viene y quién no. Bajaron muchísimo los faltazos y sé exactamente cuánto facturé cada día en el panel.",
                                 name: "Lucas",
-                                location: "Barbería del Parque (Canelones)",
+                                location: "Barbería del Parque (Buenos Aires)",
                                 highlight: "Bajaron muchísimo los faltazos"
                             },
                             {
                                 text: "Yo no soy de andar con computadoras, pero acá todo pasa por WhatsApp y queda guardado en la base de datos de mi barbería. Cambio de celular y no pierdo nada: clientes, citas ni caja.",
                                 name: "Diego",
-                                location: "Barbería Barrio Sur (Montevideo)",
+                                location: "Barbería Barrio Sur (Cordoba)",
                                 highlight: "no pierdo nada"
                             }
                         ].map((testimonial, i) => (

@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'Rasputin';
+    src: url('/Rasputin.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ─── Design System ─── */
+:root {
+    --bg: #0E0E0E;
+    --bg-alt: #161616;
+    --surface: #1C1C1C;
+    --border: #2A2A2A;
+    --text: #F5F0EB;
+    --text-muted: #8A8A8A;
+    --accent: #C5A059;
+}
+
+/* ─── Root ─── */
+.barberox11-root {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-family: 'Rasputin', 'Georgia', serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography ─── */
+.barberox11-root h1,
+.barberox11-root h2,
+.barberox11-root h3 {
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+/* ─── Button ─── */
+.b11-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--accent);
+    color: #000;
+    font-family: 'Rasputin', serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1.15rem 2.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    text-decoration: none;
+}
+
+.b11-btn:hover {
+    background-color: #D4AF37;
+    transform: translateY(-1px);
+}
+
+.b11-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Rasputin', serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1.15rem 2.5rem;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    text-decoration: none;
+}
+
+.b11-btn-outline:hover {
+    border-color: var(--accent);
+}
+
+/* ─── Divider ─── */
+.b11-divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--border);
+}
+
+/* ─── Container ─── */
+.b11-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ─── Section spacing ─── */
+.b11-section {
+    padding: 8rem 0;
+}
+
+.b11-section-tight {
+    padding: 5rem 0;
+}
+
+/* ─── Reveal Animation (subtle) ─── */
+.b11-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.b11-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── Scrollbar ─── */
+.barberox11-root::-webkit-scrollbar {
+    width: 6px;
+}
+
+.barberox11-root::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+.barberox11-root::-webkit-scrollbar-thumb {
+    background: var(--border);
+}
+
+.barberox11-root::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* ─── Details / FAQ ─── */
+.barberox11-root details>summary {
+    list-style: none;
+}
+
+.barberox11-root details>summary::-webkit-details-marker {
+    display: none;
+}
