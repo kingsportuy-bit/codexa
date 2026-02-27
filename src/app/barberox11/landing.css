@@ -7,7 +7,7 @@
 
 /* ─── Design System ─── */
 :root {
-    --bg: #0E0E0E;
+    --bg: #000000;
     --bg-alt: #161616;
     --surface: #1C1C1C;
     --border: #2A2A2A;
@@ -141,4 +141,259 @@
 
 .barberox11-root details>summary::-webkit-details-marker {
     display: none;
+}
+
+/* ─── Phone Mockup ─── */
+.b11-phone {
+    width: 280px;
+    height: 540px;
+    background: #0A0A0A;
+    border: 2px solid #2A2A2A;
+    border-radius: 36px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    flex-shrink: 0;
+    animation: b11-phone-float 6s ease-in-out infinite;
+}
+
+@keyframes b11-phone-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.b11-phone-notch {
+    width: 100px;
+    height: 24px;
+    background: #0A0A0A;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.b11-phone-header {
+    background: #1A1A1A;
+    padding: 8px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #2A2A2A;
+}
+
+.b11-phone-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C5A059, #8B6B32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #000;
+    font-weight: 700;
+}
+
+.b11-phone-name {
+    font-size: 13px;
+    color: #F5F0EB;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-weight: 500;
+}
+
+.b11-phone-status {
+    font-size: 10px;
+    color: #4ADE80;
+    font-family: -apple-system, system-ui, sans-serif;
+}
+
+.b11-phone-chat {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: calc(100% - 80px);
+    overflow: hidden;
+}
+
+/* Chat bubbles */
+.b11-bubble {
+    max-width: 82%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: -apple-system, system-ui, sans-serif;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.b11-bubble-in {
+    background: #1C1C1C;
+    color: #F5F0EB;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.b11-bubble-out {
+    background: #C5A059;
+    color: #000;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+}
+
+.b11-bubble-time {
+    font-size: 9px;
+    opacity: 0.5;
+    margin-top: 2px;
+    text-align: right;
+}
+
+/* Staggered reveal for bubbles when parent is visible */
+.b11-phone.visible .b11-bubble {
+    animation: b11-bubble-appear 0.4s ease forwards;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(2) {
+    animation-delay: 1.0s;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(3) {
+    animation-delay: 1.8s;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(4) {
+    animation-delay: 2.6s;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(5) {
+    animation-delay: 3.4s;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(6) {
+    animation-delay: 4.2s;
+}
+
+.b11-phone.visible .b11-bubble:nth-child(7) {
+    animation-delay: 5.0s;
+}
+
+@keyframes b11-bubble-appear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typing indicator */
+.b11-typing {
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #1C1C1C;
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    opacity: 0;
+}
+
+.b11-phone.visible .b11-typing {
+    animation: b11-bubble-appear 0.3s ease forwards;
+}
+
+.b11-typing-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #8A8A8A;
+    animation: b11-typing-bounce 1.4s infinite;
+}
+
+.b11-typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.b11-typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes b11-typing-bounce {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* Phone responsive */
+@media (max-width: 768px) {
+    .b11-phone {
+        width: 240px;
+        height: 460px;
+        margin: 0 auto;
+    }
+}
+
+@keyframes logo-shine {
+    0% {
+        mask-position: 200% center;
+        -webkit-mask-position: 200% center;
+    }
+
+    100% {
+        mask-position: -200% center;
+        -webkit-mask-position: -200% center;
+    }
+}
+
+.animate-logo-shine {
+    mask-image: linear-gradient(60deg,
+            transparent 45%,
+            rgba(0, 0, 0, 1) 50%,
+            transparent 55%);
+    mask-size: 200% 100%;
+    -webkit-mask-image: linear-gradient(60deg,
+            transparent 45%,
+            rgba(0, 0, 0, 1) 50%,
+            transparent 55%);
+    -webkit-mask-size: 200% 100%;
+    animation: logo-shine 6s infinite linear;
+    transform: translateZ(0);
+    will-change: mask-position;
+}
+
+@keyframes logo-float {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(0, -8px, 0);
+    }
+}
+
+.animate-logo-float {
+    animation: logo-float 8s ease-in-out infinite;
+    will-change: transform;
 }

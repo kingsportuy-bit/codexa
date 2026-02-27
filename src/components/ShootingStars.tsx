@@ -17,7 +17,7 @@ export function ShootingStars() {
 
         const resize = () => {
             w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight * 3; // covers scroll height
+            h = canvas.height = window.innerHeight; // Fixed: no need for 3x since it's `fixed inset-0`
         };
         resize();
         window.addEventListener("resize", resize);
@@ -74,23 +74,30 @@ export function ShootingStars() {
         };
 
         let lastTime = performance.now();
+        let lastDrawTime = lastTime;
+        const fpsInterval = 1000 / 30; // Limit to 30 FPS for performance
 
         const loop = (now: number) => {
+            animId = requestAnimationFrame(loop);
+
             const dt = now - lastTime;
             lastTime = now;
 
+            // Throttle drawing to ~30 FPS
+            if (now - lastDrawTime < fpsInterval) return;
+            lastDrawTime = now;
+
             ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = "#ffffff";
 
             // Draw twinkling stars
             for (const s of stars) {
                 s.phase += s.speed * dt;
-                // Alpha oscillates between baseAlpha*0.2 and baseAlpha, creating a blinking effect
                 s.alpha = s.baseAlpha * (0.2 + 0.8 * ((Math.sin(s.phase) + 1) / 2));
 
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
-                ctx.fill();
+                ctx.globalAlpha = s.alpha;
+                // fillRect is much faster than arc for 1px/tiny particles
+                ctx.fillRect(s.x, s.y, s.r * 2, s.r * 2);
             }
 
             // Spawn shooting stars
@@ -106,41 +113,42 @@ export function ShootingStars() {
                 const m = meteors[i];
                 m.x += m.vx;
                 m.y += m.vy;
-                m.life++;
+                m.life += 1; // adjusted for ~30fps, previously grew by 1 per frame natively (which was 60fps). 
+                // To keep similar speed visually, life increments the same, but wait, if it increments by 1 at 30fps it lasts twice as long.
+                // We'll increment by 2 to keep the same duration as 60fps.
+                m.life += 1;
 
                 const progress = m.life / m.maxLife;
                 const fadeAlpha = m.alpha * (progress < 0.3 ? progress / 0.3 : 1 - ((progress - 0.3) / 0.7));
 
-                // Tail gradient - pure white to transparent for a sharper "needle" look
-                const gradient = ctx.createLinearGradient(
-                    m.x, m.y,
-                    m.x - m.vx / Math.sqrt(m.vx * m.vx + m.vy * m.vy) * m.len,
-                    m.y - m.vy / Math.sqrt(m.vx * m.vx + m.vy * m.vy) * m.len
-                );
+                const tailLen = m.len * Math.min(progress * 3, 1);
+                const nx = m.vx / Math.sqrt(m.vx * m.vx + m.vy * m.vy);
+                const ny = m.vy / Math.sqrt(m.vx * m.vx + m.vy * m.vy);
+                const endX = m.x - nx * tailLen;
+                const endY = m.y - ny * tailLen;
+
+                // Tail gradient
+                const gradient = ctx.createLinearGradient(m.x, m.y, endX, endY);
                 gradient.addColorStop(0, `rgba(255, 255, 255, ${fadeAlpha})`);
                 gradient.addColorStop(0.2, `rgba(255, 255, 255, ${fadeAlpha * 0.5})`);
                 gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
 
+                ctx.globalAlpha = 1; // gradient already has alpha
                 ctx.beginPath();
                 ctx.moveTo(m.x, m.y);
-                const tailLen = m.len * Math.min(progress * 3, 1);
-                const nx = m.vx / Math.sqrt(m.vx * m.vx + m.vy * m.vy);
-                const ny = m.vy / Math.sqrt(m.vx * m.vx + m.vy * m.vy);
-                ctx.lineTo(m.x - nx * tailLen, m.y - ny * tailLen);
+                ctx.lineTo(endX, endY);
                 ctx.strokeStyle = gradient;
-                ctx.lineWidth = 0.5; // Very thin, like a needle
+                ctx.lineWidth = 0.5;
                 ctx.stroke();
 
                 // Tiny head glow
-                ctx.beginPath();
-                ctx.arc(m.x, m.y, 0.6, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${fadeAlpha})`;
-                ctx.fill();
+                ctx.globalAlpha = fadeAlpha;
+                ctx.fillRect(m.x - 0.6, m.y - 0.6, 1.2, 1.2);
 
                 if (m.life >= m.maxLife) meteors.splice(i, 1);
             }
 
-            animId = requestAnimationFrame(loop);
+            ctx.globalAlpha = 1; // restore
         };
 
         animId = requestAnimationFrame(loop);

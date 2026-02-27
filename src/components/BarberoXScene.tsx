@@ -125,22 +125,26 @@ export function BarberoXScene() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
+    <section
+      ref={containerRef}
+      className="bg-black relative min-h-screen flex items-center justify-center py-20 overflow-hidden text-[#F5F0EB]"
+      style={{ fontFamily: "'Rasputin', 'Georgia', serif" }}
+    >
 
       {/* Background Logo */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-5">
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/logo-barberox.png"
-          alt="BarberoX"
+          alt="Barberox"
           className="w-[600px] h-auto object-contain"
         />
       </div>
 
-      {/* Subtle orange ambient glow */}
+      {/* Subtle gold ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-orange-500/8 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-orange-600/6 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#C5A059]/[0.05] rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#C5A059]/[0.05] rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full">
@@ -150,48 +154,46 @@ export function BarberoXScene() {
           <div className="flex justify-center">
             <div ref={phoneRef} className="relative">
               {/* Glow effect */}
-              <div className="absolute -inset-6 bg-orange-500/15 blur-[40px] rounded-full animate-pulse" style={{ animationDuration: '4s' }} />
+              <div className="absolute -inset-6 bg-[#C5A059]/10 blur-[40px] rounded-full animate-pulse" style={{ animationDuration: '4s' }} />
 
               {/* Phone — smaller on mobile */}
-              <div className="relative w-[260px] h-[520px] md:w-[320px] md:h-[640px] bg-gradient-to-b from-zinc-900 to-black border-2 border-orange-500/30 rounded-[3rem] shadow-[0_0_60px_rgba(249,115,22,0.15)] overflow-hidden">
+              <div className="relative w-[260px] h-[520px] md:w-[280px] md:h-[540px] bg-[#0A0A0A] border-2 border-[#2A2A2A] rounded-[36px] shadow-[0_30px_60px_rgba(0,0,0,0.6)] overflow-hidden">
                 {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-black rounded-b-3xl z-10" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-xl z-20" />
 
                 {/* Screen Content */}
-                <div className="absolute inset-0 p-6 pt-12 flex flex-col gap-4">
+                <div className="absolute inset-0 flex flex-col pt-8 bg-[#0A0A0A]">
                   {/* Header */}
-                  <div className="flex items-center gap-3 pb-4 border-b border-white/10">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500/30 to-orange-600/20 flex items-center justify-center">
-                      <MessageCircle size={20} className="text-orange-400" />
+                  <div className="flex items-center gap-3 px-5 py-3 border-b border-[#2A2A2A] bg-[#0E0E0E]">
+                    <div className="w-10 h-10 rounded-full bg-[#1C1C1C] flex items-center justify-center text-[#C5A059] font-medium text-lg">
+                      B
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-white">BarberoX IA</p>
-                      <p className="text-xs text-orange-400">En línea</p>
+                      <p className="text-[15px] font-semibold text-[#F5F0EB]">Barberox</p>
+                      <p className="text-[13px] text-[#25D366]">en línea</p>
                     </div>
                   </div>
 
                   {/* Chat Messages */}
-                  <div className="flex-1 space-y-3 overflow-hidden">
-                    <div className="bg-white/5 rounded-2xl rounded-tl-sm p-3">
-                      <p className="text-xs text-white/70">¿Tienen turno para mañana?</p>
+                  <div className="flex-1 p-5 space-y-4 overflow-hidden bg-[url('/whatsapp-bg-dark.png')] bg-cover bg-center">
+                    <div className="bg-[#1C1C1C] text-[#F5F0EB] p-2.5 px-3.5 rounded-xl rounded-tl-sm text-sm self-start inline-block shadow-sm max-w-[85%]">
+                      ¿Tienen turno para mañana?
                     </div>
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl rounded-tr-sm p-3 ml-8">
-                      <p className="text-xs text-black font-medium">¡Sí! Tengo 16:00, 16:30 o 17:00 disponibles</p>
+                    <div className="flex justify-end w-full">
+                      <div className="bg-[#C5A059] text-black font-medium p-2.5 px-3.5 rounded-xl rounded-tr-sm text-sm inline-block shadow-sm max-w-[85%]">
+                        ¡Sí! Tengo 16:00, 16:30 o 17:00 disponibles
+                      </div>
                     </div>
-                    <div className="bg-white/5 rounded-2xl rounded-tl-sm p-3">
-                      <p className="text-xs text-white/70">16:30 perfecto</p>
+                    <div className="bg-[#1C1C1C] text-[#F5F0EB] p-2.5 px-3.5 rounded-xl rounded-tl-sm text-sm self-start inline-block shadow-sm max-w-[85%]">
+                      16:30 perfecto
                     </div>
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl rounded-tr-sm p-3 ml-8">
-                      <p className="text-xs text-black font-medium">✓ Turno confirmado para mañana 16:30</p>
+                    <div className="flex justify-end w-full">
+                      <div className="bg-[#C5A059] text-black font-medium p-2.5 px-3.5 rounded-xl rounded-tr-sm text-sm inline-block shadow-sm max-w-[85%]">
+                        ✓ Turno confirmado para mañana 16:30
+                      </div>
                     </div>
                   </div>
 
-                  {/* Status */}
-                  <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
-                    <p className="text-xs text-emerald-400 font-mono">
-                      &gt; Turno creado automáticamente
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -202,64 +204,64 @@ export function BarberoXScene() {
 
             {/* Title */}
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30">
-                <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                <span className="text-xs uppercase tracking-wider text-orange-400 font-semibold">BarberoX AI</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/30">
+                <div className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse" />
+                <span className="text-xs uppercase tracking-wider text-[#C5A059] font-semibold">Barberox IA</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold font-space-grotesk text-white leading-tight">
-                Tu barbería en <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">piloto automático</span>
+              <h2 className="text-4xl md:text-5xl uppercase text-white leading-[1.1]" style={{ fontFamily: "'Rasputin', serif" }}>
+                Tu barbería en <span className="text-[#C5A059] block">piloto automático</span>
               </h2>
-              <p className="text-white/60 text-lg">
-                La IA atiende por WhatsApp, agenda turnos y gestiona tu negocio 24/7
+              <p className="text-[#8A8A8A] text-lg" style={{ fontWeight: 300 }}>
+                La IA atiende por WhatsApp, agenda turnos y gestiona tu negocio 24/7.
               </p>
             </div>
 
             {/* Features Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="feature-card p-4 rounded-xl bg-black/40 border border-orange-500/20 backdrop-blur-sm hover:border-orange-500/40 transition-all duration-300">
+              <div className="feature-card p-5 rounded-none bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#C5A059]/50 transition-colors duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-orange-500/20 rounded-lg">
-                    <MessageCircle size={18} className="text-orange-400" />
+                  <div className="p-2 bg-[#1C1C1C] text-[#C5A059]">
+                    <MessageCircle size={18} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-1">WhatsApp Nativo</h3>
-                    <p className="text-xs text-white/50">Respuestas automáticas inteligentes</p>
+                    <h3 className="text-sm uppercase tracking-wide text-[#F5F0EB] mb-1">WhatsApp Nativo</h3>
+                    <p className="text-xs text-[#8A8A8A]" style={{ fontWeight: 300 }}>Respuestas automáticas inteligentes</p>
                   </div>
                 </div>
               </div>
 
-              <div className="feature-card p-4 rounded-xl bg-black/40 border border-orange-500/20 backdrop-blur-sm hover:border-orange-500/40 transition-all duration-300">
+              <div className="feature-card p-5 rounded-none bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#C5A059]/50 transition-colors duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-orange-500/20 rounded-lg">
-                    <Zap size={18} className="text-orange-400" />
+                  <div className="p-2 bg-[#1C1C1C] text-[#C5A059]">
+                    <Zap size={18} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-1">Sync Real-time</h3>
-                    <p className="text-xs text-white/50">Sin conflictos de horarios</p>
+                    <h3 className="text-sm uppercase tracking-wide text-[#F5F0EB] mb-1">Sync Real-time</h3>
+                    <p className="text-xs text-[#8A8A8A]" style={{ fontWeight: 300 }}>Sin conflictos de horarios</p>
                   </div>
                 </div>
               </div>
 
-              <div className="feature-card p-4 rounded-xl bg-black/40 border border-orange-500/20 backdrop-blur-sm hover:border-orange-500/40 transition-all duration-300">
+              <div className="feature-card p-5 rounded-none bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#C5A059]/50 transition-colors duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-orange-500/20 rounded-lg">
-                    <Clock size={18} className="text-orange-400" />
+                  <div className="p-2 bg-[#1C1C1C] text-[#C5A059]">
+                    <Clock size={18} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-1">Recordatorios</h3>
-                    <p className="text-xs text-white/50">Reduce ausencias automáticamente</p>
+                    <h3 className="text-sm uppercase tracking-wide text-[#F5F0EB] mb-1">Recordatorios</h3>
+                    <p className="text-xs text-[#8A8A8A]" style={{ fontWeight: 300 }}>Reduce ausencias automáticamente</p>
                   </div>
                 </div>
               </div>
 
-              <div className="feature-card p-4 rounded-xl bg-black/40 border border-orange-500/20 backdrop-blur-sm hover:border-orange-500/40 transition-all duration-300">
+              <div className="feature-card p-5 rounded-none bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#C5A059]/50 transition-colors duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-orange-500/20 rounded-lg">
-                    <BarChart size={18} className="text-orange-400" />
+                  <div className="p-2 bg-[#1C1C1C] text-[#C5A059]">
+                    <BarChart size={18} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-1">Métricas</h3>
-                    <p className="text-xs text-white/50">Dashboard en tiempo real</p>
+                    <h3 className="text-sm uppercase tracking-wide text-[#F5F0EB] mb-1">Métricas</h3>
+                    <p className="text-xs text-[#8A8A8A]" style={{ fontWeight: 300 }}>Dashboard de control web</p>
                   </div>
                 </div>
               </div>
@@ -267,40 +269,41 @@ export function BarberoXScene() {
 
             {/* Agenda Preview */}
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-white/60">
-                <Clock size={16} />
-                <span className="text-sm font-medium">Agenda de hoy</span>
+              <div className="flex items-center gap-2 text-[#8A8A8A] uppercase tracking-widest text-xs">
+                <Clock size={14} />
+                <span>Agenda de hoy</span>
               </div>
               <div className="space-y-2">
                 {appointments.map((apt, i) => (
                   <div
                     key={i}
-                    className="apt-card flex items-center gap-4 p-3 rounded-xl bg-black/40 border border-orange-500/20 backdrop-blur-sm hover:border-orange-500/40 transition-colors"
+                    className="apt-card flex items-center gap-4 p-3 bg-[#0A0A0A] border-l-2 border-[#C5A059] border-y border-r border-y-[#2A2A2A] border-r-[#2A2A2A] hover:bg-[#0E0E0E] transition-colors"
                   >
                     <div className="flex-shrink-0 w-14 text-center">
-                      <p className="text-sm font-mono text-orange-400">{apt.time}</p>
+                      <p className="text-sm font-mono text-[#C5A059]">{apt.time}</p>
                     </div>
-                    <div className="h-6 w-px bg-orange-500/30" />
+                    <div className="h-6 w-px bg-[#2A2A2A]" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white truncate">{apt.client}</p>
-                      <p className="text-xs text-white/40">{apt.service}</p>
+                      <p className="text-[15px] font-medium text-[#F5F0EB] truncate">{apt.client}</p>
+                      <p className="text-xs text-[#8A8A8A]" style={{ fontWeight: 300 }}>{apt.service}</p>
                     </div>
                     <div className="flex-shrink-0">
-                      <div className="w-2 h-2 rounded-full bg-orange-500" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* CTA to /barberox */}
+            {/* CTA to /barberox11 */}
             <div className="barberox-cta pt-4">
               <Link
-                href="/barberox"
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-black font-bold text-lg rounded-full hover:from-orange-400 hover:to-orange-500 transition-all duration-300 hover:scale-105 shadow-[0_0_40px_rgba(249,115,22,0.3)] hover:shadow-[0_0_60px_rgba(249,115,22,0.5)]"
+                href="/barberox11"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-[#C5A059] text-black uppercase tracking-widest font-semibold text-sm hover:bg-white transition-all duration-300 shadow-[0_0_40px_rgba(197,160,89,0.2)]"
+                style={{ fontFamily: "'Rasputin', serif" }}
               >
-                <span>Conoce BarberoX</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span>Conoce Barberox</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
 

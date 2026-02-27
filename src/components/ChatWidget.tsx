@@ -144,12 +144,23 @@ function FullscreenContact({ onClose }: { onClose: () => void }) {
                 }`}>
 
                 {/* Logo — bigger, more spacing */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src="/logo-codexa.png"
-                    alt="Codexa"
-                    className="w-[280px] md:w-[380px] h-auto object-contain drop-shadow-[0_0_50px_rgba(0,229,209,0.3)]"
-                />
+                <div className="relative animate-logo-float">
+                    {/* Normal Logo */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src="/logo-codexa.png"
+                        alt="Codexa"
+                        className="w-[280px] md:w-[380px] h-auto object-contain drop-shadow-[0_0_50px_rgba(0,229,209,0.3)]"
+                    />
+                    {/* Shine Layer */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src="/logo-codexa.png"
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-contain pointer-events-none animate-logo-shine select-none mix-blend-screen opacity-[0.9]"
+                        style={{ filter: "brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg) brightness(1.5)" }}
+                    />
+                </div>
 
                 {/* AI Prompt text — fades in/out */}
                 <div className="min-h-[70px] flex items-center justify-center">
