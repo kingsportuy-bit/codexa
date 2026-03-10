@@ -2419,6 +2419,28 @@
       "metadata": {
         "source": "hero"
       }
+    },
+    {
+      "id": "1772325717943-xn6vjt4pk",
+      "timestamp": "2026-03-01T00:41:57.943Z",
+      "type": "page_view",
+      "metadata": {}
+    },
+    {
+      "id": "1772325718006-re46z9ger",
+      "timestamp": "2026-03-01T00:41:58.006Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "hero"
+      }
+    },
+    {
+      "id": "1772325767405-wfqxhm8d2",
+      "timestamp": "2026-03-01T00:42:47.405Z",
+      "type": "section_view",
+      "metadata": {
+        "source": "hard-truth"
+      }
     }
   ]
 }
